@@ -41,17 +41,19 @@ function BoardList() {
                 </thead>
                 <tbody>
                     {boardItems.map(item => (
+                        // 개시글의 배치
                         <tr key={item.id}>
-                            {/*  */}
-
+                            {/* key프로퍼티 : React의 리스트 표시에 필수 */}
+                            <td>{item.number}</td>
+                            <td>{item.title}</td>
+                            <td>{item.status}</td>
+                            <td>{item.author}</td>
+                            <td>{item.date}</td>
                         </tr>
                     ))}
                 </tbody>
-
             </table>
             {/* // 테이블 구조 */}
-
-            <p>개시판의 개시글이 표시되는 영역</p>
         </div>
     );
 }

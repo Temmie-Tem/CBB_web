@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 import './CSS/List_style.css'
+import BoardList from './components/BoardList'; 
+// 개시글 매뉴 부분
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,10 +23,11 @@ function App() {
   }
 
   return (
-    <>
+    <div className='main_content_wrapper'>
+      {/* 전체 컨텐츠 조정용 클라스 삽입 */}
+
       {/* 검색바 전체 */}
       <div className='search_box'>
-
         {/* 검색 카테고리 선택 버튼*/}
         <button className='search_filter_button'>
           <span className='search_filter_text'>
@@ -47,7 +50,6 @@ function App() {
             onChange={(e) => setSearchText(e.target.value)}
             // 입력값이 변동되면 state를 갱신
           />
-        </form>
         {/* // 검색 입력창 */}
 
         {/* 검색버튼 */}
@@ -56,8 +58,14 @@ function App() {
           검색
         </button>
         {/* // 검색버튼 */}
+
+        </form>
+
       </div>
       {/* // 검색바 전체 */}
+
+      <BoardList />
+      {/* 개시글 목록 */}
 
       <h1>Vite Only</h1>
       
@@ -73,7 +81,8 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </>
+
+    </div>
   )
 }
 
