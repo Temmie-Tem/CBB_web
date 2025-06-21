@@ -27,6 +27,8 @@
     font-size: 20px;
     color: black;
 
+    /* outline: none; */
+    /* 입력시 검색 입력창 선택시 외곽선이 표시되는 기능이 잠김. */
 }
 
 .search_box {
