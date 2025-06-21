@@ -25,6 +25,32 @@ function BoardList() {
         
         <div className="board_list_container">
             <h2>개시판 목록</h2>
+
+            {/* 테이블 구조 */}
+            <table className="board_table">
+                <thead>
+                    {/* thead관련 자료 찾을 필요 있음 */}
+                    <tr>
+                        {/* 표 작성을 응용 */}
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>처리상태</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {boardItems.map(item => (
+                        <tr key={item.id}>
+                            {/*  */}
+
+                        </tr>
+                    ))}
+                </tbody>
+
+            </table>
+            {/* // 테이블 구조 */}
+
             <p>개시판의 개시글이 표시되는 영역</p>
         </div>
     );
