@@ -5,7 +5,7 @@
     /* root를 손볼 때, 이런 세로로 긴 페이지 에선 일단 넣어둘 필요가 있음 */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     /* 컨텐츠를 가로 중앙 배치 */
     
     padding: 15px;
@@ -22,13 +22,17 @@ body {
     min-height: 100vh;
     background-color: azure;
     color: #2C2C2C;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .main_content_wrapper {
     display: flex;
     flex-direction: column;
     /* 요소의 세로 정렬 */
-    /* align-items: center; */
+    align-items: center;
     /* 세로 정렬된 요소를 가로 중앙 정렬 */
 
     width: 100%;

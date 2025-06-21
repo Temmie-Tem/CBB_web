@@ -24,8 +24,6 @@ function BoardList() {
     return (
         
         <div className="board_list_container">
-            <h2>개시판 목록</h2>
-
             {/* 테이블 구조 */}
             <table className="board_table">
                 <thead>
