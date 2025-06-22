@@ -165,3 +165,29 @@
     border-bottom: none;
 } */
 /* 마지막 행의 아래에 구분선이 필요 없을 경우 */
+
+.pagination_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    gap: 5px;
+    /* 버튼간의 간격 */
+}
+
+.pagination_button {
+    background-color: #2C2C2C;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+
+    transition: background-color 0.3s ease;
+}
+
+.pagination_button:hover {
+    background-color: #bfbfbf;
+}
+
