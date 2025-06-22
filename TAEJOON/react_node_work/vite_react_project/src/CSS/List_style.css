@@ -3,7 +3,7 @@
     /* 미조정 필수 */
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     gap: 10px;
     /* input과 button의 간격 */
 
@@ -13,7 +13,8 @@
 
 .search_input {
     /* 미조정 필수 */
-    width: 600px;
+    /* width: 600px; */
+    flex-grow: 1;
     height: 45px;
     /* 검색어 입력창 사이즈 */
     border-radius: 25px;
@@ -41,9 +42,8 @@
     /* 정렬을 위한 플렉스박스 */
     justify-content: space-between; 
     align-items: center;
-    /* 세로 중앙정렬 */
 
-    gap: 20px;
+    /* gap: 20px; */
 
     padding-left: 15px;
     padding-right: 15px;
@@ -133,18 +133,16 @@
 }
 
 .board_table {
-    background-color: azure;
-    border-radius: 5px;
+    background-color: #D9D9D9;
+    border-radius: 0;
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
+    border-collapse: collapse;
+    /* border-spacing: 0 10px; */
 }
 
 .board_table thead {
     /* 표의 헤더 영역 */
     background-color: transparent;
-    border-radius: 5px 5px 0 0;
-    box-shadow: none;
     font-size: 24px;
 }
 
@@ -157,10 +155,12 @@
     font-weight: normal;
     color: black;
 
-    padding: 15px 0;
-    border-radius: 5px;
+    padding: 15px;
+    border-radius: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
+    border-bottom: 1px solid #2C2C2C; 
+    border-right: 1px solid #2C2C2C;
 }
 
 .board_table th:last-child {
@@ -176,21 +176,21 @@
 }
 
 .board_table td {
-    border-top: 1px solid #2C2C2C;
     border-bottom: 1px solid #2C2C2C;
     font-size: 24px;
     color: black;
     text-align: center;
     background-color: azure;
-}
-.board_table tbody tr:first-child td {
-    border-top: none;
+    padding: 15px 0;
 }
 
-/* .board_table tbody tr:last-child td {
-    border-bottom: none;
+/* .board_table tbody tr:first-child td {
+    border-top: none;
 } */
-/* 마지막 행의 아래에 구분선이 필요 없을 경우 */
+
+.board_table tbody tr:last-child td {
+    border-bottom: none;
+}
 
 .pagination_container {
     display: flex;
