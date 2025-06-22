@@ -3,13 +3,17 @@
     /* 미조정 필수 */
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     /* input과 button의 간격 */
+
+    flex-grow: 1;
+    /* 잉여공간을 매꾼다 */
 }
 
 .search_input {
     /* 미조정 필수 */
-    width: 650px;
+    width: 600px;
     height: 45px;
     /* 검색어 입력창 사이즈 */
     border-radius: 25px;
@@ -36,9 +40,10 @@
     display: flex;
     /* 정렬을 위한 플렉스박스 */
     justify-content: space-between; 
-    /* 가로 텍스트와 아이콘을 좌우로 정렬 */
     align-items: center;
     /* 세로 중앙정렬 */
+
+    gap: 20px;
 
     padding-left: 15px;
     padding-right: 15px;
@@ -75,7 +80,7 @@
 }
 
 .search_filter_button {
-    width: 250px;
+    width: 200px;
     height: 50px;
     /* 버튼 사이즈 */
     border-radius: 10px;
@@ -91,6 +96,8 @@
     /* 가로 텍스트와 아이콘을 좌우로 정렬 */
     align-items: center;
     /* 세로 중앙정렬 */
+
+    padding: 0 15px;
 }
 
 .search_filter_text {
@@ -113,8 +120,8 @@
     /* 개시판 목록 전체 */
     width: 1200px;
     /* margin: 50px auto; */
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     margin-left: auto;  
     margin-right: auto;
     padding: 20px;
@@ -126,37 +133,58 @@
 }
 
 .board_table {
-    background-color: transparent;
+    background-color: azure;
     border-radius: 5px;
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 10px;
 }
 
 .board_table thead {
     /* 표의 헤더 영역 */
-    background-color: azure;
+    background-color: transparent;
     border-radius: 5px 5px 0 0;
+    box-shadow: none;
+    font-size: 24px;
+}
+
+.board_table th {
+    /* 헤더의 셀의 스타일 */
+    /* border-bottom: 1px solid #D9D9D9;
+    border-right: 1px solid #D9D9D9; */
+    background-color: azure;
+
+    font-weight: normal;
+    color: black;
+
+    padding: 15px 0;
+    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
+    text-align: center;
+}
+
+.board_table th:last-child {
+    /* 마지막 헤더의 겔의 오른 쪽 보더를 생략 */
+    border-right: none;
 }
 
 .board_table, .board_table th, .board_table td {
     /* 표의 스타일 조정방식 */
     border: none;
-    /* 그리드선(?)을 삭제 */
-    border-collapse: collapse;
-    /* 셀의 경계선 삭제 */
+    /* 보더 삭제 */
+    /* border-collapse: collapse; */
 }
 
-.board_table th, .board_table td {
-    padding: 10px 15px;
-    text-align: left;
-
-    vertical-align: middle;
-    /* 수직 중앙정렬 */
-
-    border-bottom: 1px solid black;
-    /* 표(개시판)각 행의 하단에 구분선을 삽입 */
+.board_table td {
+    border-top: 1px solid #2C2C2C;
+    border-bottom: 1px solid #2C2C2C;
+    font-size: 24px;
+    color: black;
+    text-align: center;
+    background-color: azure;
+}
+.board_table tbody tr:first-child td {
+    border-top: none;
 }
 
 /* .board_table tbody tr:last-child td {
@@ -168,40 +196,55 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 0;
     margin-bottom: 30px;
     gap: 5px;
     /* 버튼간의 간격 */
+
+    background-color: azure;
+    padding: 10px 20px;
+    /* border-radius: 5px; */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .pagination_button {
-    background-color: #D9D9D9;
-    border: 1px solid #2C2C2C;
+    background-color: azure;
+    border: none;
     padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: 0;
     cursor: pointer;
+
+    color: black; 
     font-size: 16px;
 
-    transition: background-color 0.3s ease;
+    transition: color 0.01s ease;
 }
 
 .pagination_button:hover {
-    background-color: #D9D9D9;
+    /* background-color: #2C2C2C; */
+    text-decoration: underline;
+    color: blue;
+    border: none;
 }
 
 .pagination_button.active {
-    background-color: #2C2C2C;
-    border-color: #2C2C2C;
-    /* 버튼 색과 태두리색을 같게 함 */
-    color: azure;
+    background-color: transparent;
+    color: #2C2C2C;
+    text-decoration: none;
+    border: none;
 }
 
 .pagination_button.disabled {
     opacity: 0.5;
     cursor:not-allowed;
+    background-color: white;
+    color: #D9D9D9;
+    border-color: #ddd;
+    border: none;
 }
 
 .pagination_ellipsis {
     padding: 8px 12px;
     font-weight: bold;
+    color: black;
 }
