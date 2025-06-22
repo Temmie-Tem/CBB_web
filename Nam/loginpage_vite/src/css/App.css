@@ -1,5 +1,6 @@
 .wrap {
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     padding: 30px;
     width: 500px;
     height: 350px;
