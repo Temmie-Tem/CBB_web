@@ -5,10 +5,7 @@
     align-items: center;
     /* justify-content: center; */
     gap: 10px;
-    /* input과 button의 간격 */
-
     flex-grow: 1;
-    /* 잉여공간을 매꾼다 */
 }
 
 .search_input {
@@ -116,10 +113,14 @@
     font-weight: lighter;
 }
 
-.board_list_container {
-    /* 개시판 목록 전체 */
+/* =========================================================
+대규모 수정.
+참고 로그로 활용하기 위해 가능한 코맨트로 남김
+
+=========================================================*/
+
+/* .board_list_container {
     width: 1200px;
-    /* margin: 50px auto; */
     margin-top: 15px;
     margin-bottom: 15px;
     margin-left: auto;  
@@ -130,26 +131,22 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: black;
     
-}
+} */
 
-.board_table {
+/* .board_table {
     background-color: #D9D9D9;
     border-radius: 0;
     width: 100%;
-    border-collapse: collapse;
-    /* border-spacing: 0 10px; */
-}
+    border-collapse: separate;
+    border-spacing: 10px 0px;
+}  */
 
-.board_table thead {
-    /* 표의 헤더 영역 */
+/* .board_table thead {
     background-color: transparent;
     font-size: 24px;
-}
+} */
 
-.board_table th {
-    /* 헤더의 셀의 스타일 */
-    /* border-bottom: 1px solid #D9D9D9;
-    border-right: 1px solid #D9D9D9; */
+/* .board_table th {
     background-color: azure;
 
     font-weight: normal;
@@ -159,38 +156,122 @@
     border-radius: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
-    border-bottom: 1px solid #2C2C2C; 
-    border-right: 1px solid #2C2C2C;
-}
-
-.board_table th:last-child {
-    /* 마지막 헤더의 겔의 오른 쪽 보더를 생략 */
-    border-right: none;
-}
-
-.board_table, .board_table th, .board_table td {
-    /* 표의 스타일 조정방식 */
     border: none;
-    /* 보더 삭제 */
-    /* border-collapse: collapse; */
-}
+} */
 
-.board_table td {
-    border-bottom: 1px solid #2C2C2C;
+/* .board_table th:last-child {
+    border-right: none;
+} */
+
+/* .board_table, .board_table th, .board_table td {
+    border: none;
+} */
+
+/* .board_table td {
+    border-bottom: 1px solid #D9D9D9;
     font-size: 24px;
     color: black;
     text-align: center;
     background-color: azure;
     padding: 15px 0;
-}
-
-/* .board_table tbody tr:first-child td {
-    border-top: none;
 } */
 
-.board_table tbody tr:last-child td {
+/* .board_table tbody tr:first-child td {
+    border-top: 1px solid #D9D9D9;
+} */
+
+/* .board_table tbody tr:last-child td {
     border-bottom: none;
+} */
+
+/* =========================================================
+
+여기까지의 스타일을 제거.
+
+대신할 스타일을 이하에 작성.
+
+=========================================================*/
+
+/* 컨테이너 */
+.board_list_container {
+    /* 안 없에도 될 스타일 이였지만, 관련된 스타일들과 한 덩어리로 시인성을 위해 이곳에 재배치 */
+    width: 1200px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: auto;  
+    margin-right: auto;
+    padding: 20px ;
+    background-color: #D9D9D9;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: black;
 }
+
+/* 헤더 테이블 */
+.board_table_header {
+    background-color: transparent;
+    width: calc(100% + 20px);
+    border-collapse: separate; 
+    /* 헤더에 간격을 준다. */
+    border-spacing: 10px 0px; 
+    /* 수평간각 10px */
+    margin-bottom: 0; 
+    /* 헤더와 바디의 간격 */
+
+    margin-left: -10px; 
+    margin-right: -10px;
+}
+
+/* 헤더의 각 셀 */
+.board_table_header th {
+    background-color: white;
+    font-weight: normal;
+    color: black;
+    padding: 15px 0; 
+    /* 상하패딩 15px 좌우는 border-spacing에서 조정 */
+    border-radius: 0; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    text-align: center;
+    border: none; 
+    /* width는BoardList.jsx의 th 태그의 style 속성에서 직접 추가 조정 */
+}
+
+/* 바디 테이블 */
+.board_table_body {
+    background-color: white; 
+    /* 바디 테이블 전체의 배경 */
+    border-radius: 0; 
+    width: 100%;
+    border-collapse: collapse; 
+    /* 헤더와 달리 collapse로 간격을 없엔다. */
+    border-spacing: 0; 
+    
+}
+
+/* tbody의 첫 행의 td 위쪽의 선 */
+.board_table_body tbody tr:first-child td {
+    border-top: 1px solid #2C2C2C;
+}
+
+.board_table_body td {
+    border-bottom: 1px solid #2C2C2C; 
+    /* 바디 테이블의 각 행의 아래쪽 선 */
+
+    /* border-left: 1px solid #2C2C2C; */
+
+    font-size: 24px;
+    color: black;
+    text-align: center;
+    background-color: white; 
+    padding: 15px 0;
+    /* width는BoardList.jsx의 td태그의 style 속성으로 직접 추가 조정 */
+}
+
+/* =========================================================
+
+여기까지가 대신할 스타일
+
+=========================================================*/
 
 .pagination_container {
     display: flex;

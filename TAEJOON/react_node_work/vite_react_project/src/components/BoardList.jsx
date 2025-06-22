@@ -89,29 +89,32 @@ function BoardList() {
 
     return (
         
-        <div className="board_list_container">
+        <div className="board_list_container" style={{height: '800px'}}>
             {/* 테이블 구조 */}
-            <table className="board_table">
+            <table className="board_table_header">
                 <thead>
                     {/* thead관련 자료 찾을 필요 있음 */}
                     <tr>
                         {/* 표 작성을 응용 */}
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>처리상태</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
+                        <th style={{width: '5%' }}>번호</th>
+                        <th style={{width: '66%' }}>제목</th>
+                        <th style={{width: '9.5%' }}>처리상태</th>
+                        <th style={{width: '9.5%' }}>작성자</th>
+                        <th style={{width: '11%' }}>작성일</th>
                     </tr>
                 </thead>
+            </table>
+
+            <table className="board_table_body" >
                 <tbody>
                     {currentItems.map(item => (
                         <tr key={item.id}>
                             {/* key프로퍼티 : React의 리스트 표시에 필수 */}
-                            <td>{item.number}</td>
-                            <td>{item.title}</td>
-                            <td>{item.status}</td>
-                            <td>{item.author}</td>
-                            <td>{item.date}</td>
+                            <td style={{width: '5%' }}>{item.number}</td>
+                            <td style={{width: '65%' }}>{item.title}</td>
+                            <td style={{width: '10%' }}>{item.status}</td>
+                            <td style={{width: '10%' }}>{item.author}</td>
+                            <td style={{width: '10%' }}>{item.date}</td>
                         </tr>
                     ))}
                 </tbody>
