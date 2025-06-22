@@ -178,7 +178,7 @@
 
 .pagination_button {
     background-color: #2C2C2C;
-    border: 1px solid #ccc;
+    border: 1px solid #D9D9D9;
     padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
@@ -191,3 +191,19 @@
     background-color: #bfbfbf;
 }
 
+.pagination_button.active {
+    background-color: #2C2C2C;
+    border-color: #2C2C2C;
+    /* 버튼 색과 태두리색을 같게 함 */
+    color: azure;
+}
+
+.pagination_button.disabled {
+    opacity: 0.5;
+    cursor:not-allowed;
+}
+
+.pagination_ellipsis {
+    padding: 8px 12px;
+    font-weight: bold;
+}

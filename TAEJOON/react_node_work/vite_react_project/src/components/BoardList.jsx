@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 function BoardList() {
     // 컴포넌트 "BoardList"를 정의
@@ -20,6 +20,72 @@ function BoardList() {
             // 작성일, 본 작업 시에는 년-월-일-시-분-초 중 어느정도를 표시할지 상담 후 결정.
         }));
 
+    /* 페이지네이션 상태 관리 */
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemPerPage = 10;
+    // 페이지 당 표시 건 수
+    const totalPages = Math.ceil(boardItems.length / itemsPerPage);
+    /* // 페이지네이션 상태 관리 */
+
+    /* 현제 페이지에 표시할 아이탬 계산 */
+    const indexOfLastItem = currentPage * itemPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemPerPage;
+    const currentItems = boardItems.slice(indexOfFirstItem, indexOfFirstItem);
+    /* 현제 페이지에 표시할 아이탬 계산 */
+    
+    /* 페이지 번호의 배열을 생성 */
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+    }
+    /* 페이지 번호의 배열을 생성 */
+
+    
+    const renderPageNumbers = () => {
+        if (totalPages <= 5) {
+            // 페이지 수가 5 이하일 경우 전체 표시
+            // 간략한 함수로 구현 가능
+            return pageNumbers.map(number => (
+                <button 
+                    key={number}
+                    onClick={() => setCurrentPage(number)}
+                    className={`pagination_button ${currentPage === number ? 'active' : ''}`}
+                >
+                    {number}
+                </button>
+            ));
+        } else {
+            // 페이지 수가 5를 넘을 경우 ...을 표시
+            // 다소 복잡한 함수가 필요
+            let displayPages = [];
+            if (currentPage <= 3) {
+                // 현제 페이지가 3 이하 일 때
+                displayPages = [1, 2, 3, 4, '...', totalPages];
+            } else if (currentPage >= totalPages -2) {
+                // 현제 페이지가 전체페이지 - 2 이상일 때
+                displayPages = [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+            } else {
+                // 그 외 경우, 즉, 페이지 수가 많을 때 중간쯤의 페이지에서 앞 뒤로 '...'을 붙이는 경우
+                displayPages = [1, '...', currentPage -1, currentPage, currentPage + 1, '...', totalPages];
+            }
+
+            return displayPages.map((number, index) => (
+                number === '...' ? (
+                    <span key={index} className="pagination_ellipsis">
+                        ...
+                    </span>
+                ) : (
+                    <button 
+                        key={number}
+                        onClick={() => setCurrentPage(number)}
+                        className={`pagination_button ${currentPage === number ? 'active' : ''}`}
+                    >
+                        {number}
+                    </button>
+                )
+            ));
+        }
+    };
 
     return (
         
