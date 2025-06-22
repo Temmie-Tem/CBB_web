@@ -27,6 +27,7 @@
 }
 
 .search_box {
+
     width: 1200px;
     height: 100px;
     background-color: #D9D9D9;
@@ -125,7 +126,42 @@
 }
 
 .board_table {
-    background-color: azure;
+    background-color: transparent;
     border-radius: 5px;
-    width: 1100px;;
+    width: 100%;
+    border-collapse: collapse;
 }
+
+.board_table thead {
+    /* 표의 헤더 영역 */
+    background-color: azure;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: table-header-group;
+    /* Flexbox와의 조합시에 필요. */
+    margin-bottom: 5px;
+}
+
+.board_table, .board_table th, .board_table td {
+    /* 표의 스타일 조정방식 */
+    border: none;
+    /* 그리드선(?)을 삭제 */
+    border-collapse: collapse;
+    /* 셀의 경계선 삭제 */
+}
+
+.board_table th, .board_table td {
+    padding: 10px 15px;
+    text-align: left;
+
+    vertical-align: middle;
+    /* 수직 중앙정렬 */
+
+    border-bottom: 1px solid black;
+    /* 표(개시판)각 행의 하단에 구분선을 삽입 */
+}
+
+/* .board_table tbody tr:last-child td {
+    border-bottom: none;
+} */
+/* 마지막 행의 아래에 구분선이 필요 없을 경우 */
