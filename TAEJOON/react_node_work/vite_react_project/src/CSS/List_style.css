@@ -137,9 +137,7 @@
     background-color: azure;
     border-radius: 5px 5px 0 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: table-header-group;
-    /* Flexbox와의 조합시에 필요. */
-    margin-bottom: 5px;
+    
 }
 
 .board_table, .board_table th, .board_table td {
@@ -177,8 +175,8 @@
 }
 
 .pagination_button {
-    background-color: #2C2C2C;
-    border: 1px solid #D9D9D9;
+    background-color: #D9D9D9;
+    border: 1px solid #2C2C2C;
     padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
@@ -188,7 +186,7 @@
 }
 
 .pagination_button:hover {
-    background-color: #bfbfbf;
+    background-color: #D9D9D9;
 }
 
 .pagination_button.active {
