@@ -5,8 +5,6 @@ import BoardList from './components/BoardList';
 // 개시글 매뉴 부분
 
 function App() {
-  const [count, setCount] = useState(0);
-  
   const [searchText, setSearchText] = useState('');
   // 검색 텍스트를 보존하기 위한 State를 정의.
 
