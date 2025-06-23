@@ -6,7 +6,7 @@ function Header() {
         <header className='main_header'>
             <div className='header_wrap'>
                 <div className='header_logo'>
-                    <img src="" alt="image" />
+                    <img src="../../img/Vitejs_logo.png" alt="image" />
                     <span>상담게시판</span>
                 </div>
                 <nav className='header_nav'>
