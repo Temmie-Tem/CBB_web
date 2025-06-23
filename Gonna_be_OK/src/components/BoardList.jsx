@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { href } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function BoardList() {
     // 컴포넌트 "BoardList"를 정의
+
+    const navigate = useNavigate();
 
     const boardItems = Array.from({ length: 15 }, (_, i) => ({
         // 개시판 개시글 목록 임시 개시글 15개 생성.
@@ -123,6 +127,7 @@ function BoardList() {
 
             {/* 페이지네이션의 추가 */}
             <div className="pagination_container">
+                <div className="pagination_numbers_group">
                 {/* 이전 페이지로 버튼 */}
                 <button
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -144,7 +149,17 @@ function BoardList() {
                 >
                     Next
                 </button>
+                </div>
                 {/* // 다음 페이지로 버튼 */}
+                
+                {/* 글쓰기 버튼 */}
+                    <button
+                        onClick={() => navigate('/PostWritePage')}
+                        className="write_button"
+                    >
+                        글쓰기
+                    </button>
+                {/* // 글쓰기 버튼 */}
             </div>
             {/* // 페이지네이션의 추가 */}
 

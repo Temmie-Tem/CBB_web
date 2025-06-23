@@ -277,17 +277,30 @@
 
 .pagination_container {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
+    justify-content: space-between;
     align-items: center;
     margin-top: 0;
     margin-bottom: 30px;
-    gap: 5px;
+    /* gap: 5px; */
     /* 버튼간의 간격 */
 
     background-color: azure;
     padding: 10px 20px;
     /* border-radius: 5px; */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination_numbers_group {
+    display: flex;
+    gap: 5px; 
+    /* 버튼 간의 간격 */
+
+    margin: 0 auto; 
+    /* 이 그룹을 가운데 정렬하기 위해 auto 마진 사용 */
+    /* 상하 0, 좌우 자동 마진으로 중앙 정렬 */
+    flex-grow: 0; 
+    /* 이 그룹이 늘어나지 않도록 설정 */
 }
 
 .pagination_button {
@@ -330,4 +343,24 @@
     padding: 8px 12px;
     font-weight: bold;
     color: black;
+}
+
+.write_button {
+    background-color: #2C2C2C; 
+    /* 버튼 색상 */
+    color: azure; 
+    /* 폰트 색상 */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+
+    transition: background-color 0.3s ease;
+}
+
+.write_button:hover {
+    opacity: 0.9;
+    background-color: #AAAAAA;
+    color: #2C2C2C; 
 }
