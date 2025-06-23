@@ -31,22 +31,22 @@ function loginpage() {
             <div className="totype" htmlFor="userId">
               아이디
             </div>
-            <input id="userId" type="text" placeholder="ID" value={userId} onChange={(e) => setUserId(e.target.value)}></input>
+            <input className="logininput" id="userId" type="text" placeholder="ID" value={userId} onChange={(e) => setUserId(e.target.value)}></input>
         </div>    
         
         <div className="typeIn">
             <div className="totype" htmlFor="password">
               패스워드
             </div>
-            <input id="password" type="password" placeholder="PASSWORD" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+            <input className="logininput" id="password" type="password" placeholder="PASSWORD" value={password} onChange={(e) => setPassword(e.target.value)}></input>
         </div>    
         
         <br/>
 
         {/* 로그인 및 취소 버튼 */}
         <div className='loginbuttons'>
-          <button class="loginbutton" type="submit">로그인</button>
-          <button class="loginbutton" type="reset">취소</button>
+          <button className="loginbutton" type="submit">로그인</button>
+          <button className="loginbutton" type="reset">취소</button>
         </div>
 
         <br/>
