@@ -8,7 +8,7 @@ function Footer() {
             <div className="footer_content_wrapper">
                 {/* table식과 유사하게 4개의 div로 의사적인 표의 형태를 생성. */}
                 <div className="footer_column">
-                    <h3>상담개시판</h3> 
+                    <h3>상담게시판</h3> 
                     <a href="">사람</a> <a href="">동물</a> <a href="">식물</a>
                     {/* 개별적인 요소로 기능하도록 <a>를 활용. 향후 링크삽입 가능. */}
                 </div>
@@ -44,7 +44,7 @@ function Footer() {
             {/* PS */}
             <div className="footer_bottom_row">
                 <div className="footer_copyright">
-                    {new Date().getFullYear()} 뭐든 괸찮겠조. Everything gonna be OK.
+                    {new Date().getFullYear()} 뭐든 괜찮겠조. Everything gonna be OK.
                 </div>
             </div>
         </footer>
