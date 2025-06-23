@@ -1,0 +1,7 @@
+/* 전체 앱 레이아웃 기본 설정 */
+.app_wrapper {
+  font-family: Arial, Helvetica, sans-serif; /*일단 기본 폰트 적용 상의후 변경*/
+  background-color: #f0f2f5; /*전체 배경색 설정*/
+  min-height: 100vh; /*최소 높이를 화면 전체로 설정*/
+  padding: 60px 20px; /*상단 여백을 주어 헤더와 겹치지 않도록 설정*/
+}
