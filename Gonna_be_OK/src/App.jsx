@@ -1,34 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SignUpPage from './components/SignUpPage'; // 회원가입 컴포넌트
+import TermsPage from './components/TermsPage';   // 이용약관 컴포넌트
+import PrivacyPolicyPage from './components/PrivacyPolicyPage'; // 개인정보처리방침 컴포넌트
+import MainPage from './components/MainPage'; //홈페이지
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/main" element={<MainPage/>}/>
+        {/* 앱의 기본 페이지 설정 */}
+        <Route path="/" element={<MainPage />} /> 
+      </Routes>
+    </BrowserRouter>
   )
 }
 
