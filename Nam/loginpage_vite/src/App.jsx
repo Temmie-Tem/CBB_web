@@ -9,10 +9,11 @@ function App() {
 
   const isFormValid = userId.trim() !== '' && password.trim() !== '';
 
+  // 아이디, 비밀번호 둘 중 하나라도 공백 시 alert 메시지
   const handleSubmit = (e) => {
   e.preventDefault();
   if (!isFormValid) {
-    alert("아이디와 비밀번호를 모두 입력해주세요.");  // alert로 변경
+    alert("아이디와 비밀번호를 모두 입력해주세요.");
     return;
   }
   };
