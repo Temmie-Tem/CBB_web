@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import '../App.css'
+import '../CSS/MainPage.css'
 import '../CSS/BoardList_Style.css'
 import BoardList from './BoardList'; 
 // 개시판
