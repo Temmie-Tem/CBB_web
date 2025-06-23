@@ -35,13 +35,13 @@ input {
     border-radius: 10px;
 }
 
-.buttons {
+.loginbuttons {
     background-color: rgb(191, 191, 191);
     display: flex;
     justify-content: center;
 }
 
-button {
+.loginbutton {
     font-size: 30px;
     color: white;
     background-color: black;

@@ -44,9 +44,9 @@ function loginpage() {
         <br/>
 
         {/* 로그인 및 취소 버튼 */}
-        <div className='buttons'>
-          <button type="submit">로그인</button>
-          <button type="reset">취소</button>
+        <div className='loginbuttons'>
+          <button class="loginbutton" type="submit">로그인</button>
+          <button class="loginbutton" type="reset">취소</button>
         </div>
 
         <br/>
