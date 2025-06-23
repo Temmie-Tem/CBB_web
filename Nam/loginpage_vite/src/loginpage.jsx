@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './css/loginpage.css';
+import './CSS/loginpage.css';
 import Footer from './components/Footer';
 
 function App() {
