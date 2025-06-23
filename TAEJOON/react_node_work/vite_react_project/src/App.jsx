@@ -5,6 +5,8 @@ import BoardList from './components/BoardList';
 // 개시판
 import Header from './components/Header';
 // 헤더
+import Banner from './components/Banner';
+// 배너
 import Footer from './components/Footer'
 // 푸터
 
@@ -31,6 +33,7 @@ function App() {
       {/* 전체 컨텐츠 조정용 클라스 삽입 */}
 
       <Header />
+      <Banner />
 
       {/* 검색바 전체 */}
       <div className='search_box'>
