@@ -2,7 +2,12 @@ import { useState } from 'react'
 import './App.css'
 import './CSS/BoardList_Style.css'
 import BoardList from './components/BoardList'; 
-// 개시글 매뉴 부분
+// 개시판
+import Header from './components/Header';
+// 헤더
+import Footer from './components/Footer'
+// 푸터
+
 
 function App() {
   const [searchText, setSearchText] = useState('');
@@ -21,8 +26,11 @@ function App() {
   }
 
   return (
+    <>
     <div className='main_content_wrapper'>
       {/* 전체 컨텐츠 조정용 클라스 삽입 */}
+
+      <Header />
 
       {/* 검색바 전체 */}
       <div className='search_box'>
@@ -65,7 +73,9 @@ function App() {
       <BoardList />
       {/* 개시글 목록 */}
 
-    </div>
+    <Footer />
+    </div>    
+  </>
   )
 }
 

@@ -23,6 +23,7 @@
     padding: 0 15px;
     font-size: 20px;
     color: black;
+    margin-left: 10px;
 
     /* outline: none; */
     /* 입력시 검색 입력창 선택시 외곽선이 표시되는 기능이 잠김. */
@@ -195,7 +196,8 @@
 /* 컨테이너 */
 .board_list_container {
     /* 안 없에도 될 스타일 이였지만, 관련된 스타일들과 한 덩어리로 시인성을 위해 이곳에 재배치 */
-    width: 1200px;
+    width: 1180px;
+    /* padding에 의한 변동을 고려 */
     margin-top: 15px;
     margin-bottom: 15px;
     margin-left: auto;  
@@ -224,7 +226,7 @@
 
 /* 헤더의 각 셀 */
 .board_table_header th {
-    background-color: white;
+    background-color: azure;
     font-weight: normal;
     color: black;
     padding: 15px 0; 
@@ -238,7 +240,7 @@
 
 /* 바디 테이블 */
 .board_table_body {
-    background-color: white; 
+    background-color: azure; 
     /* 바디 테이블 전체의 배경 */
     border-radius: 0; 
     width: 100%;
@@ -262,7 +264,7 @@
     font-size: 24px;
     color: black;
     text-align: center;
-    background-color: white; 
+    background-color: azure; 
     padding: 15px 0;
     /* width는BoardList.jsx의 td태그의 style 속성으로 직접 추가 조정 */
 }
@@ -309,8 +311,8 @@
 }
 
 .pagination_button.active {
-    background-color: transparent;
-    color: #2C2C2C;
+    background-color: azure;
+    color:brown;
     text-decoration: none;
     border: none;
 }
@@ -318,7 +320,7 @@
 .pagination_button.disabled {
     opacity: 0.5;
     cursor:not-allowed;
-    background-color: white;
+    background-color: azure;
     color: #D9D9D9;
     border-color: #ddd;
     border: none;
