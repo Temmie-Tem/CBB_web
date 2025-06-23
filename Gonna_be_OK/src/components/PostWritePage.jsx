@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import "../CSS/post_write_page.css";
-import { Link } from 'react-router-dom';
 
 function PostWritePage() {
-  const [writer, setWriter] = useState('');
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
 
+   // 로그인 상태 확인 및 사용자 이름 세팅
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+
+    if (!storedUsername) {
+      alert("로그인 후 글쓰기가 가능합니다.");
+      navigate("/login");
+    } else {
+      setUsername(storedUsername);
+    }
+  }, [navigate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!writer.trim()) return alert('작성자를 입력하세요.');
     if (!title.trim()) return alert('제목을 입력하세요.');
     if (!content.trim()) return alert('내용을 입력하세요.');
 
-    console.log('작성자:', writer);
+    console.log('작성자:', username);
     console.log('제목:', title);
     console.log('내용:', content);
     console.log('파일:', file);
@@ -23,7 +36,6 @@ function PostWritePage() {
   };
 
   const handleCancel = () => {
-    setWriter('');
     setTitle('');
     setContent('');
     setFile(null);
@@ -39,21 +51,20 @@ function PostWritePage() {
       <div className="banner_title">상담게시판</div>
 
       <ul className="nav_bar">
-  <li><a href="/" className="nav_link">공지사항</a></li>
-  <li><a href="/" className="nav_link">기관소개</a></li>
-  <li><a href="/" className="nav_link">온라인상담</a></li>
-  <li><a href="/" className="nav_link">자료실</a></li>
+        <li><a href="/" className="nav_link">공지사항</a></li>
+        <li><a href="/" className="nav_link">기관소개</a></li>
+        <li><a href="/" className="nav_link">온라인상담</a></li>
+        <li><a href="/" className="nav_link">자료실</a></li>
 
-  <li className="nav_right">
-    <Link to="/login">
-      <button className="btn_login">로그인</button>
-    </Link>
-    <Link to="/signup">
-      <button className="btn_signup">회원가입</button>
-    </Link>
-  </li>
-</ul>
-
+        <li className="nav_right">
+          <Link to="/login">
+            <button className="btn_login">로그인</button>
+          </Link>
+          <Link to="/signup">
+            <button className="btn_signup">회원가입</button>
+          </Link>
+        </li>
+      </ul>
 
       <div className="post_write_wrapper">
         <h1 className="page_title">온라인 상담 게시판</h1>
@@ -63,14 +74,13 @@ function PostWritePage() {
           <table className="write_table">
             <tbody>
               <tr>
-                <th><span className="required_mark">●</span>작성자</th>
+                <th>작성자</th>
                 <td>
                   <input
                     type="text"
                     className="input_writer"
-                    placeholder="작성자"
-                    value={writer}
-                    onChange={(e) => setWriter(e.target.value)}
+                    value={username}
+                    readOnly
                   />
                 </td>
               </tr>

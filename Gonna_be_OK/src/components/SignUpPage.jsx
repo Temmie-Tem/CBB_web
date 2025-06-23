@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../CSS/SignUpPage.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 // --- 상수 정의 ---
 const MOCK_REGISTERED_IDS = ['admin', 'test', 'temmie'];
@@ -24,6 +25,7 @@ const VALIDATION_RULES = {
 };
 
 function SignUpPage() {
+  const navigate = useNavigate();
   // --- 상태(State) 정의 ---
   const [formData, setFormData] = useState({
     userId: '',
@@ -154,6 +156,10 @@ function SignUpPage() {
     // 모든 검증을 통과했을 경우
     alert('회원가입이 완료되었습니다!');
     console.log('제출된 데이터:', formData);
+    
+    localStorage.setItem('registeredUser', JSON.stringify(formData));   // 회원가입 후 로그인 페이지로 이동
+    localStorage.setItem('loggedInUser', formData.userId); // 로그인 상태 저장
+    navigate('/login'); //로그인 페이지로 이동
   };
 
     // ▼▼▼ 데이터 손실 경고 기능을 위한 useEffect 추가 ▼▼▼
