@@ -15,8 +15,6 @@ function App() {
     alert("아이디와 비밀번호를 모두 입력해주세요.");  // alert로 변경
     return;
   }
-  setError('');  // 이 부분은 없어도 됨
-  alert("로그인 성공!");
   };
 
 
