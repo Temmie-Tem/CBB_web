@@ -1,18 +1,21 @@
 body {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items:flex-start;
   min-height: 100vh;
   background-color: #f0f2f5;
+  padding-top: 40px;
+  overflow-y: scroll;
+  scrollbar-gutter: stable both-edges;
   font-family: sans-serif;
 }
 
 .signup-container {
   background: #fff;
-  padding: 2rem;
+  padding: 3rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 105%;
   max-width: 400px;
 }
 
@@ -29,11 +32,12 @@ h2 {
 }
 
 .form-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem; 
 }
 
 .input-group {
   margin-bottom: 1rem;
+  min-height: 75px;
 }
 
 .input-group label {
@@ -97,6 +101,7 @@ h2 {
 
 .error-message {
   color: red;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   margin-top: 5px;
+  height: 1.2em; 
 }
