@@ -51,7 +51,7 @@ function loginpage() {
 
         <br/>
 
-        <div className="logintosignuplink">아직 회원이 아니시라면 <a href="">회원가입</a></div>
+        <div className="logintosignuplink">아직 회원이 아니시라면 <a href="http://localhost:5173/signup">회원가입</a></div>
       </form>
 
       
