@@ -41,7 +41,7 @@ function Footer() {
                 </div>
             </div>
 
-            {/* PS */}
+            {/* copyright */}
             <div className="footer_bottom_row">
                 <div className="footer_copyright">
                     {new Date().getFullYear()} 뭐든 괸찮겠조. Everything gonna be OK.
