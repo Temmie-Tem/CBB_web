@@ -1,180 +1,163 @@
 import React, { useState, useEffect } from 'react';
 import '../CSS/SignUpPage.css';
-import DatePicker from 'react-datepicker'; // DatePicker 컴포넌트 import
-import 'react-datepicker/dist/react-datepicker.css'; // DatePicker 스타일 import
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Link } from 'react-router-dom';
 
-// --- 정규식 정의 ---
-//패스워드 정규식
+// --- 정규식 및 가상 데이터 ---
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
-//이메일 정규식
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-// 아이디 정규식: 4~20자, 영문 소문자, 숫자와 일부 특수문자(-, _)만 허용
 const userIdRegex = /^[a-z0-9_-]{4,20}$/;
-//임시 묵업 데이터
-const MOCK_REGISTERED_IDS = ['admin', 'test', 'user123'];
+const MOCK_REGISTERED_IDS = ['admin', 'test', 'temmie']; // 이미 등록된 아이디 목록
 
 function SignUpPage() {
   // --- 상태(State) 정의 ---
-
-  // 1. 폼 데이터 상태
   const [formData, setFormData] = useState({
     userId: '',
     password: '',
-    passwordConfirm: '', // 비밀번호 확인 필드 추가
-    name: '',            // 이름 필드 추가
+    passwordConfirm: '',
+    name: '',
     email: '',
     birthDate: null,
   });
 
-  // 2. 에러 메시지 상태
   const [errors, setErrors] = useState({});
-
-  // 3. 약관 동의 상태 (name 속성과 key를 일치시킴)
   const [agreements, setAgreements] = useState({
     terms: false,
     privacy: false,
     marketing: false,
   });
 
-  // 4. 최종 제출 버튼 활성화 상태
   const [isFormValid, setIsFormValid] = useState(false);
-  
-  // ============================= 아이디 중복 확인 =============================
-   const [id, setId] = useState('');
 
-     // 2. (추가) ID 중복 확인 결과 메시지를 저장할 state
-  const [idCheckMessage, setIdCheckMessage] = useState('');
-  const [isIdAvailable, setIsIdAvailable] = useState(null); // null: 확인전, true: 사용가능, false: 중복
-
-  const handleIdChange = (e) => {
-    setId(e.target.value);
-    // ID를 다시 입력하기 시작하면, 이전 확인 결과를 초기화합니다.
-    setIdCheckMessage('');
-    setIsIdAvailable(null);
-  };
-
-  // 3. (추가) ID 중복 확인 버튼 클릭 시 실행될 함수
-  const handleIdCheck = () => {
-    if (!id) {
-      setIdCheckMessage('아이디를 입력해주세요.');
-      setIsIdAvailable(false);
-      return;
-    }
-
-    // MOCK_REGISTERED_IDS 배열에 현재 입력한 id가 포함되어 있는지 확인
-    if (MOCK_REGISTERED_IDS.includes(id)) {
-      setIdCheckMessage('이미 사용 중인 아이디입니다.');
-      setIsIdAvailable(false);
-    } else {
-      setIdCheckMessage('사용 가능한 아이디입니다.');
-      setIsIdAvailable(true);
-    }
-  };
-  // ============================= 아이디 중복 확인 =============================
+  // [수정] ID 중복 확인 관련 상태를 하나로 통합 관리
+  const [idCheck, setIdCheck] = useState({
+    message: '',      // 보여줄 메시지
+    isAvailable: null, // null: 확인전, true: 사용가능, false: 중복/에러
+    isChecked: false,  // 중복 확인 버튼을 눌렀는지 여부
+  });
 
   // --- 핸들러 함수 정의 ---
 
-  // 입력 필드 변경 핸들러
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // 아이디 입력창이 수정되면, 중복 확인 상태를 초기화
+    if (name === 'userId') {
+      setIdCheck({ message: '', isAvailable: null, isChecked: false });
+    }
   };
 
-  // 체크박스 변경 핸들러
   const handleAgreementChange = (e) => {
     const { name, checked } = e.target;
     setAgreements((prev) => ({ ...prev, [name]: checked }));
   };
+  
+  // [수정] ID 중복 확인 함수
+  const handleIdCheck = () => {
+    // 1. 아이디 유효성 검사부터 실행
+    if (!userIdRegex.test(formData.userId)) {
+      setIdCheck({
+        message: '아이디는 4~20자의 영문 소문자, 숫자, 밑줄(_), 하이픈(-)만 사용 가능합니다.',
+        isAvailable: false,
+        isChecked: true, // 확인은 했지만 실패
+      });
+      return;
+    }
+
+    // 2. 가상 데이터와 비교하여 중복 확인
+    if (MOCK_REGISTERED_IDS.includes(formData.userId)) {
+      setIdCheck({
+        message: '이미 사용 중인 아이디입니다.',
+        isAvailable: false,
+        isChecked: true,
+      });
+    } else {
+      setIdCheck({
+        message: '사용 가능한 아이디입니다.',
+        isAvailable: true,
+        isChecked: true,
+      });
+    }
+  };
+
+  // [수정] ID 필드에 대한 실시간 유효성 검사 추가
+useEffect(() => {
+  // 사용자가 입력을 멈춘 후 0.5초 뒤에 검사하도록 설정 (Debouncing)
+  const handler = setTimeout(() => {
+    // ID 입력란이 비어있지 않고, 중복 확인을 아직 안 한 상태일 때만 실시간 검사
+    if (formData.userId && !idCheck.isChecked) {
+      if (!userIdRegex.test(formData.userId)) {
+        setErrors((prev) => ({ ...prev, userId: '아이디는 4~20자의 영문 소문자, 숫자, 밑줄(_), 하이픈(-)만 사용 가능합니다.' }));
+      } else {
+        // 정규식을 통과하면 에러 메시지를 지움
+        setErrors((prev) => ({ ...prev, userId: '' }));
+      }
+    } else {
+       // 비어있거나 중복 확인이 끝나면 에러 메시지를 지움
+       setErrors((prev) => ({ ...prev, userId: '' }));
+    }
+  }, 500);
+
+  // 컴포넌트가 unmount 되거나, userId가 변경되기 전에 setTimeout을 정리
+  return () => {
+    clearTimeout(handler);
+  };
+}, [formData.userId, idCheck.isChecked]);
+
 
   // --- 유효성 검사 로직 (useEffect) ---
-
-  // 1. 각 필드별 실시간 에러 메시지 관리 useEffect
+  
+  // 비밀번호, 이메일 등 다른 필드에 대한 실시간 에러 메시지
   useEffect(() => {
     const newErrors = {};
 
-    // 아이디 검사
-    if (formData.userId && !userIdRegex.test(formData.userId)) {
-    newErrors.userId = "아이디는 4~20자의 영문 소문자, 숫자, 밑줄(_), 하이픈(-)만 사용 가능합니다.";
-  }
-
-    // 비밀번호 검사 (정규식)
     if (formData.password && !passwordRegex.test(formData.password)) {
       newErrors.password = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8~20자여야 합니다.";
     }
-
-    // 비밀번호 확인 검사
     if (formData.passwordConfirm && formData.password !== formData.passwordConfirm) {
       newErrors.passwordConfirm = "비밀번호가 일치하지 않습니다.";
     }
-
-    // 이메일 검사 (정규식)
     if (formData.email && !emailRegex.test(formData.email)) {
       newErrors.email = "올바른 이메일 형식이 아닙니다.";
     }
-
     setErrors(newErrors);
-  }, [formData]);
+  }, [formData.password, formData.passwordConfirm, formData.email]);
 
 
-  // 2. 최종 '가입하기' 버튼 활성화 여부 관리 useEffect
+  // 최종 '가입하기' 버튼 활성화 여부 관리
   useEffect(() => {
-    const isBasicInfoValid =
-      userIdRegex.test(formData.userId) &&
-      formData.userId.length >= 4 &&
+    const isOtherInfoValid =
       formData.name.trim() !== '' &&
       passwordRegex.test(formData.password) &&
       formData.password === formData.passwordConfirm &&
       emailRegex.test(formData.email);
 
     const areRequiredAgreementsChecked = agreements.terms && agreements.privacy;
-    
-    // errors 객체에 아무런 에러 메시지가 없는지 확인
-    const noErrors = Object.values(errors).every(error => error === undefined || error === "");
 
-    setIsFormValid(isBasicInfoValid && areRequiredAgreementsChecked && noErrors);
+    // 아이디 중복 확인을 통과했고, 나머지 정보도 유효하면 가입 버튼 활성화
+    if (idCheck.isChecked && idCheck.isAvailable && isOtherInfoValid && areRequiredAgreementsChecked) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [formData, agreements, idCheck]);
 
-  }, [formData, agreements, errors]); // formData, agreements, errors가 바뀔 때마다 실행
 
-    // ▼▼▼ 데이터 손실 경고 기능을 위한 useEffect 추가 ▼▼▼
-  useEffect(() => {
-    // 사용자가 폼에 무언가 입력했는지 확인하는 함수
-    const isFormDirty = Object.values(formData).some(value => {
-      // formData의 값이 null이 아니고, 빈 문자열이 아닌 경우 true
-      return value !== null && value !== '';
-    });
-
-    // beforeunload 이벤트 핸들러
-    const handleBeforeUnload = (e) => {
-      // 폼이 dirty 상태일 때만 경고창을 띄움
-      if (isFormDirty) {
-        e.preventDefault(); // 표준에 따라 필요
-        e.returnValue = ''; // 일부 레거시 브라우저를 위해 필요
-      }
-    };
-
-    // 이벤트 리스너 추가
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    // 클린업 함수: 컴포넌트가 사라질 때 이벤트 리스너를 제거
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-    
-    // 이 useEffect는 formData가 변경될 때마다 isFormDirty 값을 다시 계산해야 함
-  }, [formData]);
-
-  // 폼 제출 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isFormValid) {
       console.log('제출된 데이터:', { ...formData, ...agreements });
       alert('회원가입이 완료되었습니다!');
     } else {
-      alert('입력 항목을 다시 확인해주세요.');
+      if (!idCheck.isChecked || !idCheck.isAvailable) {
+        alert('아이디 중복 확인을 완료해주세요.');
+      } else {
+        alert('입력 항목을 다시 확인해주세요.');
+      }
     }
   };
-
 
   // --- JSX 렌더링 ---
   return (
@@ -184,33 +167,41 @@ function SignUpPage() {
         <div className="form-section">
           <h2>회원 정보</h2>
 
-          {/* 아이디 */}
-          <div className="input-group">
-            <label htmlFor="userId">아이디</label>
+    {/* 아이디 */}
+        <div className="input-group">
+          <label htmlFor="userId">아이디</label>
+          <div className="id-check-group">
             <input
-                  type="text" 
-                  id="userId" 
-                  name="userId"
-                  value={formData.userId} 
-                  onChange={handleInputChange}
-                  placeholder="아이디를 입력하세요"
+              type="text" id="userId" name="userId"
+              value={formData.userId}
+              onChange={handleInputChange}
+              placeholder="아이디를 입력하세요"
             />
-
             <button type="button" onClick={handleIdCheck} className="id-check-button">
-              중복 확인
+              아이디 사용 확인
             </button>
+    </div>
 
-              {idCheckMessage && (
-                <p className={`message ${isIdAvailable ? 'success' : 'error'}`}>
-                  {idCheckMessage}
-                </p>
-              )}
-              
-            {errors.userId && <p className="error-message">{errors.userId}</p>}
-          </div>
+  {/* [수정된 부분] 메시지 표시 로직 변경 */}
+  {
+    // 1순위: 실시간 형식 에러가 있으면 에러 메시지를 표시
+    errors.userId ? (
+      <p className="error-message">{errors.userId}</p>
+    ) :
+    // 2순위: 중복 확인 결과가 있으면 그 결과를 표시
+    idCheck.message ? (
+      <p className={`message ${idCheck.isAvailable ? 'success' : 'error'}`}>{idCheck.message}</p>
+    ) : (
+    // 3순위: 위 두 메시지가 모두 없으면 기본 규칙 안내 메시지를 표시
+      <p className="info-message">4~20자의 영문 소문자, 숫자, _, -만 사용 가능합니다.</p>
+    )
+  }
+</div>
 
-          {/* 이름 */}
-          <div className="input-group">
+          {/* 이름, 생년월일, 비밀번호, 이메일 등 나머지 JSX는 기존과 동일하게 유지 */}
+          {/* ... (이하 생략) ... */}
+           {/* 이름 */}
+           <div className="input-group">
             <label htmlFor="name">이름</label>
             <input
               type="text" id="name" name="name"
@@ -222,16 +213,14 @@ function SignUpPage() {
           <div className="input-group">
             <label>생년월일</label>
             <DatePicker
-              selected={formData.birthDate} // 현재 선택된 날짜 (state와 연결)
-              onChange={(date) => setFormData(prev => ({ ...prev, birthDate: date }))} // 날짜가 변경되면 state 업데이트
-    
-              // --- 추천 옵션 ---
-              dateFormat="yyyy/MM/dd"         // 입력창에 표시될 날짜 형식
-              showYearDropdown                // 연도 선택 드롭다운 표시
-              showMonthDropdown               // 월 선택 드롭다운 표시
-              dropdownMode="select"           // 연도/월을 스크롤 대신 드롭다운으로 변경
-              maxDate={new Date()}            // 선택할 수 있는 최대 날짜를 오늘로 제한 (미래 날짜 선택 방지)
-              placeholderText="생년월일을 선택하세요" // 안내 문구
+              selected={formData.birthDate}
+              onChange={(date) => setFormData(prev => ({ ...prev, birthDate: date }))}
+              dateFormat="yyyy/MM/dd"
+              showYearDropdown
+              showMonthDropdown
+              dropdownMode="select"
+              maxDate={new Date()}
+              placeholderText="생년월일을 선택하세요"
             />
           </div>
 

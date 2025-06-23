@@ -146,3 +146,8 @@ h2 {
 .message.error {
   color: red;
 }
+.info-message {
+  color: #888; /* 중립적인 회색 */
+  font-size: 0.9em;
+  margin-top: 5px;
+}
