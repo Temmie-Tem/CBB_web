@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './SignUpPage.css';
+import DatePicker from 'react-datepicker'; // DatePicker 컴포넌트 import
+import 'react-datepicker/dist/react-datepicker.css'; // DatePicker 스타일 import
 import { Link } from 'react-router-dom';
 
 // --- 정규식 정의 ---
+//패스워드 정규식
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
+//이메일 정규식
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+// 아이디 정규식: 4~20자, 영문 소문자, 숫자와 일부 특수문자(-, _)만 허용
+const userIdRegex = /^[a-z0-9_-]{4,20}$/;
 
 function SignUpPage() {
   // --- 상태(State) 정의 ---
@@ -16,6 +22,7 @@ function SignUpPage() {
     passwordConfirm: '', // 비밀번호 확인 필드 추가
     name: '',            // 이름 필드 추가
     email: '',
+    birthDate: null,
   });
 
   // 2. 에러 메시지 상태
@@ -52,9 +59,9 @@ function SignUpPage() {
     const newErrors = {};
 
     // 아이디 검사
-    if (formData.userId.length > 0 && formData.userId.length < 4) {
-      newErrors.userId = "아이디는 4자 이상이어야 합니다.";
-    }
+    if (formData.userId && !userIdRegex.test(formData.userId)) {
+    newErrors.userId = "아이디는 4~20자의 영문 소문자, 숫자, 밑줄(_), 하이픈(-)만 사용 가능합니다.";
+  }
 
     // 비밀번호 검사 (정규식)
     if (formData.password && !passwordRegex.test(formData.password)) {
@@ -78,6 +85,7 @@ function SignUpPage() {
   // 2. 최종 '가입하기' 버튼 활성화 여부 관리 useEffect
   useEffect(() => {
     const isBasicInfoValid =
+      userIdRegex.test(formData.userId) &&
       formData.userId.length >= 4 &&
       formData.name.trim() !== '' &&
       passwordRegex.test(formData.password) &&
@@ -132,6 +140,22 @@ function SignUpPage() {
               type="text" id="name" name="name"
               value={formData.name} onChange={handleInputChange}
               placeholder="이름을 입력하세요"
+            />
+          </div>
+
+          <div className="input-group">
+            <label>생년월일</label>
+            <DatePicker
+              selected={formData.birthDate} // 현재 선택된 날짜 (state와 연결)
+              onChange={(date) => setFormData(prev => ({ ...prev, birthDate: date }))} // 날짜가 변경되면 state 업데이트
+    
+              // --- 추천 옵션 ---
+              dateFormat="yyyy/MM/dd"         // 입력창에 표시될 날짜 형식
+              showYearDropdown                // 연도 선택 드롭다운 표시
+              showMonthDropdown               // 월 선택 드롭다운 표시
+              dropdownMode="select"           // 연도/월을 스크롤 대신 드롭다운으로 변경
+              maxDate={new Date()}            // 선택할 수 있는 최대 날짜를 오늘로 제한 (미래 날짜 선택 방지)
+              placeholderText="생년월일을 선택하세요" // 안내 문구
             />
           </div>
 
