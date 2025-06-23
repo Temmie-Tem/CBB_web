@@ -11,6 +11,8 @@ const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 // 아이디 정규식: 4~20자, 영문 소문자, 숫자와 일부 특수문자(-, _)만 허용
 const userIdRegex = /^[a-z0-9_-]{4,20}$/;
+//임시 묵업 데이터
+const MOCK_REGISTERED_IDS = ['admin', 'test', 'user123'];
 
 function SignUpPage() {
   // --- 상태(State) 정의 ---
@@ -37,6 +39,39 @@ function SignUpPage() {
 
   // 4. 최종 제출 버튼 활성화 상태
   const [isFormValid, setIsFormValid] = useState(false);
+  
+  // ============================= 아이디 중복 확인 =============================
+   const [id, setId] = useState('');
+
+     // 2. (추가) ID 중복 확인 결과 메시지를 저장할 state
+  const [idCheckMessage, setIdCheckMessage] = useState('');
+  const [isIdAvailable, setIsIdAvailable] = useState(null); // null: 확인전, true: 사용가능, false: 중복
+
+  const handleIdChange = (e) => {
+    setId(e.target.value);
+    // ID를 다시 입력하기 시작하면, 이전 확인 결과를 초기화합니다.
+    setIdCheckMessage('');
+    setIsIdAvailable(null);
+  };
+
+  // 3. (추가) ID 중복 확인 버튼 클릭 시 실행될 함수
+  const handleIdCheck = () => {
+    if (!id) {
+      setIdCheckMessage('아이디를 입력해주세요.');
+      setIsIdAvailable(false);
+      return;
+    }
+
+    // MOCK_REGISTERED_IDS 배열에 현재 입력한 id가 포함되어 있는지 확인
+    if (MOCK_REGISTERED_IDS.includes(id)) {
+      setIdCheckMessage('이미 사용 중인 아이디입니다.');
+      setIsIdAvailable(false);
+    } else {
+      setIdCheckMessage('사용 가능한 아이디입니다.');
+      setIsIdAvailable(true);
+    }
+  };
+  // ============================= 아이디 중복 확인 =============================
 
   // --- 핸들러 함수 정의 ---
 
@@ -153,10 +188,24 @@ function SignUpPage() {
           <div className="input-group">
             <label htmlFor="userId">아이디</label>
             <input
-              type="text" id="userId" name="userId"
-              value={formData.userId} onChange={handleInputChange}
-              placeholder="아이디를 입력하세요"
+                  type="text" 
+                  id="userId" 
+                  name="userId"
+                  value={formData.userId} 
+                  onChange={handleInputChange}
+                  placeholder="아이디를 입력하세요"
             />
+
+            <button type="button" onClick={handleIdCheck} className="id-check-button">
+              중복 확인
+            </button>
+
+              {idCheckMessage && (
+                <p className={`message ${isIdAvailable ? 'success' : 'error'}`}>
+                  {idCheckMessage}
+                </p>
+              )}
+              
             {errors.userId && <p className="error-message">{errors.userId}</p>}
           </div>
 

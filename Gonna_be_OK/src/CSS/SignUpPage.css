@@ -109,3 +109,40 @@ h2 {
   margin-top: 5px;
   height: 1.2em; 
 }
+
+.id-check-group {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 입력창과 버튼 사이 간격 */
+}
+
+.id-check-group input {
+  flex-grow: 1; /* 입력창이 남은 공간을 모두 차지하도록 */
+}
+
+.id-check-button {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  background-color: #626262;
+  cursor: pointer;
+  white-space: nowrap; /* 버튼 글자 줄바꿈 방지 */
+}
+
+.id-check-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* 메시지 스타일 */
+.message {
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.message.success {
+  color: green;
+}
+
+/* 아이디 중복 에러 메시지 색 */
+.message.error {
+  color: red;
+}
