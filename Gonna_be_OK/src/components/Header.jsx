@@ -11,16 +11,16 @@ function Header() {
                 </div>
                 <nav className='header_nav'>
                     <ul>
-                        <li><a href="#home">Top Page</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#services">services</a></li>
-                        <li><a href="#contact">contact</a></li>
+                        <li><a>Top Page</a></li>
+                        <li><a>About Us</a></li>
+                        <li><a>services</a></li>
+                        <li><a>contact</a></li>
                     </ul>
                 </nav>
 
                 <div className='header_user'>
                     <button  className='header_login'>
-                        로그인
+                        <a href="login">로그인</a>
                     </button>
                     <button className='header_signup'>
                         <a href="signup">회원가입</a>
