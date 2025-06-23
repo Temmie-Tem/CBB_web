@@ -20,7 +20,7 @@ function Header() {
 
                 <div className='header_user'>
                     <button  className='header_login'>
-                        로그인
+                        <a href="login">로그인</a>
                     </button>
                     <button className='header_signup'>
                         <a href="signup">회원가입</a>
