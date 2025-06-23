@@ -6,18 +6,18 @@ function App() {
     <div className="wrap">
 
       {/* 아이디 및 패스워드 입력란 */}
-      <div className="typein">
-          <label for="userid">
+      <div className="typeIn">
+          <label for="userId">
             아이디
           </label>
-          <input id="userid" type="text" placeholder="ID" required></input>
+          <input id="userId" type="text" placeholder="ID" required></input>
       </div>    
       
-      <div className="typein">
-          <label for="userpw">
+      <div className="typeIn">
+          <label for="userPw">
             패스워드
           </label>
-          <input id="userpw" type="password" placeholder="PASSWORD" required></input>
+          <input id="userPw" type="password" placeholder="PASSWORD" required></input>
       </div>    
       
       <br/>

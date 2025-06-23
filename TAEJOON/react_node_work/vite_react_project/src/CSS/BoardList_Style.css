@@ -224,7 +224,7 @@
 
 /* 헤더의 각 셀 */
 .board_table_header th {
-    background-color: white;
+    background-color: azure;
     font-weight: normal;
     color: black;
     padding: 15px 0; 
@@ -238,7 +238,7 @@
 
 /* 바디 테이블 */
 .board_table_body {
-    background-color: white; 
+    background-color: azure; 
     /* 바디 테이블 전체의 배경 */
     border-radius: 0; 
     width: 100%;
@@ -262,7 +262,7 @@
     font-size: 24px;
     color: black;
     text-align: center;
-    background-color: white; 
+    background-color: azure; 
     padding: 15px 0;
     /* width는BoardList.jsx의 td태그의 style 속성으로 직접 추가 조정 */
 }
@@ -309,7 +309,7 @@
 }
 
 .pagination_button.active {
-    background-color: transparent;
+    background-color: azure;
     color: #2C2C2C;
     text-decoration: none;
     border: none;
@@ -318,7 +318,7 @@
 .pagination_button.disabled {
     opacity: 0.5;
     cursor:not-allowed;
-    background-color: white;
+    background-color: azure;
     color: #D9D9D9;
     border-color: #ddd;
     border: none;
