@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import './CSS/List_style.css'
+import './CSS/BoardList_Style.css'
 import BoardList from './components/BoardList'; 
 // 개시글 매뉴 부분
 

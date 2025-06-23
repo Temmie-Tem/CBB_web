@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     
-    padding: 15px;
+    padding: 0px;
     /* padding의 설정은 상담 후 조정. */
     box-sizing: border-box;
     /* padding이 width, height에 포함되도록 한다. */
@@ -32,8 +32,10 @@ body {
     /* 세로 정렬된 요소를 가로 중앙 정렬 */
 
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    /* max-width: 1240px; */
+    max-width: 1230px;
 
+    margin: 0 auto;
+    padding: 0;
     /* 페이지 단위 지정사항을 이곳에서 조정 */
 }

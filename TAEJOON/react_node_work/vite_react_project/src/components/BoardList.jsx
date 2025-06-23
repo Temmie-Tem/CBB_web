@@ -22,15 +22,15 @@ function BoardList() {
 
     /* 페이지네이션 상태 관리 */
     const [currentPage, setCurrentPage] = useState(1);
-    const itemPerPage = 10;
+    const itemsPerPage = 10;
     // 페이지 당 표시 건 수
     const totalPages = Math.ceil(boardItems.length / itemsPerPage);
     /* // 페이지네이션 상태 관리 */
 
     /* 현제 페이지에 표시할 아이탬 계산 */
-    const indexOfLastItem = currentPage * itemPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemPerPage;
-    const currentItems = boardItems.slice(indexOfFirstItem, indexOfFirstItem);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = boardItems.slice(indexOfFirstItem, indexOfLastItem);
     /* 현제 페이지에 표시할 아이탬 계산 */
     
     /* 페이지 번호의 배열을 생성 */
@@ -89,35 +89,65 @@ function BoardList() {
 
     return (
         
-        <div className="board_list_container">
+        <div className="board_list_container" style={{height: '800px'}}>
             {/* 테이블 구조 */}
-            <table className="board_table">
+            <table className="board_table_header">
                 <thead>
                     {/* thead관련 자료 찾을 필요 있음 */}
                     <tr>
                         {/* 표 작성을 응용 */}
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>처리상태</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
+                        <th style={{width: '5%' }}>번호</th>
+                        <th style={{width: '66%' }}>제목</th>
+                        <th style={{width: '9.5%' }}>처리상태</th>
+                        <th style={{width: '9.5%' }}>작성자</th>
+                        <th style={{width: '11%' }}>작성일</th>
                     </tr>
                 </thead>
+            </table>
+
+            <table className="board_table_body" >
                 <tbody>
-                    {boardItems.map(item => (
-                        // 개시글의 배치
+                    {currentItems.map(item => (
                         <tr key={item.id}>
                             {/* key프로퍼티 : React의 리스트 표시에 필수 */}
-                            <td>{item.number}</td>
-                            <td>{item.title}</td>
-                            <td>{item.status}</td>
-                            <td>{item.author}</td>
-                            <td>{item.date}</td>
+                            <td style={{width: '5%' }}>{item.number}</td>
+                            <td style={{width: '65%' }}>{item.title}</td>
+                            <td style={{width: '10%' }}>{item.status}</td>
+                            <td style={{width: '10%' }}>{item.author}</td>
+                            <td style={{width: '10%' }}>{item.date}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
             {/* // 테이블 구조 */}
+
+            {/* 페이지네이션의 추가 */}
+            <div className="pagination_container">
+                {/* 이전 페이지로 버튼 */}
+                <button
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    className="pagination_button"
+                    disabled={currentPage === 1}
+                    // 첫 페이지시 비활성화
+                >
+                    Previous
+                </button>
+                {/* // 이전 페이지로 버튼 */}
+                {renderPageNumbers()}
+
+                {/* 다음 페이지로 버튼 */}
+                <button
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    className="pagination_button"
+                    disabled={currentPage === totalPages}
+                    // 마지막 페이지시 비활성화
+                >
+                    Next
+                </button>
+                {/* // 다음 페이지로 버튼 */}
+            </div>
+            {/* // 페이지네이션의 추가 */}
+
         </div>
     );
 }
