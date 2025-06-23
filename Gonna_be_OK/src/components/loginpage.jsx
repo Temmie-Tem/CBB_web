@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../CSS/loginpage.css';
 import Footer from './Footer';
 
-function App() {
+function loginpage() {
 
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -61,4 +61,4 @@ function App() {
   );
 }
 
-export default App;
+export default loginpage;
