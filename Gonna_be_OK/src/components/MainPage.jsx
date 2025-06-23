@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import '../CSS/MainPage.css'
-import '../CSS/BoardList_Style.css'
+import '../CSS/BoardList.css'
 import BoardList from './BoardList'; 
 // 개시판
 import Header from './Header';
