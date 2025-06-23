@@ -1,3 +1,4 @@
+/* 헤더 전반 */
 .main_header {
     width: 100%;
     background-color: #D9D9D9;
@@ -6,8 +7,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin-top: 5px;
 }
 
+/* 헤더 래핑 */
 .header_wrap {
     width: 100%;
     max-width: 1200px;
@@ -17,19 +21,57 @@
     padding: 0 20px;
 }
 
+/* 로고 전반 */
 .header_logo {
     display: flex;
     align-items: center;
 }
 
+/* 로고 이비지 부분 */
 /* .header_logo img {
     height: 40px; 
     margin-right: 10px;
 } */
 /* 여기서 로고 이미지의 조정 */
 
-.header_logo ul {
+/* 로고 텍스트 부분 */
+.header_logo span {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* 네비게이션 바 리스트 */
+.header_nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    gap: 25px;
+}
+
+.header_nav a {
+    color: #2C2C2C;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+.header_nav a:hover {
+    color: azure;
+}
+
+.header_user button {
+    background-color:#2C2C2C;
+    color: azure;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.header_user button:hover {
+    background-color: #D9D9D9;
 }

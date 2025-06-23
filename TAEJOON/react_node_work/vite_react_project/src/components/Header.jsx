@@ -11,13 +11,13 @@ function Header() {
                 </div>
                 <nav className='header_nav'>
                     <ul>
-                        <li><a href="#home"></a></li>
-                        <li><a href="#about"></a></li>
-                        <li><a href="#services"></a></li>
-                        <li><a href="#contact"></a></li>
+                        <li><a href="#home">Top Page</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#services">services</a></li>
+                        <li><a href="#contact">contact</a></li>
                     </ul>
                 </nav>
-                <div className='header_user_actions'>
+                <div className='header_user'>
                     <button className='header_login'>
                         로그인
                     </button>
