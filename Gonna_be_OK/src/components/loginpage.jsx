@@ -26,7 +26,7 @@ function loginpage() {
 
       {/* // 전체 박스(footer 제외)  */}
       {/* 아이디 및 패스워드 입력란 */}
-      <form className="wrap" onSubmit={handleSubmit}>
+      <form className="loginpagewrap" onSubmit={handleSubmit}>
         <div className="typeIn">
             <div className="totype" htmlFor="userId">
               아이디
@@ -46,7 +46,7 @@ function loginpage() {
         {/* 로그인 및 취소 버튼 */}
         <div className='loginbuttons'>
           <button className="loginbutton" type="submit">로그인</button>
-          <button className="loginbutton" type="reset">취소</button>
+          <button className="loginbutton"><a href="http://localhost:5173">취소</a></button>
         </div>
 
         <br/>
