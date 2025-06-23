@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import './App.css'
-import './CSS/BoardList_Style.css'
-import BoardList from './components/BoardList'; 
+import '../App.css'
+import '../CSS/BoardList_Style.css'
+import BoardList from './BoardList'; 
 // 개시판
-import Header from './components/Header';
+import Header from './Header';
 // 헤더
-import Banner from './components/Banner';
+import Banner from './Banner';
 // 배너
-import Footer from './components/Footer'
+import Footer from './Footer'
 // 푸터
 
 
@@ -43,7 +43,7 @@ function App() {
             카테고리
           </span>
           <span className='search_filter_icon'>
-            V
+            ▼
           </span>
         </button>
         {/* // 검색 카테고리 선택 버튼*/}
