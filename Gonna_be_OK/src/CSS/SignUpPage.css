@@ -11,6 +11,10 @@ body {
 }
 
 .signup-container {
+  position: relative;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
   background: #fff;
   padding: 3rem;
   border-radius: 8px;
