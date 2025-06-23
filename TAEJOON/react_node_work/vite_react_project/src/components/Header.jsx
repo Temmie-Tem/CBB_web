@@ -17,6 +17,7 @@ function Header() {
                         <li><a href="#contact">contact</a></li>
                     </ul>
                 </nav>
+
                 <div className='header_user'>
                     <button className='header_login'>
                         로그인
@@ -26,6 +27,7 @@ function Header() {
                     </button>
                 </div>
             </div>
+
         </header>
     )
 
