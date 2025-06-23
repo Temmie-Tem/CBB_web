@@ -1,5 +1,3 @@
-// Gonna_be_OK/src/components/SignUpPage.jsx
-
 import React, { useState } from 'react';
 import '../CSS/SignUpPage.css';
 import DatePicker from 'react-datepicker';
@@ -55,17 +53,13 @@ function SignUpPage() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // [정리] 모든 필드에 대해 실시간 유효성 검사를 여기서 처리
     validateField(name, value, formData.password);
 
-    // 아이디가 변경되면 중복 확인 상태 초기화
     if (name === 'userId') {
       setIdCheck({ message: '', isAvailable: null, isChecked: false });
     }
   };
   
-  // [추가] 유효성 검사 로직을 별도 함수로 분리
   const validateField = (name, value, password) => {
     let errorMessage = '';
     
@@ -103,21 +97,63 @@ function SignUpPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // [정리] 제출 직전에 모든 유효성을 한 번에 확인
-    const isFormValid = 
-      Object.values(errors).every(error => !error) &&
-      Object.entries(formData).every(([key, value]) => key === 'birthDate' || value) &&
-      idCheck.isChecked &&
-      idCheck.isAvailable &&
-      agreements.terms &&
-      agreements.privacy;
-
-    if (isFormValid) {
-      alert('회원가입이 완료되었습니다!');
-      console.log('제출된 데이터:', formData);
-    } else {
-      alert('입력 항목을 다시 확인해주세요.');
+    // [수정] 제출 시점에서 각 항목을 순서대로 검사하여 피드백
+    
+    // 1. 필수 입력 필드 확인 (이름, 생년월일, 이메일, 비밀번호 등)
+    if (!formData.name) {
+      alert('이름을 입력해주세요.');
+      return;
     }
+    if (!formData.birthDate) {
+      alert('생년월일을 선택해주세요.');
+      return;
+    }
+    if (!formData.email) {
+        alert('이메일을 입력해주세요.');
+        return;
+    }
+    if (!formData.password) {
+        alert('비밀번호를 입력해주세요.');
+        return;
+    }
+    
+    // 2. 형식 유효성(정규식, 비밀번호 일치) 에러 확인
+    if (errors.userId) {
+        alert(`아이디가 올바르지 않습니다: ${errors.userId}`);
+        return;
+    }
+    if (errors.email) {
+        alert(`이메일이 올바르지 않습니다: ${errors.email}`);
+        return;
+    }
+    if (errors.password) {
+        alert(`비밀번호가 올바르지 않습니다: ${errors.password}`);
+        return;
+    }
+    if (errors.passwordConfirm) {
+        alert(errors.passwordConfirm);
+        return;
+    }
+
+    // 3. 아이디 중복 확인 여부 검사
+    if (!idCheck.isChecked) {
+      alert('아이디 사용 확인(중복 확인)을 해주세요.');
+      return;
+    }
+    if (!idCheck.isAvailable) {
+      alert('이미 사용 중인 아이디입니다. 다른 아이디를 입력해주세요.');
+      return;
+    }
+
+    // 4. 필수 약관 동의 확인
+    if (!agreements.terms || !agreements.privacy) {
+      alert('필수 이용약관에 동의해주세요.');
+      return;
+    }
+
+    // 모든 검증을 통과했을 경우
+    alert('회원가입이 완료되었습니다!');
+    console.log('제출된 데이터:', formData);
   };
 
   // --- JSX 렌더링 ---
@@ -125,33 +161,127 @@ function SignUpPage() {
     <div className="signup-container">
       <h1>회원가입</h1>
       <form onSubmit={handleSubmit}>
-        {/* ... (아이디, 비밀번호 등 입력 필드 JSX는 이전과 동일하게 유지) ... */}
+        <div className="form-section">
+          <h2>회원 정보</h2>
 
-        {/* 아이디 */}
-        <div className="input-group">
-          {/* ... */}
-          {
-            errors.userId ? <p className="error-message">{errors.userId}</p> :
-            idCheck.message ? <p className={`message ${idCheck.isAvailable ? 'success' : 'error'}`}>{idCheck.message}</p> :
-            <p className="info-message">{VALIDATION_RULES.userId.message}</p>
-          }
-        </div>
-        
-        {/* 비밀번호 */}
-        <div className="input-group">
-          {/* ... */}
-          {errors.password && <p className="error-message">{errors.password}</p>}
+          {/* 아이디 */}
+          <div className="input-group">
+            <label htmlFor="userId">아이디</label>
+            <div className="id-check-group">
+              <input
+                type="text"
+                id="userId"
+                name="userId"
+                value={formData.userId}
+                onChange={handleInputChange}
+                placeholder="아이디를 입력하세요"
+              />
+              <button type="button" onClick={handleIdCheck} className="id-check-button">
+                아이디 사용 확인
+              </button>
+            </div>
+            {
+              errors.userId ? <p className="error-message">{errors.userId}</p> :
+              idCheck.message ? <p className={`message ${idCheck.isAvailable ? 'success' : 'error'}`}>{idCheck.message}</p> :
+              <p className="info-message">{VALIDATION_RULES.userId.message}</p>
+            }
+          </div>
+
+          {/* 이름 */}
+          <div className="input-group">
+            <label htmlFor="name">이름</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              placeholder="이름을 입력하세요"
+            />
+          </div>
+
+          {/* 생년월일 */}
+          <div className="input-group">
+            <label>생년월일</label>
+            <DatePicker
+              selected={formData.birthDate}
+              onChange={(date) => setFormData(prev => ({ ...prev, birthDate: date }))}
+              dateFormat="yyyy/MM/dd"
+              showYearDropdown
+              showMonthDropdown
+              dropdownMode="select"
+              maxDate={new Date()}
+              placeholderText="생년월일을 선택하세요"
+              className="date-picker-full-width"
+            />
+          </div>
+
+          {/* 비밀번호 */}
+          <div className="input-group">
+            <label htmlFor="password">비밀번호</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder="비밀번호를 입력하세요"
+            />
+            {errors.password && <p className="error-message">{errors.password}</p>}
+          </div>
+
+          {/* 비밀번호 확인 */}
+          <div className="input-group">
+            <label htmlFor="passwordConfirm">비밀번호 확인</label>
+            <input
+              type="password"
+              id="passwordConfirm"
+              name="passwordConfirm"
+              value={formData.passwordConfirm}
+              onChange={handleInputChange}
+              placeholder="비밀번호를 다시 입력하세요"
+            />
+            {errors.passwordConfirm && <p className="error-message">{errors.passwordConfirm}</p>}
+          </div>
+
+          {/* 이메일 */}
+          <div className="input-group">
+            <label htmlFor="email">이메일</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="이메일을 입력하세요"
+            />
+            {errors.email && <p className="error-message">{errors.email}</p>}
+          </div>
+
         </div>
 
-        {/* 비밀번호 확인 */}
-        <div className="input-group">
-          {/* ... */}
-          {errors.passwordConfirm && <p className="error-message">{errors.passwordConfirm}</p>}
+        {/* 약관 동의 섹션 */}
+        <div className="agreement-section">
+          <div className="agreement-item">
+            <input type="checkbox" id="terms" name="terms" checked={agreements.terms} onChange={handleAgreementChange} />
+            <label htmlFor="terms">[필수] 이용약관에 동의합니다.</label>
+            <Link to="/terms" target="_blank" rel="noopener noreferrer" className="view-details">자세히</Link>
+          </div>
+          <div className="agreement-item">
+            <input type="checkbox" id="privacy" name="privacy" checked={agreements.privacy} onChange={handleAgreementChange} />
+            <label htmlFor="privacy">[필수] 개인정보 수집 및 이용에 동의합니다.</label>
+            <Link to="/privacy" target="_blank" rel="noopener noreferrer" className="view-details">자세히</Link>
+          </div>
+          <div className="agreement-item">
+            <input type="checkbox" id="marketing" name="marketing" checked={agreements.marketing} onChange={handleAgreementChange} />
+            <label htmlFor="marketing">[선택] 마케팅 정보 수신에 동의합니다.</label>
+          </div>
         </div>
-        
-        {/* ... */}
-        
-        <button type="submit" className="submit-btn">가입하기</button>
+
+        {/* 최종 제출 버튼 */}
+        <button type="submit" className="submit-btn">
+          가입하기
+        </button>
       </form>
     </div>
   );
