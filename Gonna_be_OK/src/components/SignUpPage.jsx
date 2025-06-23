@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../CSS/SignUpPage.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -155,6 +155,34 @@ function SignUpPage() {
     alert('회원가입이 완료되었습니다!');
     console.log('제출된 데이터:', formData);
   };
+
+    // ▼▼▼ 데이터 손실 경고 기능을 위한 useEffect 추가 ▼▼▼
+  useEffect(() => {
+    // 사용자가 폼에 무언가 입력했는지 확인하는 함수
+    const isFormDirty = Object.values(formData).some(value => {
+      // formData의 값이 null이 아니고, 빈 문자열이 아닌 경우 true
+      return value !== null && value !== '';
+    });
+
+    // beforeunload 이벤트 핸들러
+    const handleBeforeUnload = (e) => {
+      // 폼이 dirty 상태일 때만 경고창을 띄움
+      if (isFormDirty) {
+        e.preventDefault(); // 표준에 따라 필요
+        e.returnValue = ''; // 일부 레거시 브라우저를 위해 필요
+      }
+    };
+
+    // 이벤트 리스너 추가
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // 클린업 함수: 컴포넌트가 사라질 때 이벤트 리스너를 제거
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+    
+    // 이 useEffect는 formData가 변경될 때마다 isFormDirty 값을 다시 계산해야 함
+  }, [formData]);
 
   // --- JSX 렌더링 ---
   return (
