@@ -23,6 +23,7 @@ function App() {
   return (
      
     <div>
+
       {/* // 전체 박스(footer 제외)  */}
       {/* 아이디 및 패스워드 입력란 */}
       <form className="wrap" onSubmit={handleSubmit}>
@@ -52,6 +53,7 @@ function App() {
 
         <div className="link">아직 회원이 아니시라면 <a href="">회원가입</a></div>
       </form>
+
       <Footer/>
     </div>
 

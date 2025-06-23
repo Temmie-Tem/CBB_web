@@ -1,5 +1,7 @@
 /* 푸터 전반 */
 .main_footer {
+    position: absolute;
+    bottom: 0;
     width: 100%;
     background-color: #D9D9D9; 
     color: white;
