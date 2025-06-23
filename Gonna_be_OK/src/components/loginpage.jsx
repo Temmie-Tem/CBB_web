@@ -26,7 +26,7 @@ function loginpage() {
 
       {/* // 전체 박스(footer 제외)  */}
       {/* 아이디 및 패스워드 입력란 */}
-      <form className="wrap" onSubmit={handleSubmit}>
+      <form className="loginpagewrap" onSubmit={handleSubmit}>
         <div className="typeIn">
             <div className="totype" htmlFor="userId">
               아이디
