@@ -7,7 +7,7 @@ function Header() {
             <div className='header_wrap'>
                 <div className='header_logo'>
                     <img src="" alt="image" />
-                    <span>상담개시판</span>
+                    <span>상담게시판</span>
                 </div>
                 <nav className='header_nav'>
                     <ul>
