@@ -1,5 +1,4 @@
 .loginpagewrap {
-    background-color: azure;
     position: relative;
     top: 0%;
     left: 50%;
@@ -9,6 +8,7 @@
     height: 350px;
     background-color: rgb(191, 191, 191);
     border-radius: 15px;
+    margin-bottom: 40vh;
 }
 
 .typeIn {
