@@ -46,7 +46,7 @@ function loginpage() {
         {/* 로그인 및 취소 버튼 */}
         <div className='loginbuttons'>
           <button className="loginbutton" type="submit">로그인</button>
-          <button className="loginbutton">취소</button>
+          <button className="loginbutton"  type="reset"><a href="http://localhost:5173">취소</a></button>
         </div>
 
         <br/>
