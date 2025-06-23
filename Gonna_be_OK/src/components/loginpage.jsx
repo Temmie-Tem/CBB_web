@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../CSS/loginpage.css';
 import Footer from './Footer';
 
-function App() {
+function loginpage() {
 
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -28,16 +28,16 @@ function App() {
       {/* 아이디 및 패스워드 입력란 */}
       <form className="wrap" onSubmit={handleSubmit}>
         <div className="typeIn">
-            <label htmlFor="userId">
+            <div className="totype" htmlFor="userId">
               아이디
-            </label>
+            </div>
             <input id="userId" type="text" placeholder="ID" value={userId} onChange={(e) => setUserId(e.target.value)}></input>
         </div>    
         
         <div className="typeIn">
-            <label htmlFor="password">
+            <div className="totype" htmlFor="password">
               패스워드
-            </label>
+            </div>
             <input id="password" type="password" placeholder="PASSWORD" value={password} onChange={(e) => setPassword(e.target.value)}></input>
         </div>    
         
@@ -61,4 +61,4 @@ function App() {
   );
 }
 
-export default App;
+export default loginpage;
