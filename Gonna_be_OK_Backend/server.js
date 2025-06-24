@@ -2,7 +2,6 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise'); // promise 기반의 mysql2 사용
-const bcrypt = require('bcrypt');
 
 // 2. Express 앱을 생성합니다.
 const app = express();
@@ -28,6 +27,23 @@ const pool = mysql.createPool(dbConfig);
 // 6. 서버가 잘 작동하는지 확인하기 위한 테스트 API
 app.get('/', (req, res) => {
     res.send('Gonna_be_OK 백엔드 서버가 작동 중입니다!');
+});
+
+// 회원가입 처리 API
+app.post('/register', async (req, res) => {
+    const { userId, password, name, email, birthDate } = req.body;
+
+    try {
+        const connection = await pool.getConnection();
+        const sql =
+          'INSERT INTO users (user_id, password, name, email, birth_date) VALUES (?, ?, ?, ?, ?)';
+        await connection.query(sql, [userId, password, name, email, birthDate]);
+        connection.release();
+        res.json({ success: true });
+    } catch (err) {
+        console.error('DB error:', err);
+        res.status(500).json({ success: false, message: 'Database error' });
+    }
 });
 
 
