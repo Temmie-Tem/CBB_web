@@ -1,7 +1,11 @@
 import React from 'react';
 import '../CSS/Header.css';
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+
+    const navigate = useNavigate();
+    
     return (
         <header className='main_header'>
             <div className='header_wrap'>
