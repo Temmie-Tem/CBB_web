@@ -1,29 +1,52 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../CSS/loginpage.css'; // CSS 파일 임포트
+import { Link, useNavigate } from 'react-router-dom'; // useNavigate 임포트
+import axios from 'axios'; // axios 임포트
+import '../CSS/loginpage.css';
 
 function LoginPage() {
-  // 1. 아이디, 비밀번호, 에러 메시지를 위한 상태(State) 생성
+  // 1. 입력 값과 에러 메시지를 위한 상태(State)
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수
 
-  // 2. 로그인 버튼 클릭 시 실행될 함수 (지금은 기능 구현 전)
-  const handleSubmit = (e) => {
+  // 2. 로그인 버튼 클릭 시 실행될 함수
+  const handleSubmit = async (e) => {
     e.preventDefault(); // form의 기본 제출 동작(새로고침)을 막음
 
-    // 임시 에러 처리 로직 (나중에 API 연동 시 수정)
+    // 간단한 프론트엔드 유효성 검사
     if (!userId || !password) {
       setError('아이디와 비밀번호를 모두 입력해주세요.');
       return;
     }
-    setError(''); // 성공 시 에러 메시지 초기화
-    console.log('로그인 시도:', { userId, password });
-    // TODO: 여기에 나중에 백엔드 로그인 API 호출 코드를 추가합니다.
+
+    try {
+      // 3. 백엔드 서버로 로그인 요청 전송
+      const response = await axios.post('http://localhost:4000/api/login', {
+        userId,
+        password,
+      });
+
+      // 4. 로그인 성공 시 처리
+      if (response.data.success) {
+        alert(response.data.message); // "로그인 성공!" 메시지 표시
+
+        // 사용자 정보를 localStorage에 저장하여 로그인 상태 유지
+        localStorage.setItem('loggedInUser', JSON.stringify(response.data.user));
+
+        // 메인 페이지로 이동
+        navigate('/main');
+      }
+    } catch (err) {
+      // 5. 로그인 실패 시 처리
+      // 서버에서 보낸 에러 메시지가 있다면 그것을 표시, 없다면 기본 메시지 표시
+      const errorMessage = err.response?.data?.message || '로그인 중 오류가 발생했습니다.';
+      setError(errorMessage);
+      console.error('Login API failed:', err);
+    }
   };
 
   return (
-    // 3. 회원가입 페이지와 동일한 클래스 이름을 사용하여 구조 통일
     <div className="auth-container">
       <h1>로그인</h1>
       <form onSubmit={handleSubmit}>
@@ -50,7 +73,6 @@ function LoginPage() {
           />
         </div>
 
-        {/* 4. 에러 메시지가 있을 때만 보이도록 설정 */}
         {error && <p className="error-message">{error}</p>}
         
         <button type="submit" className="submit-btn">

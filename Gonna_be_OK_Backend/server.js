@@ -113,3 +113,49 @@ app.post('/api/check-userid', async (req, res) => {
         res.status(500).json({ error: '데이터베이스 오류가 발생했습니다.' });
     }
 });
+
+// 10. 로그인을 위한 API 엔드포인트
+app.post('/api/login', async (req, res) => {
+    // 1. React에서 보낸 아이디와 비밀번호를 추출합니다.
+    const { userId, password } = req.body;
+
+    try {
+        // 2. DB에서 전달받은 userId와 일치하는 사용자를 찾습니다.
+        const sql = 'SELECT * FROM users WHERE userId = ?';
+        const [rows] = await pool.query(sql, [userId]);
+
+        // 3. 아이디 조회 결과에 따른 처리
+        if (rows.length === 0) {
+            // 사용자가 존재하지 않을 경우, 401 Unauthorized 에러를 보냅니다.
+            return res.status(401).json({ success: false, message: '아이디 또는 비밀번호가 올바르지 않습니다.' });
+        }
+
+        const user = rows[0]; // 조회된 사용자 정보
+
+        // 4. 비밀번호 비교 (현재는 암호화 없이 원문 비교)
+        // 나중에 bcrypt를 적용하면 이 부분이 bcrypt.compare()로 바뀝니다.
+        const isPasswordValid = (password === user.password);
+
+        if (!isPasswordValid) {
+            // 비밀번호가 틀렸을 경우, 401 에러를 보냅니다.
+            return res.status(401).json({ success: false, message: '아이디 또는 비밀번호가 올바르지 않습니다.' });
+        }
+
+        // 5. 로그인 성공 처리
+        // 아이디와 비밀번호가 모두 일치하면 성공 응답을 보냅니다.
+        // 실제 서비스에서는 여기서 JWT 토큰을 생성하여 함께 보내줍니다.
+        res.json({ 
+            success: true, 
+            message: '로그인 성공!',
+            user: {
+                userId: user.userId,
+                name: user.name
+                // 비밀번호를 제외한 필요한 사용자 정보를 보내줍니다.
+            }
+        });
+
+    } catch (error) {
+        console.error('Login API error:', error);
+        res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
+    }
+});
