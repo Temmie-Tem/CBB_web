@@ -1,10 +1,13 @@
 import React from 'react';
+import '../CSS/PrivacyPolicyPage.css';
 
 function PrivacyPolicyPage() {
   return (
-    <div className="terms-container">
-      <h1>이용약관</h1>
-      <div className="terms-content">
+
+    /* 개인정보 수집 및 이용 전체 */
+    <div className="privacy_policy_page_container">
+      <h1>개인정보 수집 및 이용</h1>
+      <div className="privacy_policy_content_scrool_box">
         <h2>제 1조 (목적)</h2>
         <p>
           이 약관은 [회사명] (이하 "회사")가 제공하는 [서비스명] 관련 제반 서비스의 이용과
@@ -16,6 +19,7 @@ function PrivacyPolicyPage() {
         {/* ... 약관 내용 ... */}
       </div>
     </div>
+    /* // 개인정보 수집 및 이용 전체 */
   );
 }
 
