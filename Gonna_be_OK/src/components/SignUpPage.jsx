@@ -246,12 +246,30 @@ function SignUpPage() {
             />
           </div>
 
-          {/* 생년월일 */}
-          <div className="input-group">
+        {/* 생년월일 */}
+        <div className="input-group">
             <label>생년월일</label>
             <DatePicker
-              selected={formData.birthDate}
-              onChange={(date) => setFormData(prev => ({ ...prev, birthDate: date }))}
+              // 1. 'selected'에는 문자열 상태를 Date 객체로 변환하여 전달합니다.
+              //    formData.birthDate가 비어있으면 null을 전달합니다.
+              selected={formData.birthDate ? new Date(formData.birthDate) : null}
+              
+              // 2. 'onChange' 시, Date 객체를 'YYYY-MM-DD' 문자열로 변환합니다.
+              onChange={(date) => {
+                if (date) {
+                  const year = date.getFullYear();
+                  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+                  const day = ('0' + date.getDate()).slice(-2);
+            
+                  const formattedDateString = `${year}-${month}-${day}`;
+                  
+                  // 3. 변환된 문자열을 state에 저장합니다.
+                  setFormData(prev => ({ ...prev, birthDate: formattedDateString }));
+                } else {
+                  // 날짜 선택을 취소하면 state를 null로 설정합니다.
+                  setFormData(prev => ({ ...prev, birthDate: null }));
+                }
+              }}
               dateFormat="yyyy/MM/dd"
               showYearDropdown
               showMonthDropdown
@@ -260,7 +278,7 @@ function SignUpPage() {
               placeholderText="생년월일을 선택하세요"
               className="date-picker-full-width"
             />
-          </div>
+        </div>
 
           {/* 비밀번호 */}
           <div className="input-group">
