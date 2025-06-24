@@ -17,7 +17,7 @@ const dbConfig = {
     host: '175.209.200.22',       // MariaDB가 설치된 주소 (보통 localhost)
     user: 'admin',            // MariaDB 사용자 이름
     password: 'qwerty', // MariaDB 접속 비밀번호 (본인 것으로 교체!)
-    database: 'GONNA_BE_OK_DB'
+    database: 'Gonna_be_OK_DB'
 };
 
 // 5. DB 커넥션 풀을 생성합니다.
