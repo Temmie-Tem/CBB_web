@@ -69,7 +69,7 @@ function LoginPage() {
 
           <div className='login_buttons'>
             <button className="login_button" type="submit">로그인</button>
-            <button className="login_button" type="reset" onClick={() => navigate('/')}>
+            <button className="login_button" type="reset" onClick={() => navigate('/main')}>
               취소
             </button>
           </div>
