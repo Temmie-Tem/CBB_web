@@ -38,6 +38,7 @@
   border-radius: 4px;
   box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
   background-color: white;
+  color: #555555;
 }
 
 /* [추가/수정] 아이디 입력+버튼 그룹 스타일 */
