@@ -1,0 +1,12 @@
+.main_banner {
+    width: 1200px;
+    height: 450px;
+    
+}
+
+.main_banner img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
