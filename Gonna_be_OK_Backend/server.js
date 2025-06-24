@@ -54,44 +54,32 @@ app.listen(PORT, async () => {
 
 // 9. 회원가입 처리를 위한 API 엔드포인트
 app.post('/api/signup', async (req, res) => {
-    // React에서 보낸 폼 데이터를 각 변수에 할당합니다.
+    // birthDate는 이제 'YYYY-MM-DD' 형식의 완벽한 문자열로 들어옵니다.
     const { userId, password, name, email, birthDate } = req.body;
-
-    // 1. 필수 데이터가 모두 있는지 확인합니다.
+    
     if (!userId || !password || !name || !email) {
         return res.status(400).json({ success: false, message: '필수 입력 항목이 누락되었습니다.' });
     }
 
     try {
-        // 2. 비밀번호를 bcrypt를 사용해 암호화합니다.
-        //const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        // [수정] 날짜 형식 변환 로직 추가
-        // birthDate가 존재할 경우에만 YYYY-MM-DD 형식으로 변환합니다.
-        let formattedBirthDate = null;
-        if (birthDate) {
-            // new Date()를 통해 JavaScript Date 객체로 만들고, 
-            // toISOString()으로 표준 시간 문자열로 변환 후,
-            // .split('T')[0]을 통해 'T' 앞부분(날짜)만 잘라냅니다.
-            formattedBirthDate = new Date(birthDate).toISOString().split('T')[0];
-        }
+        // [수정] 날짜 형식 변환 로직이 완전히 필요 없어졌습니다.
         
-        // 3. 암호화된 비밀번호를 포함한 사용자 정보를 DB에 INSERT 합니다.
+        // 비밀번호 암호화 (나중에 주석 해제)
+        // const hashedPassword = await bcrypt.hash(password, saltRounds);
+        
         const sql = 'INSERT INTO users (userId, password, name, email, birthDate) VALUES (?, ?, ?, ?, ?)';
-        await pool.query(sql, [userId, password, name, email, formattedBirthDate]);
         
-        // 4. 성공적으로 데이터가 삽입되면, 성공 응답(201 Created)을 보냅니다.
+        // 프론트에서 받은 birthDate 문자열을 DB에 그대로 전달합니다.
+        // await pool.query(sql, [userId, hashedPassword, name, email, birthDate]);
+        await pool.query(sql, [userId, password, name, email, birthDate]); // 암호화 테스트 중이라면 이 코드 사용
+
         res.status(201).json({ success: true, message: '회원가입이 성공적으로 완료되었습니다.' });
 
     } catch (error) {
-        // DB 에러 처리 (특히 아이디/이메일 중복 에러)
         if (error.code === 'ER_DUP_ENTRY') {
-            // 409 Conflict: 요청이 서버의 현재 상태와 충돌
             return res.status(409).json({ success: false, message: '이미 사용 중인 아이디 또는 이메일입니다.' });
         }
-        
         console.error('Signup API error:', error);
-        // 그 외 서버 내부 에러는 500으로 응답
         res.status(500).json({ success: false, message: '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.' });
     }
 });
