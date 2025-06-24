@@ -3,6 +3,7 @@ import '../CSS/SignUpPage.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 // --- 상수 정의 ---
@@ -96,7 +97,7 @@ function SignUpPage() {
     setAgreements((prev) => ({ ...prev, [name]: checked }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // [수정] 제출 시점에서 각 항목을 순서대로 검사하여 피드백
@@ -154,12 +155,23 @@ function SignUpPage() {
     }
 
     // 모든 검증을 통과했을 경우
-    alert('회원가입이 완료되었습니다!');
-    console.log('제출된 데이터:', formData);
-    
-    localStorage.setItem('registeredUser', JSON.stringify(formData));   // 회원가입 후 로그인 페이지로 이동
-    localStorage.setItem('loggedInUser', formData.userId); // 로그인 상태 저장
-    navigate('/login'); //로그인 페이지로 이동
+    try {
+        // 1. '/api/signup' 주소로 폼 데이터를 POST 방식으로 전송합니다.
+        const response = await axios.post('http://localhost:4000/api/signup', formData);
+
+        // 2. 서버로부터 성공 응답(status code 201)을 받으면
+        if (response.status === 201) {
+            alert(response.data.message); // 서버가 보내준 성공 메시지를 보여줍니다.
+        
+            // 3. 회원가입 성공 후 로그인 페이지로 이동합니다.
+            // navigate('/login');  <-- react-router-dom의 useNavigate 사용 시
+            window.location.href = '/login'; // 또는 간단하게 페이지 새로고침하며 이동
+        }
+    } catch (error) {
+        // 요청 실패 시 서버가 보내준 에러 메시지를 사용자에게 보여줍니다.
+        console.error('Signup API failed:', error);
+        alert(error.response?.data?.message || '회원가입 중 알 수 없는 오류가 발생했습니다.');
+    }
   };
 
     // ▼▼▼ 데이터 손실 경고 기능을 위한 useEffect 추가 ▼▼▼
