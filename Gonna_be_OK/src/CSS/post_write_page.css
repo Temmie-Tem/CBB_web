@@ -2,9 +2,17 @@
 body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: Arial, sans-serif;
   background-color: #fff;
+  box-sizing: border-box;
+}
+
+/* 페이지 제목 */
+.page_title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #2C2C2C;
 }
 
 /* 상단 배너 */
@@ -31,11 +39,9 @@ body {
 }
 
 .nav_bar li {
-  display: inline;
   margin-right: 10px;
 }
 
-/* 메뉴 링크 (hover 효과 O) */
 .nav_link {
   background-color: transparent;
   color: #000;
@@ -43,15 +49,16 @@ body {
   font-weight: bold;
   padding: 8px 12px;
   display: inline-block;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
 }
 
 .nav_link:hover {
-  background-color: #CD853F;
-  color: white;
-  border-radius: 4px;
+  background-color: #AAAAAA;
+  color: #fff;
 }
 
-/* 버튼 그룹 (hover 효과 제거됨) */
+/* 버튼 그룹 (로그인, 회원가입) */
 .nav_right {
   margin-left: auto;
   display: flex;
@@ -67,22 +74,41 @@ body {
   font-weight: bold;
   cursor: pointer;
   border: 2px solid #333;
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 6px 12px;
   box-sizing: border-box;
-  white-space: nowrap;
-  transition: none;
   line-height: 1;
-  display: inline-block;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
 }
 
-/* 게시글 작성 영역 */
+.btn_login:hover,
+.btn_signup:hover {
+  background-color: #AAAAAA;
+  color: #fff;
+}
+
+/* 작성 영역 */
 .post_write_wrapper {
   width: 80%;
   margin: 0 auto;
   padding-top: 5%;
 }
 
+.required_note {
+  font-size: 12px;
+  color: #555;
+  text-align: right;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.required_mark {
+  color: red;
+  margin-right: 4px;
+}
+
+/* 테이블 스타일 */
 .write_table {
   width: 100%;
   border-collapse: collapse;
@@ -97,7 +123,6 @@ body {
   padding: 12px;
   vertical-align: top;
   background-color: #fafafa;
-  max-width: 100%;
   word-break: break-word;
   overflow-wrap: break-word;
 }
@@ -105,49 +130,49 @@ body {
 .write_table th {
   width: 20%;
   background-color: #f1f2f6;
-  text-align: left;
   font-weight: bold;
+  text-align: left;
 }
 
+/* 입력 필드 */
 .input_text,
 .input_writer,
 .textarea_content {
   width: 100%;
-  max-width: 100%;
-  padding: 8px;
+  padding: 10px;
   font-size: 14px;
   border: 1px solid #ccc;
+  border-radius: 10px;
   box-sizing: border-box;
-  display: block;
-}
-
-.textarea_content {
-  height: 500px;
-  resize: vertical;
-  overflow-y: auto;
   overflow-x: hidden;
 }
 
+.input_writer {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  color: #333;
+}
+
+.textarea_content {
+  height: 300px;
+  resize: vertical;
+  overflow-y: auto;
+}
+
+/* 파일 업로드 */
 .input_file {
   margin-top: 10px;
-}
-
-.required_mark {
-  color: red;
-  margin-right: 4px;
-}
-
-.required_note {
-  font-size: 12px;
-  color: #555;
-  text-align: right;
-  margin-top: -10px;
-  margin-bottom: 10px;
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
 }
 
 /* 버튼 영역 */
 .button_group {
   margin-top: 20px;
+  margin-bottom: 40px;
   text-align: center;
 }
 
@@ -156,17 +181,29 @@ body {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
-  margin: 10px;
   color: #fff;
   cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+  margin: 0 10px;
 }
 
 .btn_submit {
   background-color: #0075d4;
 }
 
+.btn_submit:hover {
+  background-color: #AAAAAA;
+  color: #fff;
+}
+
 .btn_cancel {
   background-color: #666;
+}
+
+.btn_cancel:hover {
+  background-color: #AAAAAA;
+  color: #fff;
 }
 
 /* 포커스 효과 */
@@ -177,16 +214,13 @@ body {
   outline: none;
 }
 
-/* 반응형 대응 */
+/* 반응형 */
 @media (max-width: 768px) {
   .post_write_wrapper {
     width: 95%;
     padding-top: 20%;
   }
-
-  .input_writer {
-    width: 100%;
-  }
+  
 
   .nav_right {
     flex-direction: column;
@@ -200,4 +234,11 @@ body {
     width: 100%;
     text-align: center;
   }
+ 
+  /* 로그인/회원가입 버튼 hover 색상 조정 */
+  .btn_login:hover,
+  .btn_signup:hover {
+    background-color: #AAAAAA;
+    color: #fff;
+}
 }

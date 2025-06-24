@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import "../CSS/post_write_page.css";
+import { useNavigate } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
+import '../CSS/post_write_page.css';
 
 function PostWritePage() {
   const navigate = useNavigate();
@@ -10,7 +12,6 @@ function PostWritePage() {
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
 
-   // 로그인 상태 확인 및 사용자 이름 세팅
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
 
@@ -48,27 +49,13 @@ function PostWritePage() {
 
   return (
     <>
-      <div className="banner_title">상담게시판</div>
-
-      <ul className="nav_bar">
-        <li><a href="/" className="nav_link">공지사항</a></li>
-        <li><a href="/" className="nav_link">기관소개</a></li>
-        <li><a href="/" className="nav_link">온라인상담</a></li>
-        <li><a href="/" className="nav_link">자료실</a></li>
-
-        <li className="nav_right">
-          <Link to="/login">
-            <button className="btn_login">로그인</button>
-          </Link>
-          <Link to="/signup">
-            <button className="btn_signup">회원가입</button>
-          </Link>
-        </li>
-      </ul>
+      <Header />
 
       <div className="post_write_wrapper">
         <h1 className="page_title">온라인 상담 게시판</h1>
-        <p className="required_note"><span className="required_mark">●</span>는 필수 입력 항목입니다.</p>
+        <p className="required_note">
+          <span className="required_mark">●</span>는 필수 입력 항목입니다.
+        </p>
 
         <form onSubmit={handleSubmit}>
           <table className="write_table">
@@ -104,7 +91,7 @@ function PostWritePage() {
                     placeholder="상담 내용을 입력하세요."
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                  />
+                  ></textarea>
                   <input
                     type="file"
                     className="input_file"
@@ -121,6 +108,8 @@ function PostWritePage() {
           </div>
         </form>
       </div>
+
+      <Footer />
     </>
   );
 }
