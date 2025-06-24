@@ -316,7 +316,7 @@ const handleIdCheck = async () => {
               value={formData.passwordConfirm}
               onChange={handleInputChange}
               placeholder="비밀번호를 다시 입력하세요"
-              autocomplete="new-password"
+              autocomplete="new-password" // 자동완성 내용을 비밀번호로 인식되게 함
             />
             {errors.passwordConfirm && <p className="error-message">{errors.passwordConfirm}</p>}
           </div>

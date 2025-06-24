@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // useNavigate 임포트
 import axios from 'axios'; // axios 임포트
-import '../CSS/loginpage.css';
+import '../CSS/LoginPage.css';
 
 function LoginPage() {
   // 1. 입력 값과 에러 메시지를 위한 상태(State)
