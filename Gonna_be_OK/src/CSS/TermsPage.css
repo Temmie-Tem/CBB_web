@@ -1,0 +1,40 @@
+/* 개인정보 수집 및 이용 전체 컨테이너 */
+.terms_page_container {
+    width: 75%;
+    min-width: 700px;
+    max-width: 1400px;
+
+    margin: 50px auto;
+    padding: 30px;
+
+    background-color:white;
+    border-radius: 5px;
+}
+
+.terms_page_container h1 {
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+}
+
+/* 개인정보 수집 및 이용 스크롤 박스 */
+.terms_content_scrool_box {
+    border: 1px solid #d9d9d9;
+    padding: 15px;
+    margin: auto;
+
+    width: 70%;
+    min-width: 400px;
+    max-width: 1000px;
+    height: 300px;
+    border-radius: 10px;
+
+    color: black;
+    line-height: 1.6;
+
+    overflow-y: scroll;
+
+    background-color: #f3eada;
+    
+}
+

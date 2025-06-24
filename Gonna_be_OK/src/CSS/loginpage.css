@@ -1,61 +1,80 @@
-.login_page_wrap {
-    position: relative;
-    top: 0%;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    padding: 30px;
-    width: 500px;
-    height: 350px;
-    background-color: rgb(191, 191, 191);
-    border-radius: 15px;
-    margin-bottom: 40vh;
+/* 회원가입/로그인 페이지 공통 컨테이너 */
+.auth-container {
+  max-width: 625px;       /* 500px * 1.25 */
+  margin: 5rem auto;        /* 4rem * 1.25 */
+  padding: 2.5rem;          /* 2rem * 1.25 */
+  border: 1px solid #ddd;
+  border-radius: 10px;      /* 8px * 1.25 */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* 4px 8px -> 5px 10px */
+  background-color: #ffffff;
 }
 
-.type_in {
-    background-color: rgb(191, 191, 191);
-    color: black;
-    display: flex;
-    justify-content: flex-start;
+.auth-container h1 {
+  text-align: center;
+  margin-bottom: 2.5rem;    /* 2rem * 1.25 */
+  font-size: 2.5em;         /* 2em * 1.25 */
 }
 
-.to_type {
-    background-color: rgb(191, 191, 191);
-    font-size: 30px;
-    text-align: center;
-    width: 160px;
-    margin: 20px;
-    padding: 10px;
+/* 입력 필드 그룹 */
+.input-group {
+  margin-bottom: 1.875rem;  /* 1.5rem * 1.25 */
 }
 
-.login_input {
-    font-size: 30px;
-    width: 200px;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
+.input-group label {
+  display: block;
+  margin-bottom: 0.625rem;  /* 0.5rem * 1.25 */
+  font-weight: bold;
+  color: #333;
 }
 
-.login_buttons {
-    background-color: rgb(191, 191, 191);
-    display: flex;
-    justify-content: center;
+.input-group input {
+  width: 100%;
+  padding: 15px;            /* 12px * 1.25 */
+  border: 1px solid #ccc;
+  border-radius: 5px;       /* 4px * 1.25 */
+  box-sizing: border-box;
 }
 
-.login_button {
-    font-size: 30px;
-    color: white;
-    background-color: black;
-    margin: 10px 40px;
-    border-radius: 15px;
-    padding: 10px 30px;
+/* 에러 메시지 스타일 */
+.error-message {
+  color: #d93025;
+  font-size: 1.0625em;      /* 0.85em * 1.25 */
+  margin-top: 10px;         /* 8px * 1.25 */
+  min-height: 1.5em;        /* 1.2em * 1.25 */
 }
 
-.login_button:hover {
-    filter: invert(100%);
+/* 제출 버튼 */
+.submit-btn {
+  width: 100%;
+  padding: 15px;            /* 12px * 1.25 */
+  border: none;
+  border-radius: 5px;       /* 4px * 1.25 */
+  background-color: #1a73e8;
+  color: white;
+  font-size: 1.375em;       /* 1.1em * 1.25 */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1.25rem;      /* 1rem * 1.25 */
 }
 
-.login_to_signup_link {
-    background-color: rgb(191, 191, 191);
-    text-align: center;
-    font-size: 20px;
+.submit-btn:hover {
+  background-color: #1558b8;
+}
+
+/* 하단 링크 (회원가입, 아이디/비밀번호 찾기) */
+.links {
+  margin-top: 1.875rem;     /* 1.5rem * 1.25 */
+  text-align: center;
+}
+
+.links a {
+  color: #555;
+  text-decoration: none;
+  margin: 0 12.5px;         /* 10px * 1.25 */
+  font-size: 1.125em;       /* 0.9em * 1.25 */
+}
+
+.links a:hover {
+  text-decoration: underline;
 }

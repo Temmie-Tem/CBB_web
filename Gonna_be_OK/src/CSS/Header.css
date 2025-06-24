@@ -8,12 +8,26 @@
 
 /* 헤더 기본 구조 */
 .main_header {
+<<<<<<< HEAD
   width: 100%;
   background-color: #D9D9D9;
   padding: 10px 0;
   display: flex;
   justify-content: center;
   align-items: center;
+=======
+    width: 100%;
+    background-color: #D9D9D9;
+    color: #2C2C2C;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+
+    margin-top: 5px;
+>>>>>>> 82423a7ec527df12a71d538f4b86d74d5d4ff62e
 }
 
 .header_wrap {
@@ -66,10 +80,22 @@
   color: var(--text-light);
 }
 
+<<<<<<< HEAD
 /* 로그인/회원가입 버튼 */
 .header_user {
   display: flex;
   gap: 10px;
+=======
+.header_user button {
+    background-color:#0075d4;
+    color: azure;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+>>>>>>> 82423a7ec527df12a71d538f4b86d74d5d4ff62e
 }
 
 .header_btn {

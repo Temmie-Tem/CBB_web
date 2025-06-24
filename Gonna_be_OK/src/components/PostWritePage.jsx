@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Link 포함
 import Header from './Header';
 import Footer from './Footer';
-import '../CSS/post_write_page.css';
+import '../CSS/post_write_page.css'; // 경로 통일
 
 function PostWritePage() {
   const navigate = useNavigate();

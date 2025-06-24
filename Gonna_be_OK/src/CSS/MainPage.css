@@ -16,7 +16,7 @@ body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
-    background-color: azure;
+    background-color: white;
     color: #2C2C2C;
 
     display: flex;

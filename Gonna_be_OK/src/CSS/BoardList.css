@@ -17,7 +17,7 @@
     border-radius: 25px;
     border: 1px solid #D9D9D9;
     /* 입력창 테두리 정보 */
-    background-color: azure;
+    background-color: white;
     /* 입력창 색상 */
 
     padding: 0 15px;
@@ -34,7 +34,7 @@
     width: 1200px;
     height: 100px;
     background-color: #D9D9D9;
-    border-radius: 15px;
+    border-radius: 10px;
 
     display: flex;
     /* 정렬을 위한 플렉스박스 */
@@ -47,6 +47,8 @@
     padding-right: 15px;
     margin-top: 50px;
     margin-bottom: 50px;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .search_button {
@@ -55,13 +57,13 @@
     /* 버튼 사이즈 */
     border-radius: 10px;
     /* 모서리 곡률 */
-    background-color: #2C2C2C;
+    background-color: #0075d4;
     /* 버튼 색 검정 */
     border: none;
     /* 테두리 없음을 명기 */
-    box-shadow: 2px 2px 1px 1px black;
+    /* box-shadow: 2px 2px 1px 1px black; */
     /* 그림자 */
-    color: azure;
+    color: white;
     /* 폰트 색 */
     font-size: 30px;
     /* 폰트 사이즈 */
@@ -75,6 +77,13 @@
     /* 가로 중앙정렬 */
     align-items: center;
     /* 세로 중앙정렬 */
+
+    transition: background-color 0.2s;
+}
+
+.search_button:hover {
+    background-color: #AAAAAA;
+    color: #2C2C2C;
 }
 
 .search_filter_button {
@@ -99,14 +108,14 @@
 }
 
 .search_filter_text {
-    color: azure;
+    color: white;
     /* 폰트 색 */
     font-size: 30px;
     /* 폰트 사이즈 */
 }
 
 .search_filter_icon {
-    color: azure;
+    color: white;
     /* 폰트 색 */
     font-size: 30px;
     /* 폰트 사이즈 */
@@ -148,7 +157,7 @@
 } */
 
 /* .board_table th {
-    background-color: azure;
+    background-color: white;
 
     font-weight: normal;
     color: black;
@@ -173,7 +182,7 @@
     font-size: 24px;
     color: black;
     text-align: center;
-    background-color: azure;
+    background-color: white;
     padding: 15px 0;
 } */
 
@@ -204,7 +213,7 @@
     margin-right: auto;
     padding: 20px ;
     background-color: #D9D9D9;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: black;
 }
@@ -217,6 +226,7 @@
     /* 헤더에 간격을 준다. */
     border-spacing: 10px 0px; 
     /* 수평간각 10px */
+
     margin-bottom: 0; 
     /* 헤더와 바디의 간격 */
 
@@ -226,12 +236,12 @@
 
 /* 헤더의 각 셀 */
 .board_table_header th {
-    background-color: azure;
+    background-color: white;
     font-weight: normal;
     color: black;
     padding: 15px 0; 
     /* 상하패딩 15px 좌우는 border-spacing에서 조정 */
-    border-radius: 0; 
+    border-radius: 5px 5px 0 0; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     text-align: center;
     border: none; 
@@ -240,7 +250,7 @@
 
 /* 바디 테이블 */
 .board_table_body {
-    background-color: azure; 
+    background-color: white; 
     /* 바디 테이블 전체의 배경 */
     border-radius: 0; 
     width: 100%;
@@ -264,7 +274,7 @@
     font-size: 24px;
     color: black;
     text-align: center;
-    background-color: azure; 
+    background-color: white; 
     padding: 15px 0;
     /* width는BoardList.jsx의 td태그의 style 속성으로 직접 추가 조정 */
 }
@@ -285,9 +295,9 @@
     /* gap: 5px; */
     /* 버튼간의 간격 */
 
-    background-color: azure;
+    background-color: white;
     padding: 10px 20px;
-    /* border-radius: 5px; */
+    border-radius: 0 0 5px 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -304,7 +314,7 @@
 }
 
 .pagination_button {
-    background-color: azure;
+    background-color: white;
     border: none;
     padding: 8px 12px;
     border-radius: 0;
@@ -324,7 +334,7 @@
 }
 
 .pagination_button.active {
-    background-color: azure;
+    background-color: white;
     color:brown;
     text-decoration: none;
     border: none;
@@ -333,7 +343,7 @@
 .pagination_button.disabled {
     opacity: 0.5;
     cursor:not-allowed;
-    background-color: azure;
+    background-color: white;
     color: #D9D9D9;
     border-color: #ddd;
     border: none;
@@ -346,9 +356,9 @@
 }
 
 .write_button {
-    background-color: #2C2C2C; 
+    background-color: #0075d4; 
     /* 버튼 색상 */
-    color: azure; 
+    color: white; 
     /* 폰트 색상 */
     border: none;
     padding: 10px 20px;
@@ -360,7 +370,6 @@
 }
 
 .write_button:hover {
-    opacity: 0.9;
     background-color: #AAAAAA;
     color: #2C2C2C; 
 }

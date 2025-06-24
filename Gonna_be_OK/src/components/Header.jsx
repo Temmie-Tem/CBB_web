@@ -1,8 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../CSS/Header.css';
 
 function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userData = localStorage.getItem('loggedInUser');
+    if (userData) {
+      setIsLoggedIn(true);
+      setUserName(JSON.parse(userData).name);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('loggedInUser');
+    setIsLoggedIn(false);
+    setUserName('');
+    alert('로그아웃 되었습니다.');
+    navigate('/main');
+  };
+
   return (
     <header className="main_header">
       <div className="header_wrap">
@@ -13,8 +35,7 @@ function Header() {
 
         <nav className="header_nav">
           <ul>
-            {/* 메인페이지로 이동되게 변경 */}
-            <li><Link to="/">Top Page</Link></li> 
+            <li><Link to="/">Top Page</Link></li>
             <li><Link to="/main">About Us</Link></li>
             <li><Link to="/main">Services</Link></li>
             <li><Link to="/main">Contact</Link></li>
@@ -22,8 +43,17 @@ function Header() {
         </nav>
 
         <div className="header_user">
-          <Link to="/login" className="header_btn">로그인</Link>
-          <Link to="/signup" className="header_btn">회원가입</Link>
+          {isLoggedIn ? (
+            <>
+              <span className="welcome_user">{userName} 님</span>
+              <button className="header_btn" onClick={handleLogout}>로그아웃</button>
+            </>
+          ) : (
+            <>
+              <button className="header_btn" onClick={() => navigate('/login')}>로그인</button>
+              <button className="header_btn" onClick={() => navigate('/signup')}>회원가입</button>
+            </>
+          )}
         </div>
       </div>
     </header>

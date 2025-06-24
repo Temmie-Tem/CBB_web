@@ -3,10 +3,7 @@ import '../CSS/SignUpPage.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Link, useNavigate } from 'react-router-dom';
-
-
-// --- 상수 정의 ---
-const MOCK_REGISTERED_IDS = ['admin', 'test', 'temmie'];
+import axios from 'axios';
 
 // --- 유효성 검사 규칙 및 메시지 ---
 const VALIDATION_RULES = {
@@ -78,25 +75,37 @@ function SignUpPage() {
     setErrors(prev => ({ ...prev, [name]: errorMessage }));
   };
 
-  const handleIdCheck = () => {
+const handleIdCheck = async () => {
+    // 아이디 형식 유효성 검사는 그대로 유지합니다.
     if (errors.userId || !formData.userId) {
       alert('아이디 형식을 먼저 확인해주세요.');
       return;
     }
 
-    if (MOCK_REGISTERED_IDS.includes(formData.userId)) {
-      setIdCheck({ message: '이미 사용 중인 아이디입니다.', isAvailable: false, isChecked: true });
-    } else {
-      setIdCheck({ message: '사용 가능한 아이디입니다.', isAvailable: true, isChecked: true });
+    try {
+      // 백엔드 서버의 API 주소로 실제 DB 조회를 요청합니다.
+      const response = await axios.post('http://localhost:4000/api/check-userid', {
+        userId: formData.userId
+      });
+
+      // 서버로부터 받은 응답(DB 조회 결과)을 바탕으로 메시지를 설정합니다.
+      if (response.data.isAvailable) {
+        setIdCheck({ message: '사용 가능한 아이디입니다.', isAvailable: true, isChecked: true });
+      } else {
+        setIdCheck({ message: '이미 사용 중인 아이디입니다.', isAvailable: false, isChecked: true });
+      }
+    } catch (error) {
+      console.error('ID Check API failed:', error);
+      setIdCheck({ message: '중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.', isAvailable: false, isChecked: true });
     }
-  };
+};
   
   const handleAgreementChange = (e) => {
     const { name, checked } = e.target;
     setAgreements((prev) => ({ ...prev, [name]: checked }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // [수정] 제출 시점에서 각 항목을 순서대로 검사하여 피드백
@@ -154,12 +163,23 @@ function SignUpPage() {
     }
 
     // 모든 검증을 통과했을 경우
-    alert('회원가입이 완료되었습니다!');
-    console.log('제출된 데이터:', formData);
-    
-    localStorage.setItem('registeredUser', JSON.stringify(formData));   // 회원가입 후 로그인 페이지로 이동
-    localStorage.setItem('loggedInUser', formData.userId); // 로그인 상태 저장
-    navigate('/login'); //로그인 페이지로 이동
+    try {
+        // 1. '/api/signup' 주소로 폼 데이터를 POST 방식으로 전송합니다.
+        const response = await axios.post('http://localhost:4000/api/signup', formData);
+
+        // 2. 서버로부터 성공 응답(status code 201)을 받으면
+        if (response.status === 201) {
+            alert(response.data.message); // 서버가 보내준 성공 메시지를 보여줍니다.
+        
+            // 3. 회원가입 성공 후 로그인 페이지로 이동합니다.
+            // navigate('/login');  <-- react-router-dom의 useNavigate 사용 시
+            window.location.href = '/login'; // 또는 간단하게 페이지 새로고침하며 이동
+        }
+    } catch (error) {
+        // 요청 실패 시 서버가 보내준 에러 메시지를 사용자에게 보여줍니다.
+        console.error('Signup API failed:', error);
+        alert(error.response?.data?.message || '회원가입 중 알 수 없는 오류가 발생했습니다.');
+    }
   };
 
     // ▼▼▼ 데이터 손실 경고 기능을 위한 useEffect 추가 ▼▼▼
@@ -234,12 +254,30 @@ function SignUpPage() {
             />
           </div>
 
-          {/* 생년월일 */}
-          <div className="input-group">
+        {/* 생년월일 */}
+        <div className="input-group">
             <label>생년월일</label>
             <DatePicker
-              selected={formData.birthDate}
-              onChange={(date) => setFormData(prev => ({ ...prev, birthDate: date }))}
+              // 1. 'selected'에는 문자열 상태를 Date 객체로 변환하여 전달합니다.
+              //    formData.birthDate가 비어있으면 null을 전달합니다.
+              selected={formData.birthDate ? new Date(formData.birthDate) : null}
+              
+              // 2. 'onChange' 시, Date 객체를 'YYYY-MM-DD' 문자열로 변환합니다.
+              onChange={(date) => {
+                if (date) {
+                  const year = date.getFullYear();
+                  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+                  const day = ('0' + date.getDate()).slice(-2);
+            
+                  const formattedDateString = `${year}-${month}-${day}`;
+                  
+                  // 3. 변환된 문자열을 state에 저장합니다.
+                  setFormData(prev => ({ ...prev, birthDate: formattedDateString }));
+                } else {
+                  // 날짜 선택을 취소하면 state를 null로 설정합니다.
+                  setFormData(prev => ({ ...prev, birthDate: null }));
+                }
+              }}
               dateFormat="yyyy/MM/dd"
               showYearDropdown
               showMonthDropdown
@@ -248,7 +286,7 @@ function SignUpPage() {
               placeholderText="생년월일을 선택하세요"
               className="date-picker-full-width"
             />
-          </div>
+        </div>
 
           {/* 비밀번호 */}
           <div className="input-group">
@@ -316,6 +354,7 @@ function SignUpPage() {
         <button type="submit" className="submit-btn">
           가입하기
         </button>
+        {/* DB와 연동하지 않을 경우, 브라우저 쿠키에 계정정보가 저장된다. */}
       </form>
     </div>
   );
