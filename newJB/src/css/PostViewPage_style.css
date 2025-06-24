@@ -1,0 +1,161 @@
+/* PostViewPage_style.css - 고유 클래스명 적용 */
+
+/* 전체 페이지 기본 스타일 */
+.PostViewPage_container {
+  width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  border: 3px solid #000000;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+/* 게시글 제목 스타일 */
+.PostViewPage_title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333333;
+}
+
+/* 게시글 메타 정보 스타일 */
+.PostViewPage_meta_data {
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  color: #888888;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eeeeee;
+}
+
+/* 게시글 본문 스타일 */
+.PostViewPage_content {
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 200px;
+  padding-bottom: 30px;
+  color: #555555;
+}
+
+/* 액션 버튼 컨테이너 */
+.PostViewPage_action_buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+/* 이 페이지 내부의 버튼 기본 스타일 */
+.PostViewPage_button {
+  padding: 8px 15px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  /* transition은 부드러운 효과를 줘 */
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* 버튼 호버(hover) 효과 */
+.PostViewPage_button:hover {
+  background-color: #e0e0e0;
+}
+
+/* 댓글 섹션 전체 스타일 */
+.PostViewPage_comment_section {
+  margin-top: 40px;
+  border-top: 2px solid #dddddd;
+  padding-top: 20px;
+}
+
+.PostViewPage_comment_header {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+/* 댓글 작성 영역 스타일 */
+.PostViewPage_comment_write_area {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* 댓글 입력창 스타일 */
+.PostViewPage_comment_input {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+/* 댓글 등록 버튼 특별 스타일 */
+.PostViewPage_comment_submit_button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+.PostViewPage_comment_submit_button:hover {
+  background-color: #0056b3;
+}
+
+/* 댓글 목록 스타일 */
+.PostViewPage_comment_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 개별 댓글 아이템 스타일 */
+.PostViewPage_comment_item {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 15px 0;
+  text-align: left;
+}
+
+.PostViewPage_comment_item:last-child {
+  border-bottom: none;
+}
+
+.PostViewPage_comment_author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.PostViewPage_comment_text {
+  margin-bottom: 8px;
+  color: #444444;
+}
+
+.PostViewPage_comment_date {
+  font-size: 12px;
+  color: #aaaaaa;
+}
+
+/* 목록 버튼 컨테이너 */
+.PostViewPage_list_button_container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* 목록 버튼 특별 스타일 */
+.PostViewPage_list_button {
+    padding: 10px 30px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.PostViewPage_list_button:hover {
+    background-color: #218838;
+}
+
+/* - 답변 완료 - 위치 및 스타일 */
+.PostViewPage_status {
+  margin-left: auto; /* 이 한 줄이 핵심! 왼쪽 여백을 최대로 만들어 오른쪽 끝으로 밀어냅니다. */
+  font-weight: solid;
+  color: #888888; /* 원하는 색상으로 변경 가능 */
+}
