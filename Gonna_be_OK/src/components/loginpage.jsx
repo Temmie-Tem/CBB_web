@@ -58,6 +58,7 @@ function LoginPage() {
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             placeholder="아이디를 입력하세요"
+            autocomplete="username" // 자동완성 내용을 아이디로 인식되게 함
             required
           />
         </div>
@@ -69,6 +70,7 @@ function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="비밀번호를 입력하세요"
+            autocomplete="password" // 자동완성 내용을 패스워드로 인식되게 함
             required
           />
         </div>

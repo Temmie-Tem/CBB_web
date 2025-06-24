@@ -229,6 +229,7 @@ const handleIdCheck = async () => {
                 value={formData.userId}
                 onChange={handleInputChange}
                 placeholder="아이디를 입력하세요"
+                autocomplete="username" // 자동완성 내용을 아이디로 인식하게 함.
               />
               <button type="button" onClick={handleIdCheck} className="id-check-button">
                 아이디 사용 확인
@@ -251,6 +252,7 @@ const handleIdCheck = async () => {
               value={formData.name}
               onChange={handleInputChange}
               placeholder="이름을 입력하세요"
+              autocomplete="name" // 자동완성을 이름으로 인식되게 함
             />
           </div>
 
@@ -285,6 +287,7 @@ const handleIdCheck = async () => {
               maxDate={new Date()}
               placeholderText="생년월일을 선택하세요"
               className="date-picker-full-width"
+              inputProps={{ autoComplete: "birthdate" }}  // 자동완성을 생년월일로 인식되게 함
             />
         </div>
 
@@ -298,6 +301,7 @@ const handleIdCheck = async () => {
               value={formData.password}
               onChange={handleInputChange}
               placeholder="비밀번호를 입력하세요"
+              autocomplete="new-password" // 자동완성 내용을 비밀번호로 인식되게 함
             />
             {errors.password && <p className="error-message">{errors.password}</p>}
           </div>
@@ -312,6 +316,7 @@ const handleIdCheck = async () => {
               value={formData.passwordConfirm}
               onChange={handleInputChange}
               placeholder="비밀번호를 다시 입력하세요"
+              autocomplete="new-password"
             />
             {errors.passwordConfirm && <p className="error-message">{errors.passwordConfirm}</p>}
           </div>
@@ -326,6 +331,7 @@ const handleIdCheck = async () => {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="이메일을 입력하세요"
+              autocomplete="email"  // 자동완성을 이메일로 인식되게 함.
             />
             {errors.email && <p className="error-message">{errors.email}</p>}
           </div>
