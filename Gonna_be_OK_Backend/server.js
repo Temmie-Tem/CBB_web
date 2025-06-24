@@ -83,3 +83,33 @@ app.post('/api/signup', async (req, res) => {
         res.status(500).json({ success: false, message: '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.' });
     }
 });
+
+// 8. 아이디 중복 확인을 위한 API 엔드포인트
+app.post('/api/check-userid', async (req, res) => {
+    // React에서 보낸 요청의 본문(body)에서 userId를 추출합니다.
+    const { userId } = req.body;
+
+    // userId가 요청에 포함되지 않은 경우, 잘못된 요청(400)으로 응답합니다.
+    if (!userId) {
+        return res.status(400).json({ error: 'userId가 필요합니다.' });
+    }
+
+    try {
+        // DB에서 해당 userId를 가진 사용자가 몇 명인지 카운트합니다.
+        const sql = 'SELECT COUNT(*) as count FROM users WHERE userId = ?';
+        const [rows] = await pool.query(sql, [userId]);
+        
+        // 카운트 결과가 0보다 크면, 이미 아이디가 존재한다는 의미입니다.
+        if (rows[0].count > 0) {
+            // isAvailable: false는 "사용 불가능" 하다는 의미입니다.
+            res.json({ isAvailable: false });
+        } else {
+            // isAvailable: true는 "사용 가능" 하다는 의미입니다.
+            res.json({ isAvailable: true });
+        }
+    } catch (error) {
+        // DB 쿼리 중 에러가 발생하면, 서버 에러(500)로 응답합니다.
+        console.error('Database query error:', error);
+        res.status(500).json({ error: '데이터베이스 오류가 발생했습니다.' });
+    }
+});

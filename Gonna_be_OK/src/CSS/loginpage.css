@@ -59,8 +59,12 @@
     color:#2C2C2C;
 }
 
-.login_to_signup_link {
+.login_to_signup {
     background-color: rgb(225, 225, 225);
     text-align: center;
     font-size: 20px;
+}
+
+.login_to_signup_link {
+    color: #0075D4
 }

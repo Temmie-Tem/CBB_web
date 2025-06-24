@@ -5,10 +5,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
-// --- 상수 정의 ---
-const MOCK_REGISTERED_IDS = ['admin', 'test', 'temmie'];
-
 // --- 유효성 검사 규칙 및 메시지 ---
 const VALIDATION_RULES = {
   userId: {
@@ -79,18 +75,30 @@ function SignUpPage() {
     setErrors(prev => ({ ...prev, [name]: errorMessage }));
   };
 
-  const handleIdCheck = () => {
+const handleIdCheck = async () => {
+    // 아이디 형식 유효성 검사는 그대로 유지합니다.
     if (errors.userId || !formData.userId) {
       alert('아이디 형식을 먼저 확인해주세요.');
       return;
     }
 
-    if (MOCK_REGISTERED_IDS.includes(formData.userId)) {
-      setIdCheck({ message: '이미 사용 중인 아이디입니다.', isAvailable: false, isChecked: true });
-    } else {
-      setIdCheck({ message: '사용 가능한 아이디입니다.', isAvailable: true, isChecked: true });
+    try {
+      // 백엔드 서버의 API 주소로 실제 DB 조회를 요청합니다.
+      const response = await axios.post('http://localhost:4000/api/check-userid', {
+        userId: formData.userId
+      });
+
+      // 서버로부터 받은 응답(DB 조회 결과)을 바탕으로 메시지를 설정합니다.
+      if (response.data.isAvailable) {
+        setIdCheck({ message: '사용 가능한 아이디입니다.', isAvailable: true, isChecked: true });
+      } else {
+        setIdCheck({ message: '이미 사용 중인 아이디입니다.', isAvailable: false, isChecked: true });
+      }
+    } catch (error) {
+      console.error('ID Check API failed:', error);
+      setIdCheck({ message: '중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.', isAvailable: false, isChecked: true });
     }
-  };
+};
   
   const handleAgreementChange = (e) => {
     const { name, checked } = e.target;
