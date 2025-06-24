@@ -119,6 +119,7 @@ body {
   border: 1px solid #ccc;
   box-sizing: border-box;
   display: block;
+  background-color: white;
 }
 
 .textarea_content {
