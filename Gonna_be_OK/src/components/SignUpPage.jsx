@@ -153,13 +153,32 @@ function SignUpPage() {
       return;
     }
 
-    // 모든 검증을 통과했을 경우
-    alert('회원가입이 완료되었습니다!');
-    console.log('제출된 데이터:', formData);
-    
-    localStorage.setItem('registeredUser', JSON.stringify(formData));   // 회원가입 후 로그인 페이지로 이동
-    localStorage.setItem('loggedInUser', formData.userId); // 로그인 상태 저장
-    navigate('/login'); //로그인 페이지로 이동
+    // 모든 검증을 통과했을 경우 백엔드에 회원가입 요청
+    try {
+      const response = await fetch('http://localhost:4000/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: formData.userId,
+          password: formData.password,
+          name: formData.name,
+          email: formData.email,
+          birthDate: formData.birthDate
+            ? formData.birthDate.toISOString().split('T')[0]
+            : null,
+        }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert('회원가입이 완료되었습니다!');
+        navigate('/login');
+      } else {
+        alert('가입 실패: ' + (data.message || '서버 오류'));
+      }
+    } catch (err) {
+      console.error(err);
+      alert('서버 오류');
+    }
   };
 
     // ▼▼▼ 데이터 손실 경고 기능을 위한 useEffect 추가 ▼▼▼
