@@ -65,10 +65,20 @@ app.post('/api/signup', async (req, res) => {
     try {
         // 2. 비밀번호를 bcrypt를 사용해 암호화합니다.
         //const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // [수정] 날짜 형식 변환 로직 추가
+        // birthDate가 존재할 경우에만 YYYY-MM-DD 형식으로 변환합니다.
+        let formattedBirthDate = null;
+        if (birthDate) {
+            // new Date()를 통해 JavaScript Date 객체로 만들고, 
+            // toISOString()으로 표준 시간 문자열로 변환 후,
+            // .split('T')[0]을 통해 'T' 앞부분(날짜)만 잘라냅니다.
+            formattedBirthDate = new Date(birthDate).toISOString().split('T')[0];
+        }
         
         // 3. 암호화된 비밀번호를 포함한 사용자 정보를 DB에 INSERT 합니다.
         const sql = 'INSERT INTO users (userId, password, name, email, birthDate) VALUES (?, ?, ?, ?, ?)';
-        await pool.query(sql, [userId, password, name, email, birthDate]);
+        await pool.query(sql, [userId, password, name, email, formattedBirthDate]);
         
         // 4. 성공적으로 데이터가 삽입되면, 성공 응답(201 Created)을 보냅니다.
         res.status(201).json({ success: true, message: '회원가입이 성공적으로 완료되었습니다.' });
