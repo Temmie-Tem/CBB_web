@@ -6,6 +6,7 @@ import PrivacyPolicyPage from './components/PrivacyPolicyPage'; // 개인정보�
 import MainPage from './components/MainPage'; //홈페이지
 import LoginPage from './components/LoginPage'; //로그인 페이지
 import PostWritePage from './components/PostWritePage'; // 게시판
+import PostViewPage from './components/PostViewPage'; // 개시글 열람
 
 function App() {
 
