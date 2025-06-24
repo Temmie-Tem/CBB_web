@@ -44,14 +44,16 @@
 .login_button {
     font-size: 30px;
     color: white;
-    background-color: black;
+    background-color: #0075D4;
     margin: 10px 40px;
     border-radius: 15px;
     padding: 10px 30px;
+    transition: background-color 0.3s ease;
 }
 
 .login_button:hover {
-    filter: invert(100%);
+    background-color: #AAAAAA;
+    color:#2C2C2C;
 }
 
 .login_to_signup_link {
