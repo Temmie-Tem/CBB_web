@@ -1,7 +1,11 @@
 import React from 'react';
 import '../CSS/Header.css';
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+
+    const navigate = useNavigate();
+    
     return (
         <header className='main_header'>
             <div className='header_wrap'>
@@ -19,11 +23,11 @@ function Header() {
                 </nav>
 
                 <div className='header_user'>
-                    <button  className='header_login'>
-                        <a href="login">로그인</a>
+                    <button className='header_login' onClick={() => navigate('/login')}>
+                        로그인
                     </button>
-                    <button className='header_signup'>
-                        <a href="signup">회원가입</a>
+                    <button className='header_signup' onClick={() => navigate('/signup')}>
+                        회원가입
                     </button>
                 </div>
             </div>
