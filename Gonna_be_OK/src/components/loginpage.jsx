@@ -69,15 +69,15 @@ function LoginPage() {
 
           <div className='login_buttons'>
             <button className="login_button" type="submit">로그인</button>
-            <button className="login_button" type="reset" onClick={() => navigate('/main')}>
+            <button className="login_button" type="button" onClick={() => navigate('/main')}>
               취소
             </button>
           </div>
 
           <br />
 
-          <div className="login_to_signup_link">
-            아직 회원이 아니시라면 <a href="http://localhost:5173/signup">회원가입</a>
+          <div className="login_to_signup">
+            아직 회원이 아니시라면 <span className="login_to_signup_link" onClick={() => navigate('/signup')}>회원가입</span>
           </div>
         </form>
       </div>
