@@ -6,8 +6,8 @@ function Header() {
         <header className='main_header'>
             <div className='header_wrap'>
                 <div className='header_logo'>
-                    <img src="" alt="image" />
-                    <span>상담개시판</span>
+                    <img src="../../img/Vitejs_logo.png" alt="image" />
+                    <span>상담게시판</span>
                 </div>
                 <nav className='header_nav'>
                     <ul>
@@ -17,6 +17,7 @@ function Header() {
                         <li><a href="#contact">contact</a></li>
                     </ul>
                 </nav>
+
                 <div className='header_user'>
                     <button className='header_login'>
                         로그인
@@ -26,6 +27,7 @@ function Header() {
                     </button>
                 </div>
             </div>
+
         </header>
     )
 
