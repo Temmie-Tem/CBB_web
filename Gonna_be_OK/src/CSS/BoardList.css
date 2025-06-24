@@ -34,7 +34,7 @@
     width: 1200px;
     height: 100px;
     background-color: #D9D9D9;
-    border-radius: 15px;
+    border-radius: 10px;
 
     display: flex;
     /* 정렬을 위한 플렉스박스 */
@@ -47,6 +47,8 @@
     padding-right: 15px;
     margin-top: 50px;
     margin-bottom: 50px;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .search_button {
@@ -211,7 +213,7 @@
     margin-right: auto;
     padding: 20px ;
     background-color: #D9D9D9;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: black;
 }
@@ -224,6 +226,7 @@
     /* 헤더에 간격을 준다. */
     border-spacing: 10px 0px; 
     /* 수평간각 10px */
+
     margin-bottom: 0; 
     /* 헤더와 바디의 간격 */
 
@@ -238,7 +241,7 @@
     color: black;
     padding: 15px 0; 
     /* 상하패딩 15px 좌우는 border-spacing에서 조정 */
-    border-radius: 0; 
+    border-radius: 5px 5px 0 0; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     text-align: center;
     border: none; 
@@ -294,7 +297,7 @@
 
     background-color: white;
     padding: 10px 20px;
-    /* border-radius: 5px; */
+    border-radius: 0 0 5px 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
