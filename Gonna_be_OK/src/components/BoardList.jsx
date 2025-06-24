@@ -8,19 +8,19 @@ function BoardList() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
   // 로그인 상태를 보존하기 위한 State를 정의.
 
-  const handleWriteClick = () => {
+    const handleWriteClick = () => {
     // 게시글 작성 버튼 클릭 핸들러
     if (isLoggedIn) {
       // 로그인 상태일 때
-      navigate('/PostWritePage');
+        navigate('/PostWritePage');
       // 게시글 작성 페이지로 이동
     } else {
       // 로그인 상태가 아닐 때
-      alert('로그인 후 글쓰기가 가능합니다.');
-      navigate('/login');
+        alert('로그인 후 글쓰기가 가능합니다.');
+        navigate('/login');
       // 로그인 페이지로 이동
     }
-  };
+    };
 
     const navigate = useNavigate();
 
