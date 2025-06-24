@@ -316,6 +316,7 @@ function SignUpPage() {
         <button type="submit" className="submit-btn">
           가입하기
         </button>
+        {/* DB와 연동하지 않을 경우, 브라우저 쿠키에 계정정보가 저장된다. */}
       </form>
     </div>
   );
