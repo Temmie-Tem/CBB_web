@@ -16,9 +16,9 @@ function Footer() {
                 <div className="footer_column">
                     <h3>프로젝트 팀 소개</h3>
                     <ul>
-                        <li><a>about us</a></li>
-                        <li><a>project team</a></li>
-                        <li><a>its just text</a></li>
+                        <li><a>About Us</a></li>
+                        <li><a>Project Team</a></li>
+                        <li><a>It's just text</a></li>
                     </ul>
                 </div>
 
@@ -26,8 +26,8 @@ function Footer() {
                     <h3>고객 지원</h3>
                     <ul>
                         <li><a>FAQ</a></li>
-                        <li><a>contact us</a></li>
-                        <li><a>help</a></li>
+                        <li><a>Contact Us</a></li>
+                        <li><a>Help</a></li>
                     </ul>
                 </div>
 

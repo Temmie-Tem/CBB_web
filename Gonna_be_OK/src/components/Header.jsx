@@ -17,8 +17,8 @@ function Header() {
                     <ul>
                         <li><a>Top Page</a></li>
                         <li><a>About Us</a></li>
-                        <li><a>services</a></li>
-                        <li><a>contact</a></li>
+                        <li><a>Services</a></li>
+                        <li><a>Contact</a></li>
                     </ul>
                 </nav>
 
