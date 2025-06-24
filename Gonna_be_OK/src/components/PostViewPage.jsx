@@ -1,6 +1,6 @@
 // components/PostViewPage.jsx
 import React from 'react';
-import '../CSS/post_view_style.css'; 
+import '../CSS/PostViewPage.css'; 
 // CSS 파일 경로는 그대로 유지.
 
 

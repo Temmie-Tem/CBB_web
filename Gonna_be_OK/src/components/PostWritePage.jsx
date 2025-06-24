@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import "../CSS/post_write_page.css";
+import "../CSS/PostWritePage.css";
 
 function PostWritePage() {
   const navigate = useNavigate();
