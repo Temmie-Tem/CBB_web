@@ -27,11 +27,23 @@ function App() {
     event.preventDefault();
     // 폼 전송에 따른 페이지 리프레시를 방지
 
+    // =======================================
+    // 검색어 유효성 검사
+    const search_box = /^[가-힣a-zA-Z0-9]{2,15}$/;
+    // 한글, 영문, 2~15자 정규식
+
+    if (!search_box.test(searchText)){
+      alert('한글 혹은 영문 2~15글자 이내로 입력해 주세요.');
+      return;
+    }
+    // =======================================
+
     console.log('검색키워드', searchText);
     // 확인용(통합 테스트 후 출고시 삭제하는게 좋을것으로 보임.)
     
     setSearchText('');
     // 검색 후 입력란의 텍스트 초기화.
+
   };
 
   const handleWriteClick = () => {
