@@ -34,7 +34,8 @@ const dbConfig = {
 };
 const pool = mysql.createPool(dbConfig);
 
-app.use('/api/admin', adminRouter(dbConfig));
+// 관리자 전용 API 라우터에 DB 연결 풀을 전달
+app.use('/api/admin', adminRouter(pool));
 
 
 // 서버 연결 확인
