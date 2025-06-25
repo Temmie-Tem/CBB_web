@@ -58,7 +58,7 @@ function BoardList() {
   // === 이벤트 핸들러 ===
   const handleWriteClick = () => {
     if (isLoggedIn) {
-      navigate('/PostWritePage');
+      navigate('/postwrite');
     } else {
       alert('로그인 후 글쓰기가 가능합니다.');
       navigate('/login');
