@@ -13,23 +13,7 @@ function App() {
   const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
 
-  // ✅ 글쓰기 버튼 클릭 시 로그인 확인
-  const handleWriteClick = () => {
-    const storedUser = localStorage.getItem("loggedInUser");
-    if (!storedUser) {
-      alert("로그인 후 글쓰기가 가능합니다.");
-      navigate("/login");
-    } else {
-      try {
-        JSON.parse(storedUser); // 유효한 JSON인지 확인
-        navigate("/postwrite");
-      } catch (e) {
-        alert("로그인 정보가 잘못되었습니다.");
-        localStorage.removeItem("loggedInUser");
-        navigate("/login");
-      }
-    }
-  };
+  
 
   // ✅ 검색 폼 제출
   const handleSubmit = (event) => {
@@ -69,11 +53,7 @@ function App() {
 
 
         <BoardList />
-        <div className="write_button_wrapper" style={{ textAlign: 'right', margin: '20px 10px' }}>
-          <button className="write_button" onClick={handleWriteClick}>
-            글쓰기
-          </button>
-        </div>
+        
 
         <Footer />
       </div>
