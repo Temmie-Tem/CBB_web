@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'; // 게시글 ID 추출용
 import axios from 'axios';    // 게시글 API 호출용
 
 // CSS 파일 임포트
-import '../CSS/PostViewPage_style.css';
+import '../CSS/PostViewPage.css';
 
 // PostViewPage 컴포넌트 생성 (파스칼 표기법 준수)
 function PostViewPage() {
