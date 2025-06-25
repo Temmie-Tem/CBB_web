@@ -144,8 +144,6 @@ body {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-sizing: border-box;
-<<<<<<< HEAD:Gonna_be_OK/src/CSS/post_write_page.css
-=======
   display: block;
   background-color: white;
   color: black;
@@ -155,7 +153,6 @@ body {
   height: 500px;
   resize: vertical;
   overflow-y: auto;
->>>>>>> 82423a7ec527df12a71d538f4b86d74d5d4ff62e:Gonna_be_OK/src/CSS/PostWritePage.css
   overflow-x: hidden;
 }
 

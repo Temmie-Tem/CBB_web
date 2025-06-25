@@ -38,6 +38,8 @@ app.get('/', (req, res) => {
   res.send('Gonna_be_OK 백엔드 서버가 작동 중입니다!');
 });
 
+
+
 app.listen(PORT, () => {
   (async () => {
     try {
@@ -159,13 +161,14 @@ app.post('/api/posts', upload.single('file'), async (req, res) => {
 app.get('/api/posts', async (req, res) => {
   try {
     const sql = `
-      SELECT p.id, 
-      u.name AS writer, 
-      p.title, 
+      SELECT p.id,
+      u.name AS writer,
+      p.status,
+      p.title,
       p.content,
       p.createdAt
       FROM posts p
-      JOIN users u 
+      JOIN users u
       ON p.userId = u.id
       ORDER BY p.createdAt DESC
     `;
@@ -174,5 +177,49 @@ app.get('/api/posts', async (req, res) => {
   } catch (error) {
     console.error('게시글 목록 조회 오류:', error);
     res.status(500).json({ success: false, message: '게시글 목록 조회 실패' });
+  }
+});
+
+// 개별 게시글 조회 API
+app.get('/api/posts/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    // ➊ 게시글 조회 (viewCount 컬럼 포함)
+    // users 테이블과 LEFT JOIN 해서 name 컬럼(userName)도 같이 조회
+    const [rows] = await pool.query(
+      `SELECT 
+        p.id,
+        p.userId,
+        u.name   AS userName,
+        p.title,
+        p.content,
+        p.createdAt,
+        p.updatedAt,
+        p.viewCount,
+        p.status
+      FROM posts p
+      LEFT JOIN users u
+        ON p.userId = u.id
+      WHERE p.id = ?`,
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    const post = rows[0];
+
+    // ➋ 조회수 1 증가
+    await pool.query(
+      `UPDATE posts SET viewCount = viewCount + 1 WHERE id = ?`,
+      [id]
+    );
+    post.viewCount += 1;
+
+    // ➌ 결과 반환
+    res.json(post);
+  } catch (err) {
+    console.error('게시글 조회 오류:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 });

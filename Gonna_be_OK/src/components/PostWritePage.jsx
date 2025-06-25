@@ -87,7 +87,7 @@ function PostWritePage() {
 
       if (response.data.success) {
         alert('게시글이 성공적으로 작성되었습니다.');
-        navigate('/boardlist'); // 게시판 목록 페이지로 이동
+        navigate('/'); // 게시판 목록 페이지로 이동
       } else {
         alert('게시글 작성에 실패했습니다.');
       }
@@ -103,7 +103,7 @@ function PostWritePage() {
         setTitle('');
         setContent('');
         setFile(null);
-        navigate('/boardlist'); // 게시판 목록으로 이동
+        navigate('/'); // 게시판 목록으로 이동
     }
   };
 

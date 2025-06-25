@@ -373,3 +373,26 @@
     background-color: #AAAAAA;
     color: #2C2C2C; 
 }
+
+.board_table_body td {
+    /* ... 기존 td 스타일 ... */
+    font-weight: normal; /* 기본 폰트 굵기 */
+}
+
+/* 🟡 처리중 상태 스타일 (빨간색) */
+.status-in-progress {
+    color: #d9534f; /* 부트스트랩 danger 색상 */
+    font-weight: bold;
+}
+
+/* 🟡 처리완료 상태 스타일 (초록색) */
+.status-completed {
+    color: #5cb85c; /* 부트스트랩 success 색상 */
+    font-weight: bold;
+}
+
+/* 🟡 삭제됨 상태 스타일 (회색) */
+.status-deleted {
+    color: #777;
+    font-weight: bold;
+}
