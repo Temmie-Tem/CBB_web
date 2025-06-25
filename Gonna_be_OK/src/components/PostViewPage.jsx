@@ -16,8 +16,11 @@ function PostViewPage() {
   const { id } = useParams(); // URL에서 게시글 ID 추출
   const [post, setPost] = useState(null); // 게시글 데이터 상태 변수
 
+  const [comments, setComments]       = useState([]);       // 댓글의 상태
   // (수정됨!) 댓글창의 placeholder 내용을 기억할 상태 변수 생성
   const [commentPlaceholder, setCommentPlaceholder] = useState('댓글을 남겨주세요 :)');
+  // ★ ➊ 여기에 commentText 상태 추가
+  const [commentText, setCommentText] = useState('');
 
   // [추가] 게시글 데이터 불러오기 (컴포넌트 마운트 시 실행)
   useEffect(() => {
@@ -28,6 +31,13 @@ function PostViewPage() {
         console.error('게시글 불러오기 실패:', err);
         setPost(null);
       });
+  }, [id]);
+
+  // 댓글 목록 조회
+  useEffect(() => {
+    axios.get(`/posts/${id}/comments`)
+      .then(res => setComments(res.data))
+      .catch(err => console.error('댓글 불러오기 실패:', err));
   }, [id]);
 
   // (추가됨!) 댓글창을 클릭했을 때(포커스 되었을 때) 실행될 함수
@@ -46,9 +56,26 @@ function PostViewPage() {
     alert('삭제 버튼 클릭 (기능 구현 필요)');
   };
 
-  // 댓글 등록 버튼 핸들러 (기능 구현 필요)
-  const HandleCommentSubmit = () => {
-    alert('댓글 등록 버튼 클릭 (기능 구현 필요)');
+  // ★ ➋ 실제 댓글 등록 로직으로 교체
+    const handleCommentSubmit = () => {
+      if (!commentText.trim()) return;
+      // const userId = 10; // 이걸 쓰면 10번 ID의 유저가 댓글 작성자로 고정됨.
+      // 실제 댓글 작성 유저 ID 사용 (여기서는 게시글 작성자)
+      const userId = post.userId;
+  
+    axios.post(`/posts/${id}/comments`, {
+      userId,
+      content: commentText
+    })
+    .then(res => {
+      setComments(prev => [...prev, res.data]);
+      setCommentText('');
+      setCommentPlaceholder('댓글을 남겨주세요 :)');
+    })
+    .catch(err => {
+      console.error('댓글 등록 실패:', err);
+      alert('댓글 등록 중 오류가 발생했습니다.');
+    });
   };
 
   // 목록 이동 버튼 핸들러 (기능 구현 필요)
@@ -91,28 +118,41 @@ function PostViewPage() {
         {/* 댓글 작성 영역 */}
         <div className="PostViewPage_comment_write_area">
           {/* (수정됨!) placeholder와 onFocus 속성 추가 */}
-          <textarea
-            className="PostViewPage_comment_input"
-            placeholder={commentPlaceholder}
-            onFocus={HandleCommentFocus}
-          ></textarea>
-          <button className="PostViewPage_button PostViewPage_comment_submit_button" onClick={HandleCommentSubmit}>등록</button>
+
+        {/* ★ ➌ value와 onChange 연결, onClick은 handleCommentSubmit 으로 */}
+        <textarea
+          className="PostViewPage_comment_input"
+          placeholder={commentPlaceholder}
+          value={commentText}
+          onFocus={HandleCommentFocus}
+          onChange={e => setCommentText(e.target.value)}
+        />
+        <button
+          className="PostViewPage_button PostViewPage_comment_submit_button"
+          onClick={handleCommentSubmit}
+        >
+          등록
+        </button>
         </div>
 
-        {/* 댓글 목록 */}
+        {/* 동적 댓글 목록 */}
         <ul className="PostViewPage_comment_list">
-          {/* 댓글 아이템 예시 1 */}
-          <li className="PostViewPage_comment_item">
-            <div className="PostViewPage_comment_author">개발자</div>
-            <div className="PostViewPage_comment_text">답변 드립니다.</div>
-            <div className="PostViewPage_comment_date">2025-06-25</div>
-          </li>
-          {/* 댓글 아이템 예시 2 */}
-          <li className="PostViewPage_comment_item">
-            <div className="PostViewPage_comment_author">이용자</div>
-            <div className="PostViewPage_comment_text">그게 답이야?</div>
-            <div className="PostViewPage_comment_date">2025-06-25</div>
-          </li>
+          {comments.map(c => (
+            <li key={c.id} className="PostViewPage_comment_item">
+              <div className="PostViewPage_comment_author">{c.userName}</div>
+              <div className="PostViewPage_comment_text">{c.content}</div>
+              <div className="PostViewPage_comment_date">
+                {new Date(c.createdAt).toLocaleString('ko-KR', {
+                  year:   'numeric',
+                  month:  '2-digit',
+                  day:    '2-digit',
+                  hour:   '2-digit',
+                  minute: '2-digit',
+                  hour12: false,
+                })}
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
 
