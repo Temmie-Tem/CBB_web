@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { href } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,18 @@ function BoardList() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
   // 로그인 상태를 보존하기 위한 State를 정의.
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+      const userData = localStorage.getItem('loggedInUser');
+      if (userData) {
+        setIsLoggedIn(true);
+        setUserName(JSON.parse(userData).name);
+      } else {
+        setIsLoggedIn(false);
+      }
+    }, []);
+  
 
     const handleWriteClick = () => {
     // 게시글 작성 버튼 클릭 핸들러

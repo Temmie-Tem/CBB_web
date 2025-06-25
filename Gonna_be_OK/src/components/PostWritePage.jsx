@@ -7,20 +7,16 @@ import '../CSS/postwritepage.css'; // 경로 통일
 function PostWritePage() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
+  const [userName, setUserName] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
+    const userData = localStorage.getItem("loggedInUser");
 
-    if (!storedUsername) {
-      alert("로그인 후 글쓰기가 가능합니다.");
-      navigate("/login");
-    } else {
-      setUsername(storedUsername);
-    }
+      setUserName(JSON.parse(userData).name);
+    
   }, [navigate]);
 
   const handleSubmit = (e) => {
@@ -28,7 +24,7 @@ function PostWritePage() {
     if (!title.trim()) return alert('제목을 입력하세요.');
     if (!content.trim()) return alert('내용을 입력하세요.');
 
-    console.log('작성자:', username);
+    console.log('작성자:', userName);
     console.log('제목:', title);
     console.log('내용:', content);
     console.log('파일:', file);
@@ -66,7 +62,7 @@ function PostWritePage() {
                   <input
                     type="text"
                     className="input_writer"
-                    value={username}
+                    value={userName}
                     readOnly
                   />
                 </td>
