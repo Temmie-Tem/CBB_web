@@ -1,198 +1,180 @@
 import React, { useState, useEffect } from "react";
-import { href } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import axios from "axios"; // ✅ 서버 통신용
+import { useNavigate } from "react-router-dom"; // ✅ 라우팅
+import "../CSS/BoardList.css"; // ✅ 게시판 스타일
 
 function BoardList() {
-    // 컴포넌트 "BoardList"를 정의
+  // === 상태 관리 (State Management) ===
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // 로그인 상태를 보존하기 위한 State를 정의.
+  // ssaarr 브랜치: 실제 게시글 데이터
+  const [posts, setPosts] = useState([]);
+
+  // main 브랜치: 로그인 관련 상태
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
 
+  // 공통: 페이지네이션 상태
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // 한 페이지당 표시할 게시글 수
+
+  // === Hooks ===
+  const navigate = useNavigate();
+
+  // === useEffect Hooks ===
+
+  // main: 컴포넌트 마운트 시 로컬 스토리지에서 로그인 정보 확인
   useEffect(() => {
-      const userData = localStorage.getItem('loggedInUser');
-      if (userData) {
-        setIsLoggedIn(true);
-        setUserName(JSON.parse(userData).name);
-      } else {
-        setIsLoggedIn(false);
-      }
-    }, []);
-  
-
-    const handleWriteClick = () => {
-    // 게시글 작성 버튼 클릭 핸들러
-    if (isLoggedIn) {
-      // 로그인 상태일 때
-        navigate('/PostWritePage');
-      // 게시글 작성 페이지로 이동
+    const userData = localStorage.getItem('loggedInUser');
+    if (userData) {
+      setIsLoggedIn(true);
+      setUserName(JSON.parse(userData).name);
     } else {
-      // 로그인 상태가 아닐 때
-        alert('로그인 후 글쓰기가 가능합니다.');
-        navigate('/login');
-      // 로그인 페이지로 이동
+      setIsLoggedIn(false);
     }
+  }, []);
+
+  // ssaarr: 컴포넌트 마운트 시 서버로부터 게시글 목록 가져오기
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/api/posts");
+        if (res.data.success) {
+          // 최신 글이 위로 오도록 정렬 (id 내림차순)
+          const sortedPosts = res.data.posts.sort((a, b) => b.id - a.id);
+          setPosts(sortedPosts);
+        } else {
+          alert("게시글을 불러오는 데 실패했습니다.");
+        }
+      } catch (err) {
+        console.error("게시글 불러오기 오류:", err);
+        alert("서버 오류로 게시글을 불러올 수 없습니다.");
+      }
     };
+    fetchPosts();
+  }, []); // 컴포넌트 마운트 시 한 번만 실행
 
-    const navigate = useNavigate();
+  // === 이벤트 핸들러 ===
 
-    const boardItems = Array.from({ length: 15 }, (_, i) => ({
-        // 개시판 개시글 목록 임시 개시글 15개 생성.
-        // 본 작업시 이하의 규칙을 개정할 필요 있음.
-            id: i + 1,
-            number: 25 + i, 
-            // 개시글 번호 25번 부터
-            title: `스마트폰 충원 원인이 무엇인가요 ${i + 1}번째`,   
-            // 제목을 15개 전부 쓸 수 없으니 배열로 생성
-            status: i % 2 === 0 ? '완료' : '진행중',    
-            // 현 시점에서는 홀수와 짝수로 "완료"와 "진행중"을 구분.
-            // 본 작업 에서는 열람권자(상담 후 결정)가 "진행중"에서 "완료"로 변환하는 조작을 지정.
-            author: '******',
-            // 작성자, 현제는 "******"로 하나 본 작업 시에는 유저 아이디(혹은 이름)앞글자 일부+***로 지정
-            date: `06.${20 + (i % 5)}`,
-            // 작성일, 본 작업 시에는 년-월-일-시-분-초 중 어느정도를 표시할지 상담 후 결정.
-        }));
+  // main: 글쓰기 버튼 클릭 시
+  const handleWriteClick = () => {
+    if (isLoggedIn) {
+      navigate('/PostWritePage');
+    } else {
+      alert('로그인 후 글쓰기가 가능합니다.');
+      navigate('/login');
+    }
+  };
 
-    /* 페이지네이션 상태 관리 */
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
-    // 페이지 당 표시 건 수
-    const totalPages = Math.ceil(boardItems.length / itemsPerPage);
-    /* // 페이지네이션 상태 관리 */
+  // ssaarr: 게시글 클릭 시 상세 페이지로 이동
+  const handlePostClick = (id) => {
+    navigate(`/post/${id}`);
+  };
 
-    /* 현제 페이지에 표시할 아이탬 계산 */
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = boardItems.slice(indexOfFirstItem, indexOfLastItem);
-    /* 현제 페이지에 표시할 아이탬 계산 */
+
+  // === 페이징 관련 로직 ===
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  const currentItems = posts.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(posts.length / itemsPerPage);
+
+  // 페이지 번호 배열 생성 (최대 5개씩 보이도록)
+  const renderPageNumbers = () => {
+    if (totalPages === 0) return null;
     
-    /* 페이지 번호의 배열을 생성 */
     const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    if (endPage - startPage + 1 < maxPagesToShow) {
+        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
         pageNumbers.push(i);
     }
-    /* 페이지 번호의 배열을 생성 */
     
-    const renderPageNumbers = () => {
-        if (totalPages <= 5) {
-            // 페이지 수가 5 이하일 경우 전체 표시
-            // 간략한 함수로 구현 가능
-            return pageNumbers.map(number => (
-                <button 
-                    key={number}
-                    onClick={() => setCurrentPage(number)}
-                    className={`pagination_button ${currentPage === number ? 'active' : ''}`}
-                >
-                    {number}
-                </button>
-            ));
-        } else {
-            // 페이지 수가 5를 넘을 경우 ...을 표시
-            // 다소 복잡한 함수가 필요
-            let displayPages = [];
-            if (currentPage <= 3) {
-                // 현제 페이지가 3 이하 일 때
-                displayPages = [1, 2, 3, 4, '...', totalPages];
-            } else if (currentPage >= totalPages -2) {
-                // 현제 페이지가 전체페이지 - 2 이상일 때
-                displayPages = [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
-            } else {
-                // 그 외 경우, 즉, 페이지 수가 많을 때 중간쯤의 페이지에서 앞 뒤로 '...'을 붙이는 경우
-                displayPages = [1, '...', currentPage -1, currentPage, currentPage + 1, '...', totalPages];
-            }
+    return pageNumbers.map((num) => (
+      <button
+        key={num}
+        onClick={() => setCurrentPage(num)}
+        className={`pagination_button ${currentPage === num ? "active" : ""}`}
+      >
+        {num}
+      </button>
+    ));
+  };
 
-            return displayPages.map((number, index) => (
-                number === '...' ? (
-                    <span key={index} className="pagination_ellipsis">
-                        ...
-                    </span>
-                ) : (
-                    <button 
-                        key={number}
-                        onClick={() => setCurrentPage(number)}
-                        className={`pagination_button ${currentPage === number ? 'active' : ''}`}
-                    >
-                        {number}
-                    </button>
-                )
-            ));
-        }
-    };
 
-    return (
-        
-        <div className="board_list_container" style={{height: '800px'}}>
-            {/* 테이블 구조 */}
-            <table className="board_table_header">
-                <thead>
-                    {/* thead관련 자료 찾을 필요 있음 */}
-                    <tr>
-                        {/* 표 작성을 응용 */}
-                        <th style={{width: '5%' }}>번호</th>
-                        <th style={{width: '66%' }}>제목</th>
-                        <th style={{width: '9.5%' }}>처리상태</th>
-                        <th style={{width: '9.5%' }}>작성자</th>
-                        <th style={{width: '11%' }}>작성일</th>
-                    </tr>
-                </thead>
-            </table>
+  // === 렌더링 ===
+  return (
+    <div className="board_list_container">
+      <table className="board_table">
+        <thead>
+          <tr>
+            <th style={{ width: "10%" }}>번호</th>
+            <th style={{ width: "50%" }}>제목</th>
+            <th style={{ width: "15%" }}>작성자</th>
+            <th style={{ width: "25%" }}>작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentItems.length > 0 ? (
+            currentItems.map((item) => (
+              <tr key={item.id} onClick={() => handlePostClick(item.id)}>
+                <td>{item.id}</td>
+                <td className="board_title">{item.title}</td>
+                <td>{item.writer}</td>
+                <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">게시글이 없습니다.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
-            <table className="board_table_body" >
-                <tbody>
-                    {currentItems.map(item => (
-                        <tr key={item.id}>
-                            {/* key프로퍼티 : React의 리스트 표시에 필수 */}
-                            <td style={{width: '5%' }}>{item.number}</td>
-                            <td style={{width: '65%' }}>{item.title}</td>
-                            <td style={{width: '10%' }}>{item.status}</td>
-                            <td style={{width: '10%' }}>{item.author}</td>
-                            <td style={{width: '10%' }}>{item.date}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            {/* // 테이블 구조 */}
-
-            {/* 페이지네이션의 추가 */}
-            <div className="pagination_container">
-                <div className="pagination_numbers_group">
-                {/* 이전 페이지로 버튼 */}
-                <button
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    className="pagination_button"
-                    disabled={currentPage === 1}
-                    // 첫 페이지시 비활성화
-                >
-                    Previous
-                </button>
-                {/* // 이전 페이지로 버튼 */}
-                {renderPageNumbers()}
-
-                {/* 다음 페이지로 버튼 */}
-                <button
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    className="pagination_button"
-                    disabled={currentPage === totalPages}
-                    // 마지막 페이지시 비활성화
-                >
-                    Next
-                </button>
-                </div>
-                {/* // 다음 페이지로 버튼 */}
-                
-                {/* 글쓰기 버튼 */}
-                    <button
-                        onClick={handleWriteClick}
-                        className="write_button"
-                    >
-                        글쓰기
-                    </button>
-                {/* // 글쓰기 버튼 */}
-            </div>
-            {/* // 페이지네이션의 추가 */}
-
+      <div className="board_footer">
+        <div className="pagination_container">
+            <button
+                onClick={() => setCurrentPage(1)}
+                className="pagination_button"
+                disabled={currentPage === 1}
+            >
+                &lt;&lt;
+            </button>
+            <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                className="pagination_button"
+                disabled={currentPage === 1}
+            >
+                이전
+            </button>
+            {renderPageNumbers()}
+            <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                className="pagination_button"
+                disabled={currentPage === totalPages || totalPages === 0}
+            >
+                다음
+            </button>
+            <button
+                onClick={() => setCurrentPage(totalPages)}
+                className="pagination_button"
+                disabled={currentPage === totalPages || totalPages === 0}
+            >
+                &gt;&gt;
+            </button>
         </div>
-    );
+
+        <button onClick={handleWriteClick} className="write_button">
+            글쓰기
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default BoardList;

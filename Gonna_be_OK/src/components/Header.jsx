@@ -8,14 +8,17 @@ function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userData = localStorage.getItem('loggedInUser');
-    if (userData) {
-      setIsLoggedIn(true);
-      setUserName(JSON.parse(userData).name);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
+  const userData = localStorage.getItem('loggedInUser');
+  try {
+    const parsed = JSON.parse(userData);
+    setIsLoggedIn(true);
+    setUserName(parsed.name);
+  } catch (e) {
+    setIsLoggedIn(false);
+    setUserName('');
+  }
+}, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem('loggedInUser');

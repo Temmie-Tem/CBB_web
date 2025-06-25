@@ -28,15 +28,19 @@ function LoginPage() {
       });
 
       // 4. 로그인 성공 시 처리
-      if (response.data.success) {
-        alert(response.data.message); // "로그인 성공!" 메시지 표시
-
-        // 사용자 정보를 localStorage에 저장하여 로그인 상태 유지
-        localStorage.setItem('loggedInUser', JSON.stringify(response.data.user));
-
-        // 메인 페이지로 이동
-        navigate('/main');
-      }
+     if (response.data.success) {
+      const user = response.data.user; // 서버에서 받은 사용자 정보
+      const userData = {
+        id: user.id,            // ✅ 숫자형 ID
+        userId: user.userId,    // 입력한 아이디
+        name: user.name,        // 사용자 이름
+      };
+      localStorage.setItem("loggedInUser", JSON.stringify(userData)); // ✅ 여기!
+        
+        alert(`${userData.name}님, 환영합니다!`);
+       // alert("로그인 성공!") 
+        navigate('/main');// 메인 페이지로 이동
+      }else{alert(response.data.message);}
     } catch (err) {
       // 5. 로그인 실패 시 처리
       // 서버에서 보낸 에러 메시지가 있다면 그것을 표시, 없다면 기본 메시지 표시
