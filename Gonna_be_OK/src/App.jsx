@@ -11,6 +11,7 @@ import PostViewPage from './components/PostViewPage'; // 개시글 열람
 function App() {
 
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/signup" element={<SignUpPage />} />
@@ -18,11 +19,12 @@ function App() {
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/main" element={<MainPage/>}/>
         <Route path='/login' element={<LoginPage/>}/>
-        <Route path='/PostWritePage' element={<PostWritePage/>}/>
+        <Route path='/PostWrite' element={<PostWritePage/>}/>
         {/* 앱의 기본 페이지 설정 */}
         <Route path="/" element={<MainPage />} /> 
       </Routes>
     </BrowserRouter>
+    
   )
 }
 
