@@ -176,3 +176,21 @@ app.get('/api/posts', async (req, res) => {
     res.status(500).json({ success: false, message: '게시글 목록 조회 실패' });
   }
 });
+
+// 개별 게시글 조회 API
+app.get('/api/posts/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [rows] = await pool.query(
+      'SELECT p.id, p.userId, p.title, p.content, p.createdAt, p.updatedAt, p.status FROM posts p WHERE p.id = ?',
+      [id]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ success: false, message: '게시글을 찾을 수 없습니다.' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('게시글 조회 오류:', error);
+    res.status(500).json({ success: false, message: '게시글 조회 실패' });
+  }
+});
