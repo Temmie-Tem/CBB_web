@@ -1,63 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../CSS/Header.css';
+import { useAuth } from '../context/AuthContext'; // AuthContext 훅 임포트
+import logoImage from '../img/Vitejs_logo.png'; // 로고 이미지를 import 합니다.
+import '../CSS/Header.css'; // CSS 파일 임포트
 
-function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
-  const navigate = useNavigate();
+const Header = () => {
+    const { isLoggedIn, user, logout } = useAuth(); // Context에서 상태와 함수 가져오기
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const userData = localStorage.getItem('loggedInUser');
-    if (userData) {
-      setIsLoggedIn(true);
-      setUserName(JSON.parse(userData).name);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
+    const handleLogout = () => {
+        logout();
+        alert('로그아웃 되었습니다.');
+        navigate('/'); // 로그아웃 후 메인 페이지로 이동
+    };
 
-  const handleLogout = () => {
-    localStorage.removeItem('loggedInUser');
-    setIsLoggedIn(false);
-    setUserName('');
-    alert('로그아웃 되었습니다.');
-    navigate('/main');
-  };
+    return (
+        <header className="main_header">
+            <div className="header_wrap">
+                {/* 로고: 클릭하면 메인 페이지로 이동합니다. */}
+                <div className="header_logo">
+                    <Link to="/">
+                        <img src={logoImage} alt="Gonna be OK Logo" />
+                        <span>상담게시판</span>
+                    </Link>
+                </div>
 
-  return (
-    <header className="main_header">
-      <div className="header_wrap">
-        <div className="header_logo">
-          <img src="./src/img/Vitejs_logo.png" alt="logo" />
-          <span>상담게시판</span>
-        </div>
+                {/* 네비게이션 메뉴 (기존 메뉴 복원) */}
+                <nav className="header_nav">
+                    <ul>
+                        <li><Link to="/">Top Page</Link></li>
+                        <li><Link to="/board">게시판</Link></li>
+                        {/* 아래 링크들은 예시이며, 실제 경로에 맞게 수정이 필요할 수 있습니다. */}
+                        <li><Link to="/about">About Us</Link></li>
+                        <li><Link to="/services">Services</Link></li>
+                        <li><Link to="/contact">Contact</Link></li>
+                    </ul>
+                </nav>
 
-        <nav className="header_nav">
-          <ul>
-            <li><Link to="/">Top Page</Link></li>
-            <li><Link to="/main">About Us</Link></li>
-            <li><Link to="/main">Services</Link></li>
-            <li><Link to="/main">Contact</Link></li>
-          </ul>
-        </nav>
-
-        <div className="header_user">
-          {isLoggedIn ? (
-            <>
-              <span className="welcome_user">{userName} 님</span>
-              <button className="header_btn" onClick={handleLogout}>로그아웃</button>
-            </>
-          ) : (
-            <>
-              <button className="header_btn" onClick={() => navigate('/login')}>로그인</button>
-              <button className="header_btn" onClick={() => navigate('/signup')}>회원가입</button>
-            </>
-          )}
-        </div>
-      </div>
-    </header>
-  );
-}
+                {/* 사용자 메뉴 (로그인/로그아웃) */}
+                <div className="header_user">
+                    {isLoggedIn ? (
+                        <>
+                            <span className="welcome_user">{user?.name} 님</span>
+                            <button className="header_btn" onClick={handleLogout}>로그아웃</button>
+                        </>
+                    ) : (
+                        <>
+                            <button className="header_btn" onClick={() => navigate('/login')}>로그인</button>
+                            <button className="header_btn" onClick={() => navigate('/signup')}>회원가입</button>
+                        </>
+                    )}
+                </div>
+            </div>
+        </header>
+    );
+};
 
 export default Header;
