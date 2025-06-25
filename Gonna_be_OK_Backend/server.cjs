@@ -161,6 +161,7 @@ app.get('/api/posts', async (req, res) => {
     const sql = `
       SELECT p.id,
       u.name AS writer,
+      p.status,
       p.title,
       p.content,
       p.createdAt
