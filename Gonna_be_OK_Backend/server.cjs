@@ -159,13 +159,13 @@ app.post('/api/posts', upload.single('file'), async (req, res) => {
 app.get('/api/posts', async (req, res) => {
   try {
     const sql = `
-      SELECT p.id, 
-      u.name AS writer, 
-      p.title, 
+      SELECT p.id,
+      u.name AS writer,
+      p.title,
       p.content,
       p.createdAt
       FROM posts p
-      JOIN users u 
+      JOIN users u
       ON p.userId = u.id
       ORDER BY p.createdAt DESC
     `;
