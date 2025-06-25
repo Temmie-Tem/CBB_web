@@ -77,7 +77,8 @@ function BoardList() {
         return 'status-deleted';
       default:
         return '';
-    }
+    } // 상담개시판 이니까 상담글의 상담 완료 여부를 지정, 또한, 개시글을 삭제해도 DB에는 남겨야 하니 
+    // 상태를 삭제됨 상태로 변경함.
   };
 
   const handlePostClick = (id) => {
@@ -91,6 +92,7 @@ function BoardList() {
     }
     return posts.filter(post => post.status !== '삭제됨');
   }, [posts, isAdmin]);
+  // 관리자 에게는 모든 개시글이 보이고, 일반 이용자 에게는 상태가 삭제됨 인 글이 비표시.
 
 
   // === 페이징 관련 로직 ===
@@ -114,7 +116,8 @@ function BoardList() {
     for (let i = startPage; i <= endPage; i++) {
         pageNumbers.push(i);
     }
-    
+    // 한번에 보이는 페이지 넘버는 5개 까지만, 그 이전 페이지,나 이후 페이지들은 ...으로 표기되게 하는 짜증나는 식
+
     return pageNumbers.map((num) => (
       <button
         key={num}
@@ -123,6 +126,7 @@ function BoardList() {
       >
         {num}
       </button>
+      // 클릭 시 CurrentPage가 해당 번호로 변경됨 = 해당 페이지를 출력.
     ));
   };
 
@@ -141,10 +145,11 @@ function BoardList() {
                 </tr>
             </thead>
         </table>
+        {/* 개시글 상위 탭, 정렬 변경 기능 같은건 넣지 않았음 */}
 
         <table className="board_table_body">
             <tbody>
-                {currentItems.length > 0 ? (
+                {currentItems.length > 0 ? (  // 개시글의 수가 0 을 넘으면 
                     currentItems.map((item) => (
                     <tr key={item.id} onClick={() => handlePostClick(item.id)}>
                         <td style={{ width: "10%" }}>{item.id}</td>
@@ -154,12 +159,13 @@ function BoardList() {
                           {item.status}
                         </td>
                         <td style={{ width: "20%" }}>{new Date(item.createdAt).toLocaleDateString()}</td>
-                    </tr>
+                    </tr> // 개시글을 출력, 개시글 번호, 제목, 작성자, 상태, 작성일 
                     ))
                 ) : (
                     <tr>
                         <td colSpan="5">게시글이 없습니다.</td>
                     </tr>
+                    // 0일 경우 매세지 출력
                 )}
             </tbody>
         </table>
@@ -171,7 +177,9 @@ function BoardList() {
                 disabled={currentPage === 1}
             >
                 &lt;&lt;
-            </button>
+            </button> 
+            {/* 첫 페이지로 이동 버튼 */}
+
             <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 className={`pagination_button ${currentPage === 1 ? 'disabled' : ''}`}
@@ -179,9 +187,13 @@ function BoardList() {
             >
                 이전
             </button>
+            {/* 이전 페이지로 이동 버튼 */}
+
             <div className="pagination_numbers_group">
                 {renderPageNumbers()}
             </div>
+            {/* 페이지네이션, 페이지 번호 */}
+
             <button
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                 className={`pagination_button ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`}
@@ -189,6 +201,8 @@ function BoardList() {
             >
                 다음
             </button>
+            {/* 다음 페이지로 이동 버튼 */}
+
             <button
                 onClick={() => setCurrentPage(totalPages)}
                 className={`pagination_button ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`}
@@ -196,12 +210,14 @@ function BoardList() {
             >
                 &gt;&gt;
             </button>
+            {/* 끝 페이지로 이동 버튼 */}
         </div>
         
         <div style={{textAlign: 'right', marginTop: '20px'}}>
             <button onClick={handleWriteClick} className="write_button">
                 글쓰기
             </button>
+            {/* 개시글 작성 버튼 */}
         </div>
     </div>
   );
