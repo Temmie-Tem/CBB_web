@@ -24,7 +24,7 @@ function PostWritePage() {
     if (!title.trim()) return alert('제목을 입력하세요.');
     if (!content.trim()) return alert('내용을 입력하세요.');
 
-    console.log('작성자:', username);
+    console.log('작성자:', userName);
     console.log('제목:', title);
     console.log('내용:', content);
     console.log('파일:', file);
