@@ -47,6 +47,7 @@ function PostViewPage() {
       {/* ... 다른 부분은 그대로 ... */}
       <h1 className="PostViewPage_title">여기는 게시글 제목이 들어옴</h1>
       <div className="PostViewPage_meta_data">
+        <span>번호: 1</span>
         <span>작성자: 꼬마개발자</span>
         <span>작성일: 2025-06-25</span>
         <span className="PostViewPage_status"> - 답변 완료 - </span>
