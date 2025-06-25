@@ -6,6 +6,8 @@ import React, { useState, useEffect } from 'react';   // useEffect 추가.
 import { useParams } from 'react-router-dom'; // 게시글 ID 추출용
 import axios from '../axios';    // 게시글 API 호출용
 
+import { useNavigate } from 'react-router-dom';
+
 // CSS 파일 임포트
 import '../CSS/PostViewPage.css';
 
@@ -78,9 +80,9 @@ function PostViewPage() {
     });
   };
 
-  // 목록 이동 버튼 핸들러 (기능 구현 필요)
+  const navigate = useNavigate();
   const HandleGoToList = () => {
-    alert('목록 이동 버튼 클릭 (기능 구현 필요)');
+        navigate('/'); // 게시판 목록으로 이동
   };
 
 
