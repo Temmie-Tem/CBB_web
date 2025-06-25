@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios";
+import axios from "axios";    // 서버(API) 호출용 HTTP 클라이언트
 import { useNavigate } from "react-router-dom";
 import "../CSS/BoardList.css";
 
 function BoardList() {
   // === 상태 관리 (State Management) ===
-  const [posts, setPosts] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [posts, setPosts] = useState([]);   // DB에서 개시글을 받아와 담는 배열
+  const [isLoggedIn, setIsLoggedIn] = useState(false);    // 로그인 여부를 확인
+  const [isAdmin, setIsAdmin] = useState(false);    // 관리자 권한 여부
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);  // 현제 페이지 번호
+  const itemsPerPage = 10;    // 페이지 당 개시글 표시 수(10)
 
   const navigate = useNavigate();
 
@@ -20,25 +20,26 @@ function BoardList() {
   useEffect(() => {
     const userDataString = localStorage.getItem('loggedInUser');
     if (userDataString) {
-      const userData = JSON.parse(userDataString);
+      const userData = JSON.parse(userDataString);  
+      // localStorage에 저장된 로그인 정보를 꺼내 JSON으로 파싱
       setIsLoggedIn(true);
       if (userData.role === 'admin') {
         setIsAdmin(true);
-      }
+      } // 정보가 있으면 로그인 상태를 true로 하고 계정 역할을 관리자로
     } else {
       setIsLoggedIn(false);
-      setIsAdmin(false);
+      setIsAdmin(false);    // 없으면 로그인, 관리자권한을 false로
     }
   }, []);
 
   // 서버로부터 게시글 목록 가져오기
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchPosts = async () => {  // 
       try {
-        const res = await axios.get("http://localhost:4000/api/posts");
+        const res = await axios.get("http://localhost:4000/api/posts"); // axios.get 으로 /api/posts에 요청
         if (res.data.success) {
           const sortedPosts = res.data.posts.sort((a, b) => b.id - a.id);
-          setPosts(sortedPosts);
+          setPosts(sortedPosts);  // 성공시 개시글 id 내림차순으로 정렬
         } else {
           alert("게시글을 불러오는 데 실패했습니다.");
         }
@@ -58,8 +59,8 @@ function BoardList() {
   // === 이벤트 핸들러 ===
   const handleWriteClick = () => {
     if (isLoggedIn) {
-      navigate('/postwrite');
-    } else {
+      navigate('/postwrite'); // 로그인 상태면 개시글 작성 페이지로 이동
+    } else {  // 아닐 경우 alert와 함깨 로그인 페이지로 이동
       alert('로그인 후 글쓰기가 가능합니다.');
       navigate('/login');
     }

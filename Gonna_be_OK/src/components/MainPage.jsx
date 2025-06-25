@@ -46,8 +46,8 @@ function MainPage() {
               placeholder='검색어를 입력 하시오.'
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              {/* 검색어를 입력하면, 입력창 객체 에서 문자를 꺼내 searchText에 해당 문자를 반영 */}
-            />  {/* 검색어 입력 폼 */}
+            /> {/* 검색어를 입력하면, 입력창 객체 에서 문자를 꺼내 searchText에 해당 문자를 반영 */}
+             {/* 검색어 입력 폼 */}
             <button type='submit' className="search_button">검색</button> 
             {/* 실제 검색 기능은 포함되지 않고, 제출해서 폼 내용을 초기화 하는 기능만 한다. */}
           </form>
