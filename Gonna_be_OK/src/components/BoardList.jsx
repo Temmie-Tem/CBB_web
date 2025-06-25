@@ -80,7 +80,7 @@ function BoardList() {
   };
 
   const handlePostClick = (id) => {
-    navigate(`/post/${id}`);
+    navigate(`/posts/${id}`);
   };
 
   // === 데이터 필터링 (useMemo 사용) ===
