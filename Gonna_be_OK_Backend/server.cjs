@@ -223,3 +223,30 @@ app.get('/api/posts/:id', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// ────────────────────────────────────
+
+// 🔵 새로 추가: 특정 게시글의 댓글 목록 조회
+app.get('/api/posts/:id/comments', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query(
+      `SELECT
+        c.id,
+        c.content,
+        c.createdAt,
+        u.name    AS userName
+        FROM comments c
+        LEFT JOIN users u
+        ON c.userId = u.id
+        WHERE c.postId = ?
+        ORDER BY c.createdAt ASC`,
+      [id]
+    );
+    return res.json(rows);
+  } catch (err) {
+    console.error('댓글 조회 오류:', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
+// ──────────────────────────────────────
