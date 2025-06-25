@@ -72,7 +72,6 @@ function BoardList() {
         pageNumbers.push(i);
     }
     /* 페이지 번호의 배열을 생성 */
-
     
     const renderPageNumbers = () => {
         if (totalPages <= 5) {
