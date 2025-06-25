@@ -38,6 +38,8 @@ app.get('/', (req, res) => {
   res.send('Gonna_be_OK 백엔드 서버가 작동 중입니다!');
 });
 
+
+
 app.listen(PORT, () => {
   (async () => {
     try {
@@ -180,18 +182,31 @@ app.get('/api/posts', async (req, res) => {
 
 // 개별 게시글 조회 API
 app.get('/api/posts/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
+    // ➊ 게시글 조회 (viewCount 컬럼 포함)
     const [rows] = await pool.query(
-      'SELECT p.id, p.userId, p.title, p.content, p.createdAt, p.updatedAt, p.status FROM posts p WHERE p.id = ?',
+      `SELECT id, userId, title, content, createdAt, updatedAt, viewCount, status
+      FROM posts
+      WHERE id = ?`,
       [id]
     );
     if (rows.length === 0) {
-      return res.status(404).json({ success: false, message: '게시글을 찾을 수 없습니다.' });
+      return res.status(404).json({ message: 'Post not found' });
     }
-    res.json(rows[0]);
-  } catch (error) {
-    console.error('게시글 조회 오류:', error);
-    res.status(500).json({ success: false, message: '게시글 조회 실패' });
+    const post = rows[0];
+
+    // ➋ 조회수 1 증가
+    await pool.query(
+      `UPDATE posts SET viewCount = viewCount + 1 WHERE id = ?`,
+      [id]
+    );
+    post.viewCount += 1;
+
+    // ➌ 결과 반환
+    res.json(post);
+  } catch (err) {
+    console.error('게시글 조회 오류:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 });

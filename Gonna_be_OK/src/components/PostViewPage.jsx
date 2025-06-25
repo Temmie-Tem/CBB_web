@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';   // useEffect 추가.
 
 import { useParams } from 'react-router-dom'; // 게시글 ID 추출용
-import axios from 'axios';    // 게시글 API 호출용
+import axios from '../axios';    // 게시글 API 호출용
 
 // CSS 파일 임포트
 import '../CSS/PostViewPage.css';
@@ -21,7 +21,8 @@ function PostViewPage() {
 
   // [추가] 게시글 데이터 불러오기 (컴포넌트 마운트 시 실행)
   useEffect(() => {
-    axios.get(`http://localhost:4000/api/posts/${id}`)
+    // axios.get(`http://localhost:4000/api/posts/${id}`)
+    axios.get(`/posts/${id}`)
       .then((res) => setPost(res.data))
       .catch((err) => {
         console.error('게시글 불러오기 실패:', err);
