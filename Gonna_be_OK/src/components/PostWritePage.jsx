@@ -1,46 +1,92 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Link 포함
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+<<<<<<< HEAD
+import '../CSS/PostWritePage.css';
+import axios from 'axios';
+=======
 import '../CSS/postwritepage.css'; // 경로 통일
+>>>>>>> 0efa77248ec345ac6a3046e733e53a24dafc7a0f
 
 function PostWritePage() {
   const navigate = useNavigate();
-
   const [username, setUsername] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
 
+  // ✅ 로그인 확인 및 작성자 이름 설정
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
+    const storedUser = localStorage.getItem("loggedInUser");
 
-    if (!storedUsername) {
+    if (!storedUser) {
       alert("로그인 후 글쓰기가 가능합니다.");
       navigate("/login");
-    } else {
-      setUsername(storedUsername);
+      return;
+    }
+
+    try {
+      const user = JSON.parse(storedUser);
+      if (!user.name) {
+        throw new Error("이름 없음");
+      }
+      setUsername(user.name); // 작성자 input에 표시할 이름 저장
+    } catch (e) {
+      console.error("로그인 정보 파싱 오류:", e);
+      alert("로그인 정보가 잘못되었습니다. 다시 로그인 해주세요.");
+      localStorage.removeItem("loggedInUser");
+      navigate("/login");
     }
   }, [navigate]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title.trim()) return alert('제목을 입력하세요.');
-    if (!content.trim()) return alert('내용을 입력하세요.');
+  // ✅ 게시글 제출 처리
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!title.trim()) return alert('제목을 입력하세요.');
+  if (!content.trim()) return alert('내용을 입력하세요.');
 
-    console.log('작성자:', username);
-    console.log('제목:', title);
-    console.log('내용:', content);
-    console.log('파일:', file);
+  // ✅ localStorage에서 user 정보 파싱
+  const storedUser = localStorage.getItem("loggedInUser");
+  const user = JSON.parse(storedUser);
+  const userId = user.id; // ✅ 숫자형 userId (DB의 PK)
 
-    alert('게시글이 작성되었습니다.');
-  };
+  if (!userId) {
+    alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
+    return;
+  }
 
+  const formData = new FormData();
+  formData.append("userId", userId);  // ✅ 숫자 ID 전송
+  formData.append("title", title);
+  formData.append("content", content);
+  if (file) formData.append("file", file);
+
+  try {
+    const response = await axios.post("http://localhost:4000/api/posts", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data.success) {
+      alert('게시글이 작성되었습니다.');
+      navigate('/main');
+    } else {
+      alert('게시글 작성 실패');
+    }
+  } catch (error) {
+    console.error("게시글 작성 오류:", error);
+    alert("서버 오류로 게시글 작성에 실패했습니다.");
+  }
+};
+
+
+  // ✅ 작성 취소
   const handleCancel = () => {
     setTitle('');
     setContent('');
     setFile(null);
     alert('작성이 취소되었습니다.');
+    navigate('/main');
   };
 
   const handleFileChange = (e) => {
