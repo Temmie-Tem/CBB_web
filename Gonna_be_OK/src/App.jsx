@@ -22,6 +22,9 @@ function App() {
         <Route path='/PostWrite' element={<PostWritePage/>}/>
         {/* 앱의 기본 페이지 설정 */}
         <Route path="/" element={<MainPage />} /> 
+
+        <Route path='/posts/:id' element={<PostViewPage />} />  {/* // ✅ 게시글 보기 페이지 라우트 추가 */}
+
       </Routes>
     </BrowserRouter>
     
