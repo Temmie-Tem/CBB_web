@@ -90,6 +90,7 @@
   border: 1px solid #cccccc;
   border-radius: 5px;
   resize: vertical;
+  background-color: #ffffff;
 }
 
 /* 댓글 등록 버튼 특별 스타일 */
