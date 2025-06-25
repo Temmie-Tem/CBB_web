@@ -1,45 +1,44 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios"; // ✅ 서버 통신용
-import { useNavigate } from "react-router-dom"; // ✅ 라우팅
-import "../CSS/BoardList.css"; // ✅ 게시판 스타일
+import React, { useState, useEffect, useMemo } from "react"; // ✅ useMemo 추가
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "../CSS/BoardList.css";
 
 function BoardList() {
   // === 상태 관리 (State Management) ===
-
-  // ssaarr 브랜치: 실제 게시글 데이터
   const [posts, setPosts] = useState([]);
-
-  // main 브랜치: 로그인 관련 상태
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false); // 🟡 관리자 상태 추가
 
-  // 공통: 페이지네이션 상태
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // 한 페이지당 표시할 게시글 수
+  const itemsPerPage = 10;
 
-  // === Hooks ===
   const navigate = useNavigate();
 
   // === useEffect Hooks ===
 
-  // main: 컴포넌트 마운트 시 로컬 스토리지에서 로그인 정보 확인
+  // 컴포넌트 마운트 시 로컬 스토리지에서 로그인 정보 및 관리자 여부 확인
   useEffect(() => {
-    const userData = localStorage.getItem('loggedInUser');
-    if (userData) {
+    const userDataString = localStorage.getItem('loggedInUser');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
       setIsLoggedIn(true);
-      setUserName(JSON.parse(userData).name);
+      // 🟡 관리자 여부 확인 (예: user.role === 'admin')
+      if (userData.role === 'admin') {
+        setIsAdmin(true);
+      }
     } else {
       setIsLoggedIn(false);
+      setIsAdmin(false);
     }
   }, []);
 
-  // ssaarr: 컴포넌트 마운트 시 서버로부터 게시글 목록 가져오기
+  // 서버로부터 게시글 목록 가져오기
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        // ✅ API 요청: 실제 API 엔드포인트로 수정해야 합니다.
         const res = await axios.get("http://localhost:4000/api/posts");
         if (res.data.success) {
-          // 최신 글이 위로 오도록 정렬 (id 내림차순)
           const sortedPosts = res.data.posts.sort((a, b) => b.id - a.id);
           setPosts(sortedPosts);
         } else {
@@ -47,15 +46,20 @@ function BoardList() {
         }
       } catch (err) {
         console.error("게시글 불러오기 오류:", err);
-        alert("서버 오류로 게시글을 불러올 수 없습니다.");
+        // alert("서버 오류로 게시글을 불러올 수 없습니다.");
+        // 🟡 임시 데이터 추가: 백엔드 연결 전 테스트용
+        const dummyPosts = [
+            {id: 1, title: "첫 번째 게시물", writer: "관리자", status: "처리완료", createdAt: "2023-10-27T10:00:00Z"},
+            {id: 2, title: "두 번째 게시물 (삭제됨)", writer: "사용자1", status: "삭제됨", createdAt: "2023-10-26T11:30:00Z"},
+            {id: 3, title: "세 번째 게시물", writer: "사용자2", status: "진행 중", createdAt: "2023-10-25T15:45:00Z"},
+        ];
+        setPosts(dummyPosts.sort((a, b) => b.id - a.id));
       }
     };
     fetchPosts();
-  }, []); // 컴포넌트 마운트 시 한 번만 실행
+  }, []);
 
   // === 이벤트 핸들러 ===
-
-  // main: 글쓰기 버튼 클릭 시
   const handleWriteClick = () => {
     if (isLoggedIn) {
       navigate('/PostWritePage');
@@ -65,19 +69,27 @@ function BoardList() {
     }
   };
 
-  // ssaarr: 게시글 클릭 시 상세 페이지로 이동
   const handlePostClick = (id) => {
     navigate(`/post/${id}`);
   };
 
+  // === 데이터 필터링 (useMemo 사용) ===
+  // 🟡 관리자가 아닐 경우 '삭제됨' 게시물 필터링
+  const filteredPosts = useMemo(() => {
+    if (isAdmin) {
+      return posts; // 관리자는 모든 게시물 확인
+    }
+    return posts.filter(post => post.status !== '삭제됨');
+  }, [posts, isAdmin]);
+
 
   // === 페이징 관련 로직 ===
+  // 🟡 필터링된 데이터를 기준으로 페이지네이션 계산
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentItems = posts.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(posts.length / itemsPerPage);
+  const currentItems = filteredPosts.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
 
-  // 페이지 번호 배열 생성 (최대 5개씩 보이도록)
   const renderPageNumbers = () => {
     if (totalPages === 0) return null;
     
@@ -109,70 +121,79 @@ function BoardList() {
   // === 렌더링 ===
   return (
     <div className="board_list_container">
-      <table className="board_table">
-        <thead>
-          <tr>
-            <th style={{ width: "10%" }}>번호</th>
-            <th style={{ width: "50%" }}>제목</th>
-            <th style={{ width: "15%" }}>작성자</th>
-            <th style={{ width: "25%" }}>작성일</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.length > 0 ? (
-            currentItems.map((item) => (
-              <tr key={item.id} onClick={() => handlePostClick(item.id)}>
-                <td>{item.id}</td>
-                <td className="board_title">{item.title}</td>
-                <td>{item.writer}</td>
-                <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">게시글이 없습니다.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+        {/* 🟡 JSX 구조를 CSS에 맞게 헤더와 바디 테이블로 분리 */}
+        <table className="board_table_header">
+            <thead>
+                <tr>
+                    <th style={{ width: "10%" }}>번호</th>
+                    <th style={{ width: "40%" }}>제목</th>
+                    <th style={{ width: "15%" }}>작성자</th>
+                    <th style={{ width: "15%" }}>처리상태</th>
+                    <th style={{ width: "20%" }}>작성일</th>
+                </tr>
+            </thead>
+        </table>
 
-      <div className="board_footer">
+        <table className="board_table_body">
+            <tbody>
+                {currentItems.length > 0 ? (
+                    currentItems.map((item) => (
+                    <tr key={item.id} onClick={() => handlePostClick(item.id)}>
+                        <td style={{ width: "10%" }}>{item.id}</td>
+                        <td style={{ width: "40%" }} className="board_title">{item.title}</td>
+                        <td style={{ width: "15%" }}>{item.writer}</td>
+                        {/* 🟡 처리상태 컬럼 추가 */}
+                        <td style={{ width: "15%" }}>{item.status}</td>
+                        <td style={{ width: "20%" }}>{new Date(item.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="5">게시글이 없습니다.</td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
+
         <div className="pagination_container">
             <button
                 onClick={() => setCurrentPage(1)}
-                className="pagination_button"
+                className={`pagination_button ${currentPage === 1 ? 'disabled' : ''}`}
                 disabled={currentPage === 1}
             >
                 &lt;&lt;
             </button>
             <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                className="pagination_button"
+                className={`pagination_button ${currentPage === 1 ? 'disabled' : ''}`}
                 disabled={currentPage === 1}
             >
                 이전
             </button>
-            {renderPageNumbers()}
+            <div className="pagination_numbers_group">
+                {renderPageNumbers()}
+            </div>
             <button
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                className="pagination_button"
+                className={`pagination_button ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`}
                 disabled={currentPage === totalPages || totalPages === 0}
             >
                 다음
             </button>
             <button
                 onClick={() => setCurrentPage(totalPages)}
-                className="pagination_button"
+                className={`pagination_button ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`}
                 disabled={currentPage === totalPages || totalPages === 0}
             >
                 &gt;&gt;
             </button>
         </div>
-
-        <button onClick={handleWriteClick} className="write_button">
-            글쓰기
-        </button>
-      </div>
+        
+        <div style={{textAlign: 'right', marginTop: '20px'}}>
+            <button onClick={handleWriteClick} className="write_button">
+                글쓰기
+            </button>
+        </div>
     </div>
   );
 }
