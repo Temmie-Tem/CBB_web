@@ -2,12 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-<<<<<<< HEAD
 import '../CSS/PostWritePage.css';
 import axios from 'axios';
-=======
-import '../CSS/postwritepage.css'; // 경로 통일
->>>>>>> 0efa77248ec345ac6a3046e733e53a24dafc7a0f
 
 function PostWritePage() {
   const navigate = useNavigate();
