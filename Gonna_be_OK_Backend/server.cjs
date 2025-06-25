@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 const PORT = 4000;
@@ -32,6 +33,10 @@ const dbConfig = {
   database: 'Gonna_be_OK_DB',
 };
 const pool = mysql.createPool(dbConfig);
+
+// 관리자 전용 API 라우터에 DB 연결 풀을 전달
+app.use('/api/admin', adminRouter(pool));
+
 
 // 서버 연결 확인
 app.get('/', (req, res) => {

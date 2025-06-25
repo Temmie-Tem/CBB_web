@@ -1,0 +1,23 @@
+/* Gonna_be_OK/src/components/AdminPage.css */
+.admin-container {
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.admin-table th,
+.admin-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: #f2f2f2;
+}
