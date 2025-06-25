@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 const PORT = 4000;
@@ -32,6 +33,9 @@ const dbConfig = {
   database: 'Gonna_be_OK_DB',
 };
 const pool = mysql.createPool(dbConfig);
+
+app.use('/api/admin', adminRouter(dbConfig));
+
 
 // 서버 연결 확인
 app.get('/', (req, res) => {
