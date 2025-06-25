@@ -250,3 +250,36 @@ app.get('/api/posts/:id/comments', async (req, res) => {
   }
 });
 // ──────────────────────────────────────
+
+// ─── 댓글 등록 API ────────────────────────────────────────────
+// app.listen(…) 바로 위에 추가하세요.
+app.post('/api/posts/:id/comments', async (req, res) => {
+  const { id } = req.params;
+  const { userId, content } = req.body;
+  if (!userId || !content) {
+    return res.status(400).json({ message: 'userId와 content가 필요합니다.' });
+  }
+  try {
+    // 1) 댓글 삽입
+    const [result] = await pool.query(
+      'INSERT INTO comments (postId, userId, content, createdAt) VALUES (?, ?, ?, NOW())',
+      [id, userId, content]
+    );
+    const commentId = result.insertId;
+
+    // 2) 방금 삽입한 댓글을 users JOIN 해서 가져오기
+    const [rows] = await pool.query(
+      `SELECT c.id, c.content, c.createdAt, u.name AS userName
+      FROM comments c
+      LEFT JOIN users u ON c.userId = u.id
+      WHERE c.id = ?`,
+      [commentId]
+    );
+
+    // 3) 생성된 댓글 반환
+    return res.status(201).json(rows[0]);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
