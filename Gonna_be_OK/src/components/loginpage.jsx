@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // useNavigate 임포트
 import axios from 'axios'; // axios 임포트
 import '../CSS/LoginPage.css';
+import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
+
 
 function LoginPage() {
   // 1. 입력 값과 에러 메시지를 위한 상태(State)
@@ -51,6 +54,8 @@ function LoginPage() {
   };
 
   return (
+    <div>
+      <Header />
     <div className="auth-container">
       <h1>로그인</h1>
       <form onSubmit={handleSubmit}>
@@ -89,6 +94,8 @@ function LoginPage() {
         <Link to="/signup">회원가입</Link>
         <Link to="/find-id">아이디/비밀번호 찾기</Link>
       </div>
+    </div>
+    <Footer />
     </div>
   );
 }
