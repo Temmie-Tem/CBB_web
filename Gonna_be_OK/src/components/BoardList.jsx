@@ -65,10 +65,6 @@ function BoardList() {
     }
   };
   
-  const handlePostClick = (id) => {
-    navigate(`/post/${id}`);
-  };
-
   // 상태에 따른 CSS 클래스 반환 함수
   const getStatusClassName = (status) => {
     switch (status) {
@@ -81,6 +77,10 @@ function BoardList() {
       default:
         return '';
     }
+  };
+
+  const handlePostClick = (id) => {
+    navigate(`/post/${id}`);
   };
 
   // === 데이터 필터링 (useMemo 사용) ===
@@ -149,12 +149,9 @@ function BoardList() {
                         <td style={{ width: "10%" }}>{item.id}</td>
                         <td style={{ width: "40%" }} className="board_title">{item.title}</td>
                         <td style={{ width: "15%" }}>{item.writer}</td>
-                        
-                        {/* 🟡 바로 이 부분입니다! className이 적용되었습니다. */}
                         <td style={{ width: "15%" }} className={getStatusClassName(item.status)}>
                           {item.status}
                         </td>
-
                         <td style={{ width: "20%" }}>{new Date(item.createdAt).toLocaleDateString()}</td>
                     </tr>
                     ))
