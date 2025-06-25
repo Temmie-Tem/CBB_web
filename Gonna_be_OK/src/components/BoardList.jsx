@@ -77,16 +77,7 @@ function BoardList() {
         </tbody>
       </table>
       <table className="board_table_body">
-  <tbody>
-    {posts.map(post => (
-      <tr key={post.id}>
-        <td>{post.id}</td>
-        <td>{post.title}</td>
-        <td>{post.writer}</td>
-        <td>{new Date(post.createdAt).toLocaleString()}</td>
-      </tr>
-    ))}
-  </tbody>
+  
 </table>
 
 
