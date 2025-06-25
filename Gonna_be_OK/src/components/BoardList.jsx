@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react"; // ✅ useMemo 추가
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../CSS/BoardList.css";
@@ -7,7 +7,7 @@ function BoardList() {
   // === 상태 관리 (State Management) ===
   const [posts, setPosts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false); // 🟡 관리자 상태 추가
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -22,7 +22,6 @@ function BoardList() {
     if (userDataString) {
       const userData = JSON.parse(userDataString);
       setIsLoggedIn(true);
-      // 🟡 관리자 여부 확인 (예: user.role === 'admin')
       if (userData.role === 'admin') {
         setIsAdmin(true);
       }
@@ -36,7 +35,6 @@ function BoardList() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        // ✅ API 요청: 실제 API 엔드포인트로 수정해야 합니다.
         const res = await axios.get("http://localhost:4000/api/posts");
         if (res.data.success) {
           const sortedPosts = res.data.posts.sort((a, b) => b.id - a.id);
@@ -46,8 +44,6 @@ function BoardList() {
         }
       } catch (err) {
         console.error("게시글 불러오기 오류:", err);
-        // alert("서버 오류로 게시글을 불러올 수 없습니다.");
-        // 🟡 임시 데이터 추가: 백엔드 연결 전 테스트용
         const dummyPosts = [
             {id: 1, title: "첫 번째 게시물", writer: "관리자", status: "처리완료", createdAt: "2023-10-27T10:00:00Z"},
             {id: 2, title: "두 번째 게시물 (삭제됨)", writer: "사용자1", status: "삭제됨", createdAt: "2023-10-26T11:30:00Z"},
@@ -68,23 +64,35 @@ function BoardList() {
       navigate('/login');
     }
   };
-
+  
   const handlePostClick = (id) => {
     navigate(`/post/${id}`);
   };
 
+  // 상태에 따른 CSS 클래스 반환 함수
+  const getStatusClassName = (status) => {
+    switch (status) {
+      case '진행 중':
+        return 'status-in-progress';
+      case '처리완료':
+        return 'status-completed';
+      case '삭제됨':
+        return 'status-deleted';
+      default:
+        return '';
+    }
+  };
+
   // === 데이터 필터링 (useMemo 사용) ===
-  // 🟡 관리자가 아닐 경우 '삭제됨' 게시물 필터링
   const filteredPosts = useMemo(() => {
     if (isAdmin) {
-      return posts; // 관리자는 모든 게시물 확인
+      return posts;
     }
     return posts.filter(post => post.status !== '삭제됨');
   }, [posts, isAdmin]);
 
 
   // === 페이징 관련 로직 ===
-  // 🟡 필터링된 데이터를 기준으로 페이지네이션 계산
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentItems = filteredPosts.slice(indexOfFirst, indexOfLast);
@@ -121,7 +129,6 @@ function BoardList() {
   // === 렌더링 ===
   return (
     <div className="board_list_container">
-        {/* 🟡 JSX 구조를 CSS에 맞게 헤더와 바디 테이블로 분리 */}
         <table className="board_table_header">
             <thead>
                 <tr>
@@ -142,8 +149,12 @@ function BoardList() {
                         <td style={{ width: "10%" }}>{item.id}</td>
                         <td style={{ width: "40%" }} className="board_title">{item.title}</td>
                         <td style={{ width: "15%" }}>{item.writer}</td>
-                        {/* 🟡 처리상태 컬럼 추가 */}
-                        <td style={{ width: "15%" }}>{item.status}</td>
+                        
+                        {/* 🟡 바로 이 부분입니다! className이 적용되었습니다. */}
+                        <td style={{ width: "15%" }} className={getStatusClassName(item.status)}>
+                          {item.status}
+                        </td>
+
                         <td style={{ width: "20%" }}>{new Date(item.createdAt).toLocaleDateString()}</td>
                     </tr>
                     ))
