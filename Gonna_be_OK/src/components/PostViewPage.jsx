@@ -70,7 +70,7 @@ function PostViewPage() {
       <div className="PostViewPage_meta_data">
         {/* [수정] 게시글 번호, 작성자, 작성일, 상태 모두 DB 연동 */}
         <span>번호: {post.id}</span>
-        <span>작성자: {post.userId}</span>
+        <span>작성자: {post.userName}</span>
         <span>작성일: {new Date(post.createdAt).toLocaleDateString()}</span>
         <span className="PostViewPage_status"> - {post.status} - </span>
       </div>

@@ -185,12 +185,25 @@ app.get('/api/posts/:id', async (req, res) => {
   const { id } = req.params;
   try {
     // ➊ 게시글 조회 (viewCount 컬럼 포함)
+    // users 테이블과 LEFT JOIN 해서 name 컬럼(userName)도 같이 조회
     const [rows] = await pool.query(
-      `SELECT id, userId, title, content, createdAt, updatedAt, viewCount, status
-      FROM posts
-      WHERE id = ?`,
+      `SELECT 
+        p.id,
+        p.userId,
+        u.name   AS userName,
+        p.title,
+        p.content,
+        p.createdAt,
+        p.updatedAt,
+        p.viewCount,
+        p.status
+      FROM posts p
+      LEFT JOIN users u
+        ON p.userId = u.id
+      WHERE p.id = ?`,
       [id]
     );
+
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Post not found' });
     }
