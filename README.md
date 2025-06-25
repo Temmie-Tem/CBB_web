@@ -33,7 +33,57 @@
    npm run dev          # 기본 포트 5173
    ```
 
-데이터베이스 초기화는 `Gonna_be_OK_Backend/schema.sql` 파일을 참고하세요.
+---
+
+## 데이터베이스 구조 (Database Structure)
+
+데이터베이스 이름: `Gonna_be_OK_DB`
+
+### 1. `users` 테이블
+사용자 정보를 저장하는 테이블입니다.
+
+| Column | Data Type | 제약 조건 / 설명 |
+| :--- | :--- | :--- |
+| `id` | INT | `AUTO_INCREMENT`, `PRIMARY KEY` |
+| `userId` | VARCHAR(255) | `NOT NULL`, `UNIQUE` (로그인 시 사용될 ID) |
+| `password` | VARCHAR(255) | `NOT NULL` |
+| `name` | VARCHAR(255) | `NOT NULL` |
+| `email` | VARCHAR(255) | `NOT NULL`, `UNIQUE` |
+| `phone_number` | VARCHAR(20) | |
+| `birth_date` | DATE | |
+| `gender` | ENUM('male', 'female', 'other')| |
+| `role` | ENUM('user', 'admin') | `DEFAULT 'user'` (사용자 역할) |
+| `created_at` | TIMESTAMP | `DEFAULT CURRENT_TIMESTAMP` |
+
+### 2. `posts` 테이블
+게시글 정보를 저장하는 테이블입니다.
+
+| Column | Data Type | 제약 조건 / 설명 |
+| :--- | :--- | :--- |
+| `id` | INT | `AUTO_INCREMENT`, `PRIMARY KEY` |
+| `userId` | INT | `FOREIGN KEY` (users.id 참조) |
+| `title` | VARCHAR(255) | `NOT NULL` |
+| `content` | TEXT | `NOT NULL` |
+| `status`| ENUM('진행 중', '처리완료', '삭제됨') | `DEFAULT '진행 중'` |
+| `createdAt` | DATETIME | |
+| `updatedAt` | DATETIME | |
+
+### 3. `comments` 테이블
+댓글 정보를 저장하는 테이블입니다.
+
+| Column | Data Type | 제약 조건 / 설명 |
+| :--- | :--- | :--- |
+| `id` | INT | `AUTO_INCREMENT`, `PRIMARY KEY` |
+| `postId` | INT | `FOREIGN KEY` (posts.id 참조) |
+| `userId` | INT | `FOREIGN KEY` (users.id 참조) |
+| `content` | TEXT | `NOT NULL` |
+| `createdAt` | TIMESTAMP | `DEFAULT CURRENT_TIMESTAMP` |
+
+### 관계 (Relationships)
+- `posts.userId`는 `users.id`를 참조하여 어떤 사용자가 게시글을 작성했는지 나타냅니다. (1:N 관계)
+- `comments.postId`는 `posts.id`를 참조하여 어떤 게시글에 달린 댓글인지 나타냅니다. (1:N 관계)
+- `comments.userId`는 `users.id`를 참조하여 어떤 사용자가 댓글을 작성했는지 나타냅니다. (1:N 관계)
+
 
 ## 추가 자료
 
