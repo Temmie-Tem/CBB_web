@@ -116,7 +116,7 @@ function BoardList() {
     for (let i = startPage; i <= endPage; i++) {
         pageNumbers.push(i);
     }
-    // 한번에 보이는 페이지 넘버는 5개 까지만, 그 이전 페이지,나 이후 페이지들은 ...으로 표기되게 하는 짜증나는 식
+    // 한번에 보이는 페이지 넘버는 5개 까지만, 그 이전 페이지, 그 이후 페이지는 표기 생략 하는 짜증나는 식
 
     return pageNumbers.map((num) => (
       <button
