@@ -27,10 +27,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const dbConfig = {
-  host: '175.209.200.22',
-  user: 'admin',
-  password: 'qwerty',
-  database: 'Gonna_be_OK_DB',
+  host: '000.000.000.00',
+  user: 'null',
+  password: 'password',
+  database: 'database',
 };
 const pool = mysql.createPool(dbConfig);
 
